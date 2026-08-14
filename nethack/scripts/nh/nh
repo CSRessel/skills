@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+project_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+binary="$project_dir/target/release/nh"
+
+repo_skills=$(CDPATH= cd -- "$project_dir/../../.." && pwd)
+sibling_tui="$repo_skills/tui-puppeteering-with-tmux"
+if [ -z "${NH_SCRIPTS:-}" ] && [ -x "$sibling_tui/tui-capture" ]; then
+    export NH_SCRIPTS="$sibling_tui"
+fi
+
+if [ ! -x "$binary" ]; then
+    cargo build --release --manifest-path "$project_dir/Cargo.toml"
+fi
+
+exec "$binary" "$@"

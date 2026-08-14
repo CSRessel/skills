@@ -1,0 +1,4 @@
+interface:
+  display_name: "TUI Puppeteering"
+  short_description: "Automate TUIs in isolated tmux sessions safely"
+  default_prompt: "Use $tui-puppeteering-with-tmux to test this terminal interface safely."

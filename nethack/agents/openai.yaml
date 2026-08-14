@@ -1,0 +1,4 @@
+interface:
+  display_name: "NetHack"
+  short_description: "Play NetHack safely through compact state deltas"
+  default_prompt: "Use $nethack to inspect the current game and take one safe, observed action."

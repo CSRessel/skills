@@ -1,0 +1,4 @@
+**/target/
+**/.nh/
+*_failure.log
+.DS_Store

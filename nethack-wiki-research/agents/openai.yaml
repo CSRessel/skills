@@ -1,0 +1,4 @@
+interface:
+  display_name: "NetHack Wiki Research"
+  short_description: "Research NetHack without context bloat"
+  default_prompt: "Use $nethack-wiki-research to verify this NetHack question from local sources."

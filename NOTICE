@@ -1,0 +1,31 @@
+Skills repository notices
+==========================
+
+Copyright (c) 2026 Clifford Ressel.
+
+The root MIT license applies to original work in this repository. Components
+identified below retain their own provenance and are not relicensed by the root
+license except where their upstream terms permit it.
+
+tui-puppeteering-with-tmux
+--------------------------
+
+Imported from the Nori Skillsets package `tui-puppeteering-with-tmux` version
+2.1.0 (https://noriskillsets.dev). The installed source snapshot did not include
+a license file. It is retained in this private repository pending confirmation
+of redistribution terms. Do not publish or redistribute this component without
+that confirmation.
+
+Rust dependencies
+-----------------
+
+The NetHack harness depends on third-party Rust crates recorded in
+`nethack/scripts/nh/Cargo.lock`. Their source code is not vendored here; each
+crate remains subject to its own license.
+
+NetHack reference corpus
+------------------------
+
+NetHackWiki archives and official NetHack files are intentionally excluded from
+this repository. The research skill expects them as local runtime data, governed
+by their respective upstream terms.

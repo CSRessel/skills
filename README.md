@@ -1,11 +1,14 @@
 # Skills
 
-Personal, reusable agent skills for safe terminal automation and NetHack play.
+Personal, reusable agent skills for planning, browser and terminal automation,
+and NetHack play.
 
 | Skill | Purpose |
 | --- | --- |
 | `nethack` | Compact, observed NetHack control through the bundled Rust harness |
 | `nethack-wiki-research` | Bounded local-wiki research delegated to a sub-agent |
+| `presenting-html-plans` | Render completed plans as secure local HTML with Mermaid |
+| `remote-browser-cdp-kvm` | Drive persistent Chrome and hand human-only steps to a private KVM |
 | `tui-puppeteering-with-tmux` | Isolated tmux sessions for TUI automation and testing |
 
 Each skill's code and instructions live under its own directory. Large local

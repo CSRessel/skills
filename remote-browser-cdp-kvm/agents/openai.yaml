@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remote Browser CDP KVM"
+  short_description: "Drive persistent Chrome with secure human handoff"
+  default_prompt: "Use $remote-browser-cdp-kvm to complete this browser task with compact CDP verbs and a secure human handoff if needed."

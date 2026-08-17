@@ -1,0 +1,16 @@
+{
+  "name": "remote-browser-cdp-kvm",
+  "private": true,
+  "type": "module",
+  "description": "Bundled scripts for the remote-browser-cdp-kvm skill",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/basic.test.mjs",
+    "smoke": "node tests/smoke.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.61.1"
+  }
+}

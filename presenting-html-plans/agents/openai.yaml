@@ -1,0 +1,4 @@
+interface:
+  display_name: "Present HTML Plans"
+  short_description: "Render plans as local HTML with Mermaid"
+  default_prompt: "Use $presenting-html-plans to turn this completed implementation plan into a local HTML review page."

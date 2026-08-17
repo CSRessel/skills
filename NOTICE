@@ -23,6 +23,27 @@ The NetHack harness depends on third-party Rust crates recorded in
 `nethack/scripts/nh/Cargo.lock`. Their source code is not vendored here; each
 crate remains subject to its own license.
 
+presenting-html-plans
+---------------------
+
+Adapted from `skills/presenting-html-plans` in
+https://github.com/CSRessel/nori-profile-clifford at commit
+70f6d3ed389f8005185c10fc4b64595642a73d5f. Its history replaced a snapshot of
+Builder.io's Agent Native `visual-plan` workflow; Builder.io remains credited
+for that preceding workflow and concept. The local scaffold in this repository
+has been independently hardened with content sanitization, a restrictive CSP,
+pinned browser dependencies, and constrained source selection.
+
+remote-browser-cdp-kvm
+----------------------
+
+Adapted from `skills/remote-browser-cdp-kvm` in
+https://github.com/CSRessel/nori-profile-clifford at commit
+70f6d3ed389f8005185c10fc4b64595642a73d5f. This version adds locked
+dependencies, tests, authenticated KVM capabilities, startup verification,
+diagnostic logs, safer selectors and URLs, and an explicit opt-in for browser
+evaluation.
+
 NetHack reference corpus
 ------------------------
 

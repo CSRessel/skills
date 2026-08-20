@@ -49,6 +49,9 @@ impl Input {
     }
 
     pub fn allowed_in(&self, mode: Mode) -> bool {
+        if mode == Mode::Unknown {
+            return false;
+        }
         if mode == Mode::Normal {
             return true;
         }
@@ -112,5 +115,15 @@ mod tests {
         );
         assert!(Input::parse("y").unwrap().allowed_in(Mode::YesNo));
         assert!(!Input::parse("s").unwrap().allowed_in(Mode::YesNo));
+    }
+
+    #[test]
+    fn unknown_mode_rejects_all_input() {
+        for input in ["escape", "enter", "space", "y", "north"] {
+            assert!(
+                !Input::parse(input).unwrap().allowed_in(Mode::Unknown),
+                "unknown mode accepted {input}"
+            );
+        }
     }
 }

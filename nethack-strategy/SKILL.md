@@ -1,118 +1,97 @@
 ---
 name: nethack-strategy
-description: Guide live NetHack strategy with purposeful exploration, early retreat, useful item use, bounded pet care, and clear reasons to leave bad fights. Use for exploration plans, combat choices, branch decisions, recovery, and major inventory choices. Do not use for terminal control or detailed rules lookup.
+description: Guide live NetHack strategy through useful exploration, early retreat, timely item use, limited pet rescue, and clear reasons to leave bad fights. Use for exploration, combat, branches, recovery, and major inventory choices. Do not use for terminal control or detailed rules lookup.
 ---
 
 # NetHack Strategy
 
-The goal is to ascend. Each stretch of play should advance the route, make the
-hero stronger, or solve an immediate danger. Mapping every square, killing every
-monster, winning back one room, and saving every pet are optional.
+The goal is to ascend. Play should advance the route, strengthen the hero, or
+solve an immediate danger. Full maps, cleared floors, revenge, and pet rescue are
+optional.
 
 Move with purpose while the way is safe. Stop and think when danger changes.
 
-## Choose the current goal
+## Keep the long road in view
 
-Before spending many turns, name:
+Build an early kit with food, armor, melee and ranged attacks, and an escape.
+Grow through the dungeon and useful branches. Complete the Quest, gather the
+Invocation items, prepare for the Wizard, take the Amulet of Yendor, and carry
+it to the Astral Plane.
 
-- the useful result being sought;
-- the main danger;
-- the way back or other escape;
-- the reason to stop.
+## Play with a plan
 
-Change the goal when the facts change. Do not keep searching or fighting merely
-because work has already been spent on it.
+Before spending many turns, name the goal, main danger, way back, and reason to
+stop. Change the goal when the facts change. Spent effort is not a reason to
+continue.
 
-## Stop on new danger
+## Stop and review danger
 
-Cancel repeated movement and review the position when:
+Cancel repeated movement for a new monster, unexpected damage, a changed
+condition, pet trouble, a trap, a branch, an unusual message, or a blocked
+retreat.
 
-- a new or unknown monster appears;
-- the hero takes meaningful damage;
-- hunger, burden, or another condition changes;
-- the pet starts fighting, disappears, or cannot follow;
-- a trap, branch, shop, altar, or unusual message appears;
-- the planned retreat is no longer open.
+Know an unfamiliar monster's dangerous attacks before approaching it. Use
+`$nethack-wiki-research` for facts and check the installed version.
 
-Do not intentionally approach an unknown monster until its important attacks
-and defenses are known. Use `$nethack-wiki-research` for factual questions and
-check advice against the installed version.
-
-## Enter fights with a way out
-
-Prefer corridors, doors, stairs, range, and fights against one enemy at a time.
-Before a serious fight, know the retreat square and at least one usable escape.
+Prefer corridors, doors, stairs, range, and one enemy at a time. Before a hard
+fight, know the retreat square and one usable escape.
 
 Leave the fight when:
 
 - health falls near half, or sooner if two enemy actions could kill or disable;
 - another dangerous monster joins;
 - the enemy shows an unexpected attack;
-- the retreat path closes;
-- hunger or another serious condition begins;
+- the retreat closes or a serious condition begins;
 - prayer, teleportation, or another emergency measure becomes necessary.
 
-An emergency escape usually ends the encounter. Do not return just because
-health is full again. Return only with a real change, such as better equipment,
-safer ground, a ranged plan, a disabled enemy, or a reliable escape.
+An emergency escape ends the fight unless the threat is gone. Full health alone
+does not justify a rematch. Return only with better gear, safer ground, range, a
+disabled enemy, or a reliable escape.
 
-Never spend several helpless turns beside an unresolved hostile. Do not melee a
-monster with dangerous contact or gaze effects when range, the pet, or avoidance
-will do.
+Do not spend helpless turns beside an enemy. Avoid melee against dangerous touch
+or gaze effects when range, the pet, or leaving will work.
 
-## Turn time into strength
+When the position turns grim, stop. Check messages, health, conditions, monsters,
+inventory, prayer history, stairs, and the pet. Deal with the first danger that
+can kill the hero: cure it, break contact, or escape. Then heal, eat, and choose
+a new goal. There is no honor in giving the same ogre a second clean swing.
 
-At each floor change, and after a long search or recovery, ask what improved:
+## Make turns useful
 
-- armor and health;
-- weapon skill or ranged damage;
-- food supply;
-- known escape items;
-- useful identification;
-- resistances or other lasting protection;
-- progress toward a required objective.
+After a floor, long search, or recovery, ask what improved: armor, offense, food,
+identification, escape, protection, or the route. If little improved, change
+course. Search likely places, not every wall. Full health and greater depth can
+still hide a weak hero.
 
-If little has improved, change course. Search where the map gives a good reason,
-not along every wall. Do not let full health or greater depth hide weak armor,
-low experience, poor food, or the lack of an escape.
+Use survival items before the hero cannot act. Keep an escape and urgent cures
+ready. Do not explore danger while burdened.
 
-Use survival items before the hero becomes unable to act. Carry an immediate
-escape and urgent cures where they can be reached quickly. Do not explore
-dangerous ground while burdened.
+After major loot, a shop, an altar, or a new floor, review inventory. Turn finds
+into worn armor, known attacks, food, or escape tools.
 
-## Treat hunger as danger
+## Food, pets, and branches
 
 At Hungry, stop low-value searching and backtracking and make a food plan. At
 Weak or Fainting, food, safe prayer, or escape is the only goal. Do not start an
 optional fight or pet rescue.
 
-Avoid taking on two problems at once. Resolve hunger, low health, burden, a bad
-condition, or lost retreat space before adding another unknown danger.
+Resolve hunger, low health, burden, bad conditions, or a lost retreat before
+adding another danger.
 
-## Use the pet without serving it
+Pets help with combat, item testing, and shops. Rejoin them when it is quick and
+safe. Do not herd them forever or risk the hero only to save them. The hero
+carries the quest.
 
-Pets are useful for combat, testing items, and shops. Keep the pet when reunion
-is short and safe. Do not spend an open-ended number of turns herding it, and do
-not risk the hero only to save it. The hero carries the quest.
+Finding a branch does not require entering. Probe from the upstairs. Leave when
+armor, food, light, offense, or escape tools are poor. Return stronger.
 
-## Choose branches by present strength
-
-Finding a branch does not require entering it. Probe from the upstairs, judge
-the nearby threats, and leave when armor, food, light, offense, or escape tools
-are poor. Return later when the journey offers better odds.
+## Version note
 
 For NetHack 5.0, a Valkyrie's starting spear is a sound early weapon. A long
 sword and Excalibur are possible upgrades, not a required early plan.
 
-## When the position turns grim
-
-Stop all input. Read the messages and check health, conditions, nearby monsters,
-inventory, prayer history, stairs, and the pet. Cure fatal conditions first,
-then break contact, then heal and eat. Once safe, choose a new goal before moving
-again. There is no honor in giving the same ogre a second clean swing.
-
 ## Keep reports short
 
 During ordinary play, act without giving a tutorial. Tell the user when the
-goal changes, a rule above stops play, an important choice is irreversible, or
-the run has entered unusual danger.
+goal changes, a rule stops play, a choice cannot be undone, or the run enters
+unusual danger.

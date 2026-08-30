@@ -1,0 +1,11 @@
+{
+  "name": "tui-capture-with-ghostty-web",
+  "version": "1.0.0",
+  "type": "skill",
+  "description": "Capture reviewable PNG and plain-text artifacts from tmux-driven TUIs with Ghostty Web",
+  "scripts": [
+    "scripts/capture-session",
+    "scripts/render-ansi.ts"
+  ],
+  "registryURL": "https://noriskillsets.dev"
+}

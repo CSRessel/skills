@@ -44,6 +44,16 @@ dependencies, tests, authenticated KVM capabilities, startup verification,
 diagnostic logs, safer selectors and URLs, and an explicit opt-in for browser
 evaluation.
 
+tui-capture-with-ghostty-web
+---------------------------
+
+Original work in this repository. Its renderer depends on `coder/ghostty-web`
+0.4.0 and Playwright Core 1.60.0, pinned in the package lockfile. Their source
+code is not vendored here; each dependency remains subject to its own license.
+Ghostty Web supplies terminal parsing and canvas rendering only. Terminal state
+and keyboard input remain owned by the companion `tui-puppeteering-with-tmux`
+skill.
+
 NetHack reference corpus
 ------------------------
 

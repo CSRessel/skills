@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage: capture-session <session> <output-dir> --cols N --rows N [--expect TEXT] [--require-color]" >&2
+}
+
+if [[ $# -lt 6 ]]; then
+  usage
+  exit 2
+fi
+
+session=$1
+output_dir=$2
+shift 2
+cols=""
+rows=""
+expect_text=""
+require_color=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --cols)
+      cols=${2:-}
+      shift 2
+      ;;
+    --rows)
+      rows=${2:-}
+      shift 2
+      ;;
+    --expect)
+      expect_text=${2:-}
+      shift 2
+      ;;
+    --require-color)
+      require_color=true
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      usage
+      exit 2
+      ;;
+  esac
+done
+
+if [[ ! $cols =~ ^[1-9][0-9]*$ ]]; then
+  echo "--cols must be a positive integer" >&2
+  exit 2
+fi
+if [[ ! $rows =~ ^[1-9][0-9]*$ ]]; then
+  echo "--rows must be a positive integer" >&2
+  exit 2
+fi
+
+skill_dir=$(cd "$(dirname "$0")/.." && pwd)
+tui_dir="${CODEX_HOME:-$HOME/.codex}/skills/tui-puppeteering-with-tmux"
+mkdir -p "$output_dir"
+
+"$tui_dir/tmux-isolated" resize-window -t "$session" -x "$cols" -y "$rows"
+if [[ -n $expect_text ]]; then
+  "$tui_dir/tui-assert" "$session" "$expect_text"
+fi
+"$tui_dir/tui-capture" "$session" > "$output_dir/screen.txt"
+"$tui_dir/tui-capture" "$session" -e > "$output_dir/screen.ansi"
+if [[ $require_color == true ]] && ! LC_ALL=C grep -Eq $'\033\[(3[0-7]|9[0-7]|38;|4[0-7]|10[0-7]|48;)' "$output_dir/screen.ansi"; then
+  echo "capture contains no ANSI foreground/background color SGR; clear NO_COLOR and advertise COLORTERM=truecolor" >&2
+  exit 1
+fi
+bun "$skill_dir/scripts/render-ansi.ts" \
+  --input "$output_dir/screen.ansi" \
+  --output "$output_dir/screen.png" \
+  --cols "$cols" \
+  --rows "$rows" > "$output_dir/metadata.json"
+
+printf '%s\n' "$output_dir/screen.txt" "$output_dir/screen.png" "$output_dir/metadata.json"

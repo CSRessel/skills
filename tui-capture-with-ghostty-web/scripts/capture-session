@@ -54,23 +54,59 @@ if [[ ! $rows =~ ^[1-9][0-9]*$ ]]; then
 fi
 
 skill_dir=$(cd "$(dirname "$0")/.." && pwd)
-tui_dir="${CODEX_HOME:-$HOME/.codex}/skills/tui-puppeteering-with-tmux"
-mkdir -p "$output_dir"
+sibling_tui_dir="$skill_dir/../tui-puppeteering-with-tmux"
+codex_tui_dir="${CODEX_HOME:-$HOME/.codex}/skills/tui-puppeteering-with-tmux"
+tui_dir=""
+
+for candidate in "${TUI_PUPPETEERING_DIR:-}" "$sibling_tui_dir" "$codex_tui_dir"; do
+  if [[ -n $candidate && -x "$candidate/tmux-isolated" && -x "$candidate/tui-assert" && -x "$candidate/tui-capture" ]]; then
+    tui_dir=$candidate
+    break
+  fi
+done
+if [[ -z $tui_dir ]]; then
+  echo "tui-puppeteering-with-tmux not found; install it beside this skill or set TUI_PUPPETEERING_DIR" >&2
+  exit 1
+fi
+
+output_parent=$(dirname "$output_dir")
+output_name=$(basename "$output_dir")
+mkdir -p "$output_parent"
+if [[ -e $output_dir ]]; then
+  if [[ ! -d $output_dir || -n $(find "$output_dir" -mindepth 1 -maxdepth 1 -print -quit) ]]; then
+    echo "output directory must be absent or empty: $output_dir" >&2
+    exit 1
+  fi
+fi
+staging_dir=$(mktemp -d "$output_parent/.${output_name}.capture.XXXXXX")
+cleanup() {
+  if [[ -n ${staging_dir:-} && -d $staging_dir ]]; then
+    rm -r "$staging_dir"
+  fi
+}
+trap cleanup EXIT
 
 "$tui_dir/tmux-isolated" resize-window -t "$session" -x "$cols" -y "$rows"
 if [[ -n $expect_text ]]; then
   "$tui_dir/tui-assert" "$session" "$expect_text"
 fi
-"$tui_dir/tui-capture" "$session" > "$output_dir/screen.txt"
-"$tui_dir/tui-capture" "$session" -e > "$output_dir/screen.ansi"
-if [[ $require_color == true ]] && ! LC_ALL=C grep -Eq $'\033\[(3[0-7]|9[0-7]|38;|4[0-7]|10[0-7]|48;)' "$output_dir/screen.ansi"; then
+"$tui_dir/tui-capture" "$session" > "$staging_dir/screen.txt"
+"$tui_dir/tui-capture" "$session" -e > "$staging_dir/screen.ansi"
+if [[ $require_color == true ]] && ! LC_ALL=C grep -Eq $'\033\[(3[0-7]|9[0-7]|38;|4[0-7]|10[0-7]|48;)' "$staging_dir/screen.ansi"; then
   echo "capture contains no ANSI foreground/background color SGR; clear NO_COLOR and advertise COLORTERM=truecolor" >&2
   exit 1
 fi
 bun "$skill_dir/scripts/render-ansi.ts" \
-  --input "$output_dir/screen.ansi" \
-  --output "$output_dir/screen.png" \
+  --input "$staging_dir/screen.ansi" \
+  --output "$staging_dir/screen.png" \
   --cols "$cols" \
-  --rows "$rows" > "$output_dir/metadata.json"
+  --rows "$rows" > "$staging_dir/metadata.json"
+
+if [[ -d $output_dir ]]; then
+  rmdir "$output_dir"
+fi
+mv "$staging_dir" "$output_dir"
+staging_dir=""
+trap - EXIT
 
 printf '%s\n' "$output_dir/screen.txt" "$output_dir/screen.png" "$output_dir/metadata.json"

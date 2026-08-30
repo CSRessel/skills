@@ -15,6 +15,7 @@ Rules:
 - Read and follow both tui-puppeteering-with-tmux and tui-capture-with-ghostty-web.
 - Use only the bundled tui-* scripts; never call tmux directly.
 - Use scripts/capture-session for the final text, ANSI, PNG, and metadata files.
+- Give each capture a unique artifact directory that is absent or empty.
 - Prefix visual-capture commands with `env -u NO_COLOR COLORTERM=truecolor` and
   pass `--require-color` unless the target is intentionally monochrome.
 - Inspect screen.png and screen.txt. Correct the capture if the target feature is

@@ -3,7 +3,6 @@
 import { createHash } from "node:crypto";
 import { access, mkdir, readFile, stat } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
-import { chromium } from "playwright-core";
 
 type Options = {
   cols: number;
@@ -47,6 +46,29 @@ const theme = {
 function fail(message: string): never {
   process.stderr.write(`${message}\n`);
   process.exit(2);
+}
+
+async function ensureRendererDependencies(): Promise<void> {
+  try {
+    await Promise.all([
+      access(join(ghosttyDirectory, "package.json")),
+      access(join(skillDirectory, "node_modules", "playwright-core", "package.json")),
+    ]);
+    return;
+  } catch {
+    // Registry packages intentionally omit node_modules; install the locked set on first use.
+  }
+
+  const installation = Bun.spawnSync({
+    cmd: [process.execPath, "install", "--frozen-lockfile", "--silent"],
+    cwd: skillDirectory,
+    stderr: "pipe",
+    stdout: "ignore",
+  });
+  if (!installation.success) {
+    const detail = installation.stderr.toString().trim();
+    fail(`failed to install pinned renderer dependencies${detail ? `: ${detail}` : ""}`);
+  }
 }
 
 function positiveInteger(value: string | undefined, flag: string): number {
@@ -141,6 +163,8 @@ document.body.dataset.ready = "true";
 
 async function main(): Promise<void> {
   const options = parseArguments(Bun.argv.slice(2));
+  await ensureRendererDependencies();
+  const { chromium } = await import("playwright-core");
   await access(options.input);
   await mkdir(dirname(options.output), { recursive: true });
   const ansi = await readFile(options.input);

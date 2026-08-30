@@ -25,6 +25,10 @@ This skill intentionally uses:
 - A fixed Nori dark palette, device scale factor 1, and explicit terminal grid.
 
 Set `GHOSTTY_WEB_CHROME` only when Chrome is installed outside the script's known macOS/Linux locations.
+The renderer installs the pinned Bun dependencies from `bun.lock` on first use
+when `node_modules` is absent. `capture-session` prefers a sibling
+`tui-puppeteering-with-tmux` package; set `TUI_PUPPETEERING_DIR` only when that
+companion skill lives elsewhere.
 
 ## Capture workflow
 
@@ -51,6 +55,11 @@ Capture all artifacts in one operation:
   capture-example /absolute/path/to/artifacts \
   --cols 120 --rows 40 --expect 'Search' --require-color
 ```
+
+The artifact directory must be absent or empty. The wrapper renders into a
+temporary sibling directory and publishes the complete four-file capture only
+after every assertion and quality gate succeeds, so failed recaptures do not
+mix old and new artifacts.
 
 The wrapper writes:
 
@@ -84,7 +93,7 @@ For inventories with several captures, give each worker a separate session and a
 
 ## Maintenance
 
-Run the renderer tests after changing the harness, theme, dependency pins, geometry, or CLI contract:
+Run the renderer tests after changing the harness, theme, dependency pins, geometry, bootstrap behavior, or CLI contract:
 
 ```bash
 cd {{skills_dir}}/tui-capture-with-ghostty-web && bun test

@@ -1,0 +1,18 @@
+{
+  "anthropic_api_key": "not-used",
+  "rules": {
+    "enabled": [
+      "consecutive_blank_lines",
+      "description_action",
+      "frontmatter",
+      "frontmatter_name_format",
+      "line_count",
+      "markdown_links",
+      "redundant_title",
+      "required_tags",
+      "trailing_whitespace",
+      "unclosed_tags",
+      "when_to_use"
+    ]
+  }
+}

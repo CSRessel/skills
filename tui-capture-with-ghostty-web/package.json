@@ -1,0 +1,12 @@
+{
+  "name": "tui-capture-with-ghostty-web-skill",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
+  "dependencies": {
+    "ghostty-web": "0.4.0",
+    "playwright-core": "1.60.0"
+  }
+}

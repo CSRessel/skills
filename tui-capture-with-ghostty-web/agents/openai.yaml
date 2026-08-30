@@ -1,0 +1,4 @@
+interface:
+  display_name: "TUI Capture with Ghostty Web"
+  short_description: "Render tmux TUI screens as PNG and text artifacts"
+  default_prompt: "Use $tui-capture-with-ghostty-web to capture this TUI state as a deterministic PNG and plain-text artifact."

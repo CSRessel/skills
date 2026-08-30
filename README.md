@@ -7,6 +7,7 @@ Personal, reusable agent skills for planning, browser and terminal automation.
 | `presenting-html-plans` | Render completed plans as secure local HTML with Mermaid |
 | `remote-browser-cdp-kvm` | Drive persistent Chrome and hand human-only steps to a private KVM |
 | `tui-puppeteering-with-tmux` | Isolated tmux sessions for TUI automation and testing |
+| `tui-capture-with-ghostty-web` | Capture tmux-driven TUIs as paired text and Ghostty Web PNG artifacts |
 
 Each skill's code and instructions live under its own directory.
 

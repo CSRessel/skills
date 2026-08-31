@@ -1,5 +1,5 @@
 export default {
-  title: 'SQLite: from SQL to rows',
+  title: 'SQLite',
   subtitle: 'One SELECT, inside one process',
 
   // Regions group responsibilities, not separate services.

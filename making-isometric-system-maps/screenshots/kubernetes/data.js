@@ -1,5 +1,5 @@
 export default {
-  title: 'Kubernetes, from intent to traffic',
+  title: 'Kubernetes',
   subtitle: 'A Deployment and a Service · source e72c2715ade3',
   theme: 'paper',
 

@@ -58,6 +58,9 @@ tests. The page needs no package installation or build step.
 
 ## 7. Implement the map
 
+Set `title` to the project name only, such as `SQLite`. The page and browser
+tab use `system map / PROJECT`; do not write a narrative headline.
+
 Replace the example's zones, nodes, edges, and optional flow in `data.js`.
 Edit the plan coordinates and dimensions there to lay out the new map;
 include component names, descriptions, and relevant source paths.

@@ -355,7 +355,7 @@ function trace() {
   showDetail(byId.get(edge.to));
 }
 
-$('#title').textContent = map.title;
+$('#title').textContent = document.title = `system map / ${map.title}`;
 $('#subtitle').textContent = `${map.subtitle} · ${map.nodes.length} components · ${map.edges.length} relationships`;
 traceButton.hidden = !map.flow?.length;
 await document.fonts.ready;

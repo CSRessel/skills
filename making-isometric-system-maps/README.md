@@ -1,6 +1,6 @@
 # Isometric system maps — draft
 
-This package contains the authoring workflow and scope in [SKILL.md](SKILL.md) and the approved
+This package contains the authoring workflow in [SKILL.md](SKILL.md) and the approved
 [starter](assets/starter/): the page, map data, renderer, geometry and its existing
 test file, styles, and bundled fonts. It is not installed into active skill
 directories or published to the skill registry.
@@ -17,8 +17,6 @@ The page's font link is local; font notices are included in
 
 Pending: spatial-judgment guidance, then validation and blind subagent tests.
 The package and workflow have not been validated or tested.
-Extra UI, theming, and renderer customization are outside
-the initial scope.
 
 TODO: Future optional customization or features may use progressively disclosed
 supporting Markdown files; none are included now.

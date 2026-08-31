@@ -4,54 +4,46 @@ description: Use when someone wants an interactive isometric system map of a cod
 ---
 
 <required>
-CRITICAL: Add the following steps to your task list:
+Add these steps to your task list:
 
-1. Announce the skill with the orientation template.
-2. Ask: "What source code or project do you want me to map out?"
-3. Ask: "Do you have high-level regions in mind? (or leave it up to me)"
-4. Ask: "Should I interview you in depth? (or rely on my own research)"
-5. Research the target project extensively, ideally using multiple subagents.
-6. Begin implementation: copy the starter into the working directory.
-7. Edit the data and layout to implement the new system map.
-8. Optionally, if browser tools or skills are available, inspect the results
-   in a browser and make final corrections.
+1. Announce.
+2. Ask about the project.
+3. Ask about regions.
+4. Ask about interview depth.
+5. Research.
+6. Copy the starter.
+7. Implement the map.
+8. Inspect in a browser (optional).
 </required>
 
 ## 1. Announce
 
 Use this template only to orient the user; ask the questions in steps 2–4 afterward.
 
-```text
 We're going to create an isometric system map. I'm going to ask:
+
 - What project to map?
 - What areas of interest?
 - And offer a more in-depth interview.
 
 Let's begin
-```
 
 ## 2. Identify the target
 
-```text
 What source code or project do you want me to map out?
-```
 
 Use my answer to locate the repository, directory, or project to research.
 
 ## 3. Establish the regions
 
-```text
 Do you have high-level regions in mind? (or leave it up to me)
-```
 
 Use the high-level regions I suggest. If I leave them up to you, choose them
 from your project research.
 
 ## 4. Choose the interview depth
 
-```text
 Should I interview you in depth? (or rely on my own research)
-```
 
 Wait for answers to the three questions. If I want an in-depth interview,
 conduct it before the full research pass; otherwise proceed with your own research.

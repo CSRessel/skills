@@ -60,3 +60,10 @@ NetHack reference corpus
 NetHackWiki archives and official NetHack files are intentionally excluded from
 this repository. The research skill expects them as local runtime data, governed
 by their respective upstream terms.
+
+making-isometric-system-maps
+---------------------------
+
+The embedded IBM Plex Mono and Newsreader fonts retain their SIL Open Font
+License 1.1. Their copyright notices and the full license text travel with
+`making-isometric-system-maps/assets/starter/fonts.css`.

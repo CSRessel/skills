@@ -5,6 +5,7 @@ Personal, reusable agent skills for planning, browser and terminal automation.
 | Skill | Purpose |
 | --- | --- |
 | `presenting-html-plans` | Render completed plans as secure local HTML with Mermaid |
+| `making-isometric-system-maps` | Draft: bundled starter for interactive isometric system maps; guidance pending |
 | `remote-browser-cdp-kvm` | Drive persistent Chrome and hand human-only steps to a private KVM |
 | `tui-puppeteering-with-tmux` | Isolated tmux sessions for TUI automation and testing |
 | `tui-capture-with-ghostty-web` | Capture tmux-driven TUIs as paired text and Ghostty Web PNG artifacts |

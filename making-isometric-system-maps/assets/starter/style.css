@@ -1,0 +1,310 @@
+:root {
+  --mono: 'Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  --serif: 'Newsreader', Georgia, serif;
+}
+
+/* Every theme is dichromatic: one background, one foreground, and one spectrum
+   the whole drawing is stated in. Nothing introduces a third hue — --accent is
+   the brightest step of that same spectrum, never a contrasting colour. */
+
+/* Black on warm paper, drawn in charcoal. */
+[data-theme='paper'] {
+  color-scheme: light;
+  --canvas: #ece6d8;
+  --panel: #e7e0d0;
+  --raised: #d9d1bf;
+  --rule: #b7ad99;
+  --ink: #1f1c18;
+  --muted-ink: #5a564f;
+  --faint: #a09c94;
+  --accent: #26231e;
+  --accent-ink: #f4efe3;
+  --grid-line: #ded7c8;
+  --zone-line: #8b8371;
+  --draw: #6d6a64;
+  --draw-strong: #1f1c18;
+  --plate: #2b2822;
+  --plate-ink: #f7f2e7;
+  --edge: #6b6660;
+}
+
+/* White on black, drawn in green. */
+[data-theme='carbon'] {
+  color-scheme: dark;
+  --canvas: #161616;
+  --panel: #1c1c1c;
+  --raised: #262626;
+  --rule: #393939;
+  --ink: #dde1e6;
+  --muted-ink: #8a8f98;
+  --faint: #4a4a4a;
+  --accent: #42be65;
+  --accent-ink: #0e0e0e;
+  --grid-line: #242424;
+  --zone-line: #6f6f6f;
+  --draw: #3f9e59;
+  --draw-strong: #7bf2a4;
+  --plate: #0e0e0e;
+  --plate-ink: #f2f4f8;
+  --edge: #b9bec4;
+}
+
+/* Grey on blue, drawn in silver. */
+[data-theme='cyanotype'] {
+  color-scheme: dark;
+  --canvas: #0d3049;
+  --panel: #113a54;
+  --raised: #194861;
+  --rule: #34647a;
+  --ink: #d5dde2;
+  --muted-ink: #9cadb7;
+  --faint: #4d7a8e;
+  --accent: #f0f5f8;
+  --accent-ink: #0d3049;
+  --grid-line: #1b4258;
+  --zone-line: #79a4b2;
+  --draw: #869ba7;
+  --draw-strong: #f0f5f8;
+  --plate: #08283c;
+  --plate-ink: #eef2f5;
+  --edge: #8fa6b2;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--canvas);
+  font: 13px/1.45 var(--mono);
+}
+
+button, select { font: inherit; }
+
+header {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--canvas);
+}
+
+h1 {
+  margin: 1px 0 0;
+  color: var(--ink);
+  font: 400 clamp(19px, 2vw, 28px)/1 var(--serif);
+}
+
+header p { margin: 0; }
+#subtitle { margin-top: 5px; color: var(--muted-ink); font-size: 12px; }
+
+.eyebrow, .section-label {
+  margin: 0;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+
+.controls { display: flex; align-items: end; gap: 8px; }
+.picker { display: grid; gap: 3px; color: var(--muted-ink); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+
+button, select {
+  min-height: 38px;
+  padding: 0 13px;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+select { min-width: 148px; }
+button:hover, button:focus-visible, select:hover, select:focus-visible { border-color: var(--ink); outline: none; }
+.primary { color: var(--accent); border-color: var(--accent); }
+
+main {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 220px minmax(360px, 1fr) 300px;
+}
+
+nav, aside {
+  min-width: 0;
+  padding: 16px;
+  background: var(--panel);
+  overflow: auto;
+}
+
+nav { border-right: 1px solid var(--rule); }
+aside { border-left: 1px solid var(--rule); }
+.section-label { margin-bottom: 12px; }
+.index-group { margin-bottom: 18px; }
+.index-group > p { margin: 0 0 5px; color: var(--muted-ink); font-size: 10px; letter-spacing: .1em; }
+
+.node-link {
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 5px;
+  text-align: left;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.node-link:last-child { border-bottom: 1px solid var(--rule); }
+.node-link span:first-child { color: var(--accent); }
+.node-link.is-active { color: var(--ink); background: var(--raised); }
+
+figure { position: relative; min-width: 0; margin: 0; overflow: hidden; }
+
+#map {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+  background: var(--canvas);
+}
+
+#map:active { cursor: grabbing; }
+#map:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+figcaption {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  color: var(--muted-ink);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ---- Drawing: every stroke is one hairline, at every zoom level. ---- */
+
+#camera :is(line, polygon, path, ellipse, circle) {
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hatch rect { fill: var(--canvas); }
+.hatch :is(line, path) { stroke: var(--draw); stroke-width: .7; }
+
+.grid-line { stroke: var(--grid-line); }
+
+.zone polygon { stroke: var(--zone-line); }
+.zone-top { fill: color-mix(in srgb, var(--zone-line) 5%, transparent); stroke-dasharray: 9 6; }
+.zone-left, .zone-right { display: none; }
+/* Painted on the floor, so it scales with the drawing rather than the screen. */
+.zone-name {
+  fill: var(--muted-ink);
+  font-size: 17px;
+  letter-spacing: .24em;
+  paint-order: stroke;
+  stroke: var(--canvas);
+  stroke-width: 4px;
+}
+
+.edge path {
+  fill: none;
+  stroke: var(--edge);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  marker-end: url(#arrow);
+  marker-mid: url(#elbow);
+}
+
+/* Every unit is drawn in the theme's own ink. Emphasis is only ever a matter
+   of how strongly that one ink is stated, never of transparency: a structure
+   must stay opaque so it keeps occluding the routes behind it. */
+.node { cursor: pointer; }
+.node :is(line, polygon, path, ellipse, circle) { stroke: var(--draw); }
+.face-top, .cap, .user-head { fill: var(--canvas); }
+.face-right, .body { fill: url(#hatch); }
+.face-left, .user-body { fill: url(#hatch-dense); }
+.slab-lip { fill: none; }
+
+.node-code {
+  fill: var(--draw-strong);
+  font-size: 16px;
+  font-weight: 600;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* Nameplates stay hidden until a node is hovered, focused, or selected. */
+.node-label { opacity: 0; pointer-events: none; transition: opacity .12s ease; }
+.node-label.is-hover, .node-label.is-active { opacity: 1; }
+.node-plate { fill: var(--plate); stroke: var(--plate); }
+.node-name { fill: var(--plate-ink); font-size: 9px; text-anchor: middle; }
+
+/* Selection darkens the drawing ink and fades everything else back. */
+.node.is-active :is(line, polygon, path, ellipse, circle) { stroke: var(--draw-strong); }
+.node.is-active :is(.face-top, .cap, .user-head) { fill: color-mix(in srgb, var(--draw-strong) 20%, var(--canvas)); }
+/* Faded units keep an opaque face. Highlighting a route must not turn the
+   structures in front of it transparent. */
+.node.is-muted :is(line, polygon, path, ellipse, circle) {
+  fill: var(--canvas);
+  stroke: color-mix(in srgb, var(--draw) 32%, var(--canvas));
+}
+
+.node.is-muted .node-code { fill: color-mix(in srgb, var(--draw) 38%, var(--canvas)); }
+.node:focus { outline: none; }
+.node:focus-visible :is(line, polygon, path, ellipse, circle) { stroke: var(--ink); stroke-width: 2; }
+
+.edge.is-muted path { stroke: var(--faint); opacity: .4; }
+.edge.is-active path { stroke: var(--accent); stroke-width: 2; }
+.edge.is-flow path { stroke-dasharray: 8 5; animation: flow 1s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -13; } }
+
+#detail h2 { margin: 2px 0 8px; color: var(--ink); font: 400 23px/1.15 var(--serif); }
+#detail p { color: var(--muted-ink); }
+#detail .code { margin: 0; color: var(--accent); font-size: 10px; letter-spacing: .1em; }
+#detail h3 { margin-top: 24px; color: var(--ink); font-size: 10px; letter-spacing: .1em; }
+#detail ul { padding-left: 17px; color: var(--muted-ink); overflow-wrap: anywhere; }
+
+#flow-note {
+  margin-top: 24px;
+  padding-top: 14px;
+  color: var(--accent);
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 900px) {
+  body { display: block; height: auto; min-height: 100%; overflow: auto; }
+  header { min-height: 112px; align-items: flex-start; }
+  main { height: auto; grid-template-columns: 1fr; }
+  nav, aside { border: 0; }
+  nav { border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  #index { display: flex; gap: 10px; width: max-content; }
+  .index-group { width: 180px; margin: 0; }
+  .node-link { min-height: 44px; }
+  button, select { min-height: 44px; }
+  figure { height: 54vh; min-height: 420px; }
+  aside { min-height: 260px; border-top: 1px solid var(--rule); }
+}
+
+@media (max-width: 700px) {
+  header { display: block; }
+  #subtitle { display: none; }
+  .controls { margin-top: 12px; flex-wrap: wrap; }
+  .picker { flex: 1 1 100%; }
+  .picker select { width: 100%; }
+  .controls button { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node-label { transition: none; }
+  .edge.is-flow path { animation: none; stroke-dashoffset: 0; }
+}

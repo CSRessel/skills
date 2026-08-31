@@ -1,17 +1,25 @@
 ---
 name: making-isometric-system-maps
-description: Create interactive isometric system maps of codebases or architectures using the bundled starter.
+description: Use when someone wants an interactive isometric system map of a codebase or project.
 ---
 
-# Isometric system maps
+<required>
+CRITICAL: Add the following steps to your task list:
 
-The [bundled starter](assets/starter/) supplies the page, drawing, themes,
-and interactions. Its `data.js` holds the map's content and spatial layout.
+1. Announce the skill with the five-line template.
+2. Ask: "What source code or project do you want me to map out?"
+3. Ask: "Do you have high-level regions in mind? (or leave it up to me)"
+4. Ask: "Should I interview you in depth? (or rely on my own research)"
+5. Research the target project extensively, ideally using multiple subagents.
+6. Begin implementation: copy the starter into the working directory.
+7. Edit the data and layout to implement the new system map.
+8. Optionally, if browser tools or skills are available, inspect the results
+   in a browser and make final corrections.
+</required>
 
-## Workflow
+## 1. Announce
 
-Announce the skill and ask the three questions together with this exact
-five-line template:
+Use these five lines. This announcement also asks the questions in steps 2–4.
 
 ```text
 Isometric system maps
@@ -21,21 +29,41 @@ Should I interview you in depth? (or rely on my own research)
 Then I go build it!
 ```
 
-Wait for the answers. If the user wants an in-depth interview, conduct it
-before proceeding; otherwise rely on your own research.
+## 2. Identify the target
 
-Then follow this order:
+Use my answer to locate the repository, directory, or project to research.
 
-1. Research the target project extensively, ideally using multiple subagents
-   when available.
-2. Begin implementation: copy `assets/starter/` from this skill into a map
-   folder in the project's working directory.
-3. Edit the data and layout in `data.js` to implement the new system map.
-4. Optionally, if browser tools or skills are available, inspect the results
-   in a browser and make any final corrections.
+## 3. Establish the regions
 
-## Scope
+Use the high-level regions I suggest. If I leave them up to you, choose them
+from your project research.
 
-Author the map using the existing starter. Keep its UI, theme definitions,
-and rendering behavior. Choosing a bundled theme is supported; extra UI,
-new themes, and renderer customization are outside this skill's scope.
+## 4. Choose the interview depth
+
+Wait for answers to the three questions. If I want an in-depth interview,
+conduct it before researching; otherwise proceed with your own research.
+
+## 5. Research
+
+Research the project extensively before implementation. Where available,
+divide subsystem research among multiple subagents. Ground the components
+and relationships in source code, recording useful source paths.
+
+## 6. Copy the starter
+
+`assets/starter/` is beside this `SKILL.md`. Copy the entire folder into a
+map directory in the project's working directory. It contains the HTML page,
+map data, renderer, geometry, styles, bundled fonts, and existing geometry
+tests. The page needs no package installation or build step.
+
+## 7. Implement the map
+
+Replace the example's zones, nodes, edges, and optional flow in `data.js`.
+Edit the plan coordinates and dimensions there to lay out the new map;
+include component names, descriptions, and relevant source paths.
+
+## 8. Inspect in a browser (optional)
+
+If browser tools or skills are available, serve the map over HTTP and inspect
+its layout and interactions. Make any final corrections. Otherwise, skip
+this step.

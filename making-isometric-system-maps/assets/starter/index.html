@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System map starter</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">SYSTEM MAP / STARTER</p>
+      <h1 id="title"></h1>
+      <p id="subtitle"></p>
+    </div>
+    <div class="controls">
+      <label class="picker">
+        <span>Theme</span>
+        <select id="theme">
+          <option value="paper">Drafting Paper</option>
+          <option value="carbon">Green Carbon</option>
+          <option value="cyanotype">Cyanotype</option>
+        </select>
+      </label>
+      <button id="fit" type="button">Fit map</button>
+      <button id="trace" class="primary" type="button">Trace flow</button>
+    </div>
+  </header>
+
+  <main>
+    <nav aria-label="Components">
+      <p class="section-label">INDEX</p>
+      <div id="index"></div>
+    </nav>
+
+    <figure>
+      <svg id="map" role="img" aria-labelledby="title map-note" tabindex="0">
+        <defs>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="5.4" refY="3" orient="auto">
+            <path d="M0,.6 L6,3 L0,5.4 Z" fill="context-stroke" />
+          </marker>
+          <marker id="elbow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M3,.8 L5.2,3 L3,5.2 L.8,3 Z" fill="context-stroke" />
+          </marker>
+
+          <!-- Face texture. One paper ground, differentiated only by hatch density. -->
+          <pattern id="hatch" class="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="5" height="5" />
+            <line x1="0" y1="0" x2="0" y2="5" />
+          </pattern>
+          <pattern id="hatch-dense" class="hatch" width="2.5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="2.5" height="5" />
+            <line x1="0" y1="0" x2="0" y2="5" />
+          </pattern>
+        </defs>
+        <g id="camera">
+          <g id="grid"></g>
+          <g id="ground"></g>
+          <g id="edges"></g>
+          <g id="nodes"></g>
+          <g id="labels"></g>
+        </g>
+      </svg>
+      <figcaption id="map-note">Drag to pan · wheel or pinch to zoom · select again or tap blank to clear</figcaption>
+    </figure>
+
+    <aside aria-live="polite">
+      <p class="section-label">DETAIL</p>
+      <div id="detail"></div>
+      <p id="flow-note"></p>
+    </aside>
+  </main>
+
+  <script type="module" src="map.js"></script>
+</body>
+</html>

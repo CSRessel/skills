@@ -27,19 +27,31 @@ We're going to create an isometric system map. I'm going to ask:
 - What areas of interest?
 - And offer a more in-depth interview.
 
-Then I go build it!
+Let's begin
 ```
 
 ## 2. Identify the target
+
+```text
+What source code or project do you want me to map out?
+```
 
 Use my answer to locate the repository, directory, or project to research.
 
 ## 3. Establish the regions
 
+```text
+Do you have high-level regions in mind? (or leave it up to me)
+```
+
 Use the high-level regions I suggest. If I leave them up to you, choose them
 from your project research.
 
 ## 4. Choose the interview depth
+
+```text
+Should I interview you in depth? (or rely on my own research)
+```
 
 Wait for answers to the three questions. If I want an in-depth interview,
 conduct it before the full research pass; otherwise proceed with your own research.

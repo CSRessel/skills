@@ -17,11 +17,18 @@ The page's font link is local; font notices are included in
 
 ## Kubernetes gallery
 
-One successful Deployment and selector-based Service, from declared intent to
-traffic. The map follows asynchronous reconciliation, with the Linux in-tree
-kube-proxy/iptables path as its networking example—not every runtime or network
-implementation. Components and relationships were researched against
-[pinned Kubernetes source](https://github.com/kubernetes/kubernetes/tree/e72c2715ade37738aa5c029e8de5285cbe1c9441).
+A Deployment and selector-based ClusterIP Service, organized around shared API
+objects. Controllers, the scheduler, and kubelets independently watch state and
+write updates through kube-apiserver. Proxies watch API state and reconcile local
+forwarding rules. Control-plane,
+controller-manager, worker-node, and per-node dataplane boundaries separate
+logical objects, executing code, and packet forwarding.
+
+The networking example uses Linux kube-proxy/iptables: proxies program local
+rules; packets do not pass through the proxy process. See the
+[source notes and reproduction steps](screenshots/kubernetes/README.md) for the
+pinned Kubernetes evidence, edge vocabulary, and limits of this mixed code/runtime
+view.
 
 Click any screenshot to view the original.
 
@@ -29,28 +36,29 @@ Click any screenshot to view the original.
 | --- | --- | --- |
 | **Overview**<br>The entire map. | [<img src="screenshots/kubernetes/desktop-overview.png" alt="Desktop overview of the Kubernetes system map in the paper theme" width="640">](screenshots/kubernetes/desktop-overview.png) | [<img src="screenshots/kubernetes/mobile-overview.png" alt="Mobile overview of the Kubernetes system map, including the stacked explainer" width="180">](screenshots/kubernetes/mobile-overview.png) |
 | **Selection**<br>kube-apiserver and all its incident relationships. | [<img src="screenshots/kubernetes/desktop-selected.png" alt="Desktop map with kube-apiserver selected and its incident relationships highlighted" width="640">](screenshots/kubernetes/desktop-selected.png) | [<img src="screenshots/kubernetes/mobile-selected.png" alt="Mobile map with kube-apiserver selected and its explanation below" width="180">](screenshots/kubernetes/mobile-selected.png) |
-| **Flow trace**<br>kube-apiserver → kubelet, with automatic zoom and an explainer. | [<img src="screenshots/kubernetes/desktop-flow.png" alt="Desktop flow trace from kube-apiserver to kubelet, step 9 of 17" width="640">](screenshots/kubernetes/desktop-flow.png) | [<img src="screenshots/kubernetes/mobile-flow.png" alt="Mobile flow trace from kube-apiserver to kubelet, step 9 of 17, with the explainer below" width="180">](screenshots/kubernetes/mobile-flow.png) |
+| **Flow trace**<br>External CNI plugin → node dataplane B, with automatic zoom and an explainer. | [<img src="screenshots/kubernetes/desktop-flow.png" alt="Desktop Kubernetes flow trace at step 12 of 24: external CNI plugin configures node dataplane B, with automatic zoom and an explainer" width="640">](screenshots/kubernetes/desktop-flow.png) | [<img src="screenshots/kubernetes/mobile-flow.png" alt="Mobile Kubernetes flow trace at step 12 of 24: external CNI plugin configures node dataplane B, with automatic zoom and the explainer below" width="180">](screenshots/kubernetes/mobile-flow.png) |
 
 Real, unretouched browser captures in the paper theme. Desktop uses a
 1600 × 1000 viewport; mobile uses 430 × 932 touch emulation. Both use device
 pixel ratio 2. Mobile captures include the full page so the stacked explainer
 remains visible.
 
-To reproduce, copy [assets/starter](assets/starter/) into a fresh directory,
-replace its `data.js` with [the example input](screenshots/kubernetes/data.js),
-and serve that directory over HTTP. No package installation or build is needed;
-the starter renderer and styles are unchanged.
+The example uses the [starter](assets/starter/) with replacement
+[map data](screenshots/kubernetes/data.js) and a small
+[example-only stylesheet](screenshots/kubernetes/example.css) for the edge
+vocabulary, legend, and index legibility. The core starter files remain unchanged.
+No package installation or build is needed.
 
 ## Validation status
 
-An independent agent used the skill to research this example, delegated source
-research, and edited only the copied `data.js`. A separate browser agent checked
-selection and deselection, flow tracing and automatic zoom, camera fit, theme
-switching and persistence, desktop drag/wheel controls, and emulated mobile
-touch pan/pinch. No page, console, or network errors were observed, and the
-existing geometry test suite passes.
+Independent source audits informed the shared-state example, including ownership,
+Pod binding, node execution, readiness feedback, and Service forwarding. Browser
+checks validated selection, flow tracing, camera controls, and desktop/mobile
+touch interactions. These are not live-cluster tests or a complete model of
+Kubernetes.
 
-This is evidence from one example, not broad validation of the workflow.
+This is evidence from one revised example, not a new blind test or broad
+validation of the workflow.
 Spatial-judgment guidance remains pending; the package remains a draft and is
 not installed into active skill directories or published to the registry.
 

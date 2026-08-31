@@ -105,7 +105,7 @@ h1 {
 header p { margin: 0; }
 #subtitle { margin-top: 5px; color: var(--muted-ink); font-size: 12px; }
 
-.eyebrow, .section-label {
+.section-label {
   margin: 0;
   color: var(--accent);
   font-size: 10px;

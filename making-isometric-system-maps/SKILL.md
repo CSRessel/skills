@@ -6,7 +6,7 @@ description: Use when someone wants an interactive isometric system map of a cod
 <required>
 CRITICAL: Add the following steps to your task list:
 
-1. Announce the skill with the five-line template.
+1. Announce the skill with the orientation template.
 2. Ask: "What source code or project do you want me to map out?"
 3. Ask: "Do you have high-level regions in mind? (or leave it up to me)"
 4. Ask: "Should I interview you in depth? (or rely on my own research)"
@@ -19,13 +19,14 @@ CRITICAL: Add the following steps to your task list:
 
 ## 1. Announce
 
-Use these five lines. This announcement also asks the questions in steps 2–4.
+Use this template only to orient the user; ask the questions in steps 2–4 afterward.
 
 ```text
-Isometric system maps
-What source code or project do you want me to map out?
-Do you have high-level regions in mind? (or leave it up to me)
-Should I interview you in depth? (or rely on my own research)
+We're going to create an isometric system map. I'm going to ask:
+- What project to map?
+- What areas of interest?
+- And offer a more in-depth interview.
+
 Then I go build it!
 ```
 
@@ -41,7 +42,10 @@ from your project research.
 ## 4. Choose the interview depth
 
 Wait for answers to the three questions. If I want an in-depth interview,
-conduct it before researching; otherwise proceed with your own research.
+conduct it before the full research pass; otherwise proceed with your own research.
+
+During the interview, ask one question at a time with a recommended answer,
+resolve dependent decisions, and investigate questions the code can answer.
 
 ## 5. Research
 

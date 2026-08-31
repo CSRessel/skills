@@ -4,7 +4,7 @@ description: Use when someone wants an interactive isometric system map of a cod
 ---
 
 <required>
-Add these steps to your task list:
+For a new map, add these steps to your task list:
 
 1. Announce.
 2. Ask about the project.
@@ -15,6 +15,9 @@ Add these steps to your task list:
 7. Implement the map.
 8. Inspect in a browser (optional).
 </required>
+
+For an extension, read only the matching guide below. Reuse existing answers
+and map files; do not restart the creation workflow.
 
 ## 1. Announce
 
@@ -78,3 +81,10 @@ include component names, descriptions, and relevant source paths.
 If browser tools or skills are available, serve the map over HTTP and inspect
 its layout and interactions. Make any final corrections. Otherwise, skip
 this step.
+
+## Extensions
+
+- To change layout, styling, or controls, read [Customize the visuals](references/customize-visuals.md).
+- To explain a substantial code or architecture change, read [Explain big changes](references/explain-changes.md).
+- To explore a proposed architecture with me, read [Build an architecture together](references/design-together.md).
+- To produce images for documentation or review, read [Capture architectural screenshots](references/capture-screenshots.md).

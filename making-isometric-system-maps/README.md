@@ -2,8 +2,7 @@
 
 This package contains the authoring workflow in [SKILL.md](SKILL.md) and the approved
 [starter](assets/starter/): the page, map data, renderer, geometry and its existing
-test file, styles, and bundled fonts. It is not installed into active skill
-directories or published to the skill registry.
+test file, styles, and bundled fonts. The package remains a draft pending review.
 
 The default [map data](assets/starter/data.js) follows a simplified SQLite
 `SELECT`: compile SQL, run bytecode, read uncached pages, and return a result row
@@ -49,6 +48,16 @@ The example uses the [starter](assets/starter/) with replacement
 vocabulary, legend, and index legibility. The core starter files remain unchanged.
 No package installation or build is needed.
 
+## Optional guides
+
+The core workflow stays short. Load only the guide that matches the task, reusing
+existing answers and map files rather than restarting the creation workflow.
+
+- [Customize the visuals](references/customize-visuals.md): spatial judgment, layout, styling, and controls.
+- [Explain big changes](references/explain-changes.md): source-grounded comparisons with stable framing.
+- [Build an architecture together](references/design-together.md): explore proposed designs and their tradeoffs.
+- [Capture architectural screenshots](references/capture-screenshots.md): reproducible browser images for documentation or review.
+
 ## Validation status
 
 Independent source audits informed the shared-state example, including ownership,
@@ -58,9 +67,4 @@ touch interactions. These are not live-cluster tests or a complete model of
 Kubernetes.
 
 This is evidence from one revised example, not a new blind test or broad
-validation of the workflow.
-Spatial-judgment guidance remains pending; the package remains a draft and is
-not installed into active skill directories or published to the registry.
-
-TODO: Future optional customization or features may use progressively disclosed
-supporting Markdown files; none are included now.
+validation of the workflow or the optional guides.

@@ -1,0 +1,21 @@
+{
+  "title": "Example · Code Orientation",
+  "subtitle": "A generic web-request flow — replace with your target's diagrams.",
+  "legend": [
+    {"symbol": "⬚", "text": "dashed box = folder / module"},
+    {"symbol": "→", "text": "solid arrow = main data flow"},
+    {"symbol": "⇢", "text": "dotted arrow = external service call"}
+  ],
+  "diagrams": [
+    {
+      "title": "Request path, end to end",
+      "file": "block.mmd",
+      "note": "How a request travels from the browser through the edge and the app's modules to the data stores. Dashed boxes are folders and modules; dotted arrows are external services."
+    },
+    {
+      "title": "One request, step by step",
+      "file": "sequence.mmd",
+      "note": "The same path drawn as a timeline — from the browser to the response."
+    }
+  ]
+}

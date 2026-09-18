@@ -1,0 +1,36 @@
+sequenceDiagram
+  autonumber
+  box transparent client
+    participant B as Browser
+  end
+  box transparent edge
+    participant E as CDN / LB
+  end
+  box transparent app · handlers/
+    participant R as Router
+  end
+  box transparent app · services/
+    participant S as Request handler
+  end
+  box transparent app · data/ + stores
+    participant DB as Database
+    participant C as Cache
+  end
+  box transparent external · clients/
+    participant P as Payment API
+  end
+
+  B->>E: GET /checkout
+  E->>R: forward (cache miss)
+  R->>S: dispatch handler
+  S->>C: read session
+  C-->>S: session
+  Note over S: validate + authorize
+  S->>DB: load cart
+  DB-->>S: rows
+  S->>P: charge card
+  P-->>S: payment ok
+  S->>DB: write order
+  S-->>R: order confirmation
+  R-->>E: 200 JSON
+  E-->>B: 200 (cached at edge)

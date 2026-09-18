@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Orientation</title>
+  <script src="/vendor/mermaid.min.js" defer></script>
+  <script src="/viewer.js" defer></script>
+  <style>
+    :root {
+      --bg: #ffffff; --canvas: #f6f8fa; --ink: #1f2328; --muted: #59636e;
+      --border: #d1d9e0; --hover: #eef1f4; --accent: #0969da;
+    }
+    :root[data-theme="dark"] {
+      --bg: #0d1117; --canvas: #151b23; --ink: #e6edf3; --muted: #9198a1;
+      --border: #2a313c; --hover: #212830; --accent: #4493f8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      padding: 14px 24px; background: var(--bg); border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0; font-size: 16px; font-weight: 600; }
+    header .subtitle { margin: 1px 0 0; font-size: 13px; color: var(--muted); }
+    header .spacer { flex: 1; }
+    .btns { display: inline-flex; align-items: center; gap: 6px; }
+    button {
+      font: inherit; font-size: 13px; color: var(--ink); cursor: pointer;
+      background: var(--canvas); border: 1px solid var(--border); border-radius: 6px;
+      padding: 5px 10px; line-height: 1.4;
+    }
+    button:hover { background: var(--hover); }
+    .zoom { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .zoom button { border: 0; border-radius: 0; }
+    .zoom button + button { border-left: 1px solid var(--border); }
+    .zoom .pct { font-size: 12px; color: var(--muted); min-width: 46px; text-align: center; padding: 0 4px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 18px; max-width: 1120px;
+      margin: 18px auto 0; padding: 0 24px; font-size: 13px; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend .g { color: var(--ink); font-size: 15px; }
+    main { max-width: 1120px; margin: 8px auto 0; padding: 0 24px; }
+    section { padding: 26px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: 0; }
+    section h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
+    section h2 .n { color: var(--muted); font-weight: 500; margin-right: 6px; }
+    section .note { margin: 0 0 16px; font-size: 13.5px; color: var(--muted); max-width: 76ch; }
+    .diagram {
+      overflow: auto; background: var(--canvas);
+      border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+    }
+    .diagram svg { height: auto; display: block; margin: 0 auto; }
+    .loading { color: var(--muted); font-size: 13px; }
+    .err { color: #cf222e; background: var(--canvas); border: 1px solid var(--border);
+      border-radius: 8px; font-family: ui-monospace, monospace; font-size: 12.5px;
+      white-space: pre-wrap; padding: 12px; }
+    :root[data-theme="dark"] .err { color: #ff7b72; }
+    footer { max-width: 1120px; margin: 0 auto; padding: 20px 24px 40px;
+      font-size: 12.5px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="title">Code Orientation</h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
+    <span class="spacer"></span>
+    <div class="btns">
+      <button id="theme" aria-label="Toggle theme">Dark</button>
+      <span class="zoom" role="group" aria-label="Zoom">
+        <button id="minus" aria-label="Zoom out">−</button>
+        <span class="pct" id="zoom">100%</span>
+        <button id="plus" aria-label="Zoom in">+</button>
+      </span>
+      <button id="fit">Fit</button>
+    </div>
+  </header>
+  <div class="legend" id="legend" hidden></div>
+  <main id="main"><p class="loading" style="padding:24px">Loading diagrams…</p></main>
+  <footer>Rendered locally in your browser — nothing leaves this machine.</footer>
+</body>
+</html>

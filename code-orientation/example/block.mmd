@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph CLIENT["client"]
+    B["Browser"]
+  end
+  subgraph EDGE["edge"]
+    CDN["CDN / load balancer"]
+  end
+  subgraph APP["app/"]
+    direction LR
+    subgraph HND["handlers/"]
+      R["Router"]
+    end
+    subgraph SVC["services/"]
+      S["Request handler"]
+    end
+    subgraph DATA["data/"]
+      M["models / ORM"]
+    end
+  end
+  subgraph STORE["stores"]
+    DB[("Database")]
+    C[("Cache")]
+  end
+  subgraph EXT["external · clients/"]
+    PAY["Payment API"]
+    MAIL["Email provider"]
+  end
+
+  B -->|HTTPS| CDN --> R --> S --> M --> DB
+  S -.-> C
+  S -.-> PAY
+  S -.-> MAIL
+
+  classDef dash stroke-dasharray:5 4,stroke-width:1.5px;
+  class CLIENT,EDGE,APP,HND,SVC,DATA,STORE,EXT dash

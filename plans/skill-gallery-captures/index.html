@@ -11,35 +11,56 @@
     <link rel="icon" href="data:," />
     <title>Plan</title>
     <style>
-      :root {
-        color-scheme: light dark;
-        --background: #f7f7f5;
-        --surface: #ffffff;
-        --surface-muted: #f0f0ed;
-        --text: #20201e;
-        --muted: #666660;
-        --border: #d8d8d2;
-        --accent: #2866d7;
-        --accent-soft: #e8effd;
-        --code: #f1f1ee;
-        --shadow: 0 12px 40px rgb(25 25 20 / 8%);
+      /* Shared repo palette — see THEME.md. Two variants, one vocabulary:
+         paper is black on warm paper drawn in charcoal, carbon is white on
+         black drawn in green. Each variant is dichromatic; nothing introduces
+         a third hue except --danger, which reports failure. The page follows
+         the OS setting, and ?theme= overrides it. */
+      :root,
+      :root[data-theme="paper"] {
+        color-scheme: light;
+        --canvas: #ece6d8;
+        --panel: #e7e0d0;
+        --raised: #d9d1bf;
+        --rule: #b7ad99;
+        --ink: #1f1c18;
+        --muted-ink: #5a564f;
+        --faint: #a09c94;
+        --accent: #26231e;
+        --accent-ink: #f4efe3;
+        --danger: #da1e28;
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
       }
 
+      :root[data-theme="carbon"] {
+        color-scheme: dark;
+        --canvas: #161616;
+        --panel: #1c1c1c;
+        --raised: #262626;
+        --rule: #393939;
+        --ink: #dde1e6;
+        --muted-ink: #8a8f98;
+        --faint: #4a4a4a;
+        --accent: #42be65;
+        --accent-ink: #0e0e0e;
+        --danger: #f47067;
+      }
+
       @media (prefers-color-scheme: dark) {
-        :root {
-          --background: #171715;
-          --surface: #20201e;
-          --surface-muted: #292926;
-          --text: #eeeeea;
-          --muted: #aaa9a1;
-          --border: #3b3b36;
-          --accent: #8bb4ff;
-          --accent-soft: #233657;
-          --code: #292926;
-          --shadow: 0 12px 40px rgb(0 0 0 / 28%);
+        :root:not([data-theme]) {
+          color-scheme: dark;
+          --canvas: #161616;
+          --panel: #1c1c1c;
+          --raised: #262626;
+          --rule: #393939;
+          --ink: #dde1e6;
+          --muted-ink: #8a8f98;
+          --faint: #4a4a4a;
+          --accent: #42be65;
+          --accent-ink: #0e0e0e;
+          --danger: #f47067;
         }
       }
 
@@ -53,8 +74,8 @@
 
       body {
         margin: 0;
-        background: var(--background);
-        color: var(--text);
+        background: var(--canvas);
+        color: var(--ink);
         line-height: 1.65;
       }
 
@@ -74,9 +95,8 @@
         gap: 1rem;
         min-height: 3.5rem;
         padding: 0.75rem 1.25rem;
-        border-bottom: 1px solid var(--border);
-        background: color-mix(in srgb, var(--surface) 92%, transparent);
-        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--rule);
+        background: var(--canvas);
       }
 
       .toolbar-title {
@@ -92,7 +112,7 @@
       }
 
       .toolbar-title span {
-        color: var(--muted);
+        color: var(--muted-ink);
         font-size: 0.78rem;
       }
 
@@ -103,15 +123,21 @@
 
       button {
         padding: 0.45rem 0.75rem;
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         border-radius: 0.45rem;
-        background: var(--surface);
-        color: var(--text);
+        background: var(--panel);
+        color: var(--ink);
         cursor: pointer;
       }
 
       button:hover {
-        border-color: var(--accent);
+        background: var(--raised);
+        border-color: var(--ink);
+      }
+
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
       }
 
       .layout {
@@ -130,13 +156,18 @@
         max-height: calc(100vh - 7rem);
         overflow: auto;
         padding: 1rem;
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         border-radius: 0.65rem;
-        background: var(--surface);
+        background: var(--panel);
       }
 
+      /* The ToC heading is an h2 and would otherwise inherit the section
+         divider rule below, drawing a stray line inside the box. */
       .toc h2 {
         margin: 0 0 0.75rem;
+        padding-top: 0;
+        border-top: 0;
+        color: var(--muted-ink);
         font-size: 0.78rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -155,13 +186,14 @@
       }
 
       .toc a {
-        color: var(--muted);
+        color: var(--muted-ink);
         font-size: 0.86rem;
         text-decoration: none;
       }
 
       .toc a:hover {
-        color: var(--accent);
+        color: var(--ink);
+        text-decoration: underline;
       }
 
       main {
@@ -173,10 +205,9 @@
         min-height: 60vh;
         margin: 0 auto;
         padding: clamp(1.5rem, 4vw, 4rem);
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         border-radius: 0.75rem;
-        background: var(--surface);
-        box-shadow: var(--shadow);
+        background: var(--canvas);
       }
 
       article > :first-child {
@@ -199,7 +230,7 @@
       h2 {
         margin-top: 3rem;
         padding-top: 1rem;
-        border-top: 1px solid var(--border);
+        border-top: 1px solid var(--rule);
         font-size: 1.55rem;
       }
 
@@ -208,15 +239,19 @@
         font-size: 1.15rem;
       }
 
+      /* Paper has no coloured accent, so a link cannot be marked by colour
+         alone. Both variants underline. */
       a {
         color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.15em;
       }
 
       blockquote {
         margin: 1.5rem 0;
         padding: 0.8rem 1rem;
         border-left: 0.25rem solid var(--accent);
-        background: var(--accent-soft);
+        background: var(--panel);
       }
 
       blockquote > :first-child {
@@ -230,7 +265,7 @@
       code {
         padding: 0.12rem 0.3rem;
         border-radius: 0.25rem;
-        background: var(--code);
+        background: var(--raised);
         font-family:
           "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
         font-size: 0.88em;
@@ -240,9 +275,9 @@
         max-width: 100%;
         overflow: auto;
         padding: 1rem;
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         border-radius: 0.55rem;
-        background: var(--code);
+        background: var(--panel);
       }
 
       pre code {
@@ -260,13 +295,13 @@
       th,
       td {
         padding: 0.65rem 0.8rem;
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         text-align: left;
         vertical-align: top;
       }
 
       th {
-        background: var(--surface-muted);
+        background: var(--raised);
       }
 
       img,
@@ -279,17 +314,18 @@
         margin: 2rem 0;
         overflow-x: auto;
         padding: 1rem;
-        border: 1px solid var(--border);
+        border: 1px solid var(--rule);
         border-radius: 0.55rem;
-        background: var(--surface-muted);
+        background: var(--panel);
         text-align: center;
       }
 
       .error {
         padding: 1rem;
-        border: 1px solid #c33;
+        border: 1px solid var(--danger);
         border-radius: 0.5rem;
-        background: color-mix(in srgb, #c33 12%, var(--surface));
+        background: var(--panel);
+        color: var(--danger);
         white-space: pre-wrap;
       }
 
@@ -314,14 +350,20 @@
         }
       }
 
+      /* Print is the one place that is neither variant: real paper is white,
+         and charcoal on warm paper wastes ink. */
       @media print {
-        :root {
-          --background: #fff;
-          --surface: #fff;
-          --text: #111;
-          --muted: #555;
-          --border: #ccc;
-          --code: #f5f5f5;
+        :root,
+        :root[data-theme="paper"],
+        :root[data-theme="carbon"] {
+          color-scheme: light;
+          --canvas: #fff;
+          --panel: #fff;
+          --raised: #f5f5f5;
+          --rule: #ccc;
+          --ink: #111;
+          --muted-ink: #555;
+          --accent: #111;
         }
 
         .toolbar,
@@ -339,7 +381,6 @@
           width: auto;
           padding: 0;
           border: 0;
-          box-shadow: none;
         }
 
         a {
@@ -350,6 +391,55 @@
         table,
         .mermaid {
           break-inside: avoid;
+        }
+
+        /* Mermaid bakes the active variant into the SVG when it renders, so a
+           carbon diagram would otherwise print as a solid black block. Repaint
+           it: an !important author rule beats Mermaid's own inline styles and
+           its injected stylesheet. */
+        .mermaid,
+        .mermaid svg {
+          background: #fff !important;
+        }
+
+        .mermaid svg rect,
+        .mermaid svg polygon,
+        .mermaid svg circle,
+        .mermaid svg ellipse {
+          fill: #fff !important;
+          stroke: #111 !important;
+        }
+
+        .mermaid svg text,
+        .mermaid svg tspan,
+        .mermaid svg .nodeLabel,
+        .mermaid svg .edgeLabel,
+        .mermaid svg .messageText,
+        .mermaid svg .loopText {
+          fill: #111 !important;
+          color: #111 !important;
+        }
+
+        .mermaid svg path,
+        .mermaid svg line {
+          stroke: #111 !important;
+        }
+
+        .mermaid svg .edgePath path,
+        .mermaid svg path.messageLine0,
+        .mermaid svg path.messageLine1 {
+          fill: none !important;
+        }
+
+        .mermaid svg marker path,
+        .mermaid svg marker polygon {
+          fill: #111 !important;
+        }
+
+        .mermaid svg .edgeLabel rect,
+        .mermaid svg .labelBkg {
+          fill: #fff !important;
+          stroke: none !important;
         }
       }
     </style>

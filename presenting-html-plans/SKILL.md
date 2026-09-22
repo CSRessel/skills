@@ -81,6 +81,20 @@ Use a linear chain only when the relationship is genuinely sequential. Keep
 labels short, use real domain terms, and omit diagrams that are less clear than
 a small table or paragraph.
 
+## Theme
+
+The scaffold ships the repository's shared palette, documented in `THEME.md`:
+`paper` is black on warm paper with diagrams drawn in charcoal, `carbon` is
+white on black with diagrams in green. The page follows the reader's OS
+setting; `?theme=paper` or `?theme=carbon` pins one, which is what a capture or
+a shared link wants. Print is neither variant — it falls back to black on
+white.
+
+Mermaid is initialised from the same palette rather than from its built-in
+`default` and `dark` themes, so a diagram is drawn in the active variant's ink.
+Do not hard-code colours in a diagram or add a fourth hue to the stylesheet;
+each variant is deliberately dichromatic.
+
 ## Handoff check
 
 Open the rendered page before sharing it. Check the table of contents, Mermaid

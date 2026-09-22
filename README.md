@@ -2,8 +2,9 @@
 
 Personal, reusable agent skills for planning, browser and terminal automation.
 
-Every capture below is a real, unretouched recording or screenshot of the skill
-running — no mockups and no composites. Click any image to view the original.
+Every capture below is real and unretouched — no mockups and no composites.
+Each is whatever that skill actually emits: a screenshot, a recording, or plain
+text. Click any image to view the original.
 
 | Skill | Capture |
 | --- | --- |
@@ -11,8 +12,37 @@ running — no mockups and no composites. Click any image to view the original.
 | **[presenting-html-plans](presenting-html-plans/SKILL.md)**<br><br>Present a finished plan as a source-controlled local HTML page with Mermaid diagrams, content nav, and print styles. HTML viewer is quick to read and understand, but the plan stays MDX so it is also quick for the agent to read and understand.<br><br>*Shown: [the plan for this gallery](plans/skill-gallery-captures/plan.mdx), rendered by the bundled scaffold.* | [<img src="presenting-html-plans/screenshots/plan-page.png" alt="A rendered plan page with a contents sidebar, summary callout, and a comparison table" width="460">](presenting-html-plans/screenshots/plan-page.png) |
 | **[making-isometric-system-maps](making-isometric-system-maps/README.md#kubernetes-gallery)**<br><br>Draft: interactive isometric system maps. Select a component to light up its relationships, or trace a flow step by step with automatic camera moves<br><br>*Shown: a Kubernetes Deployment and ClusterIP Service, mid flow-trace. [More captures](making-isometric-system-maps/README.md#kubernetes-gallery).* | [<img src="making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png" alt="An isometric Kubernetes system map mid flow-trace, with the camera zoomed to the active step and an explainer panel" width="460">](making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png) |
 | **[remote-browser-cdp-kvm](remote-browser-cdp-kvm/SKILL.md)**<br><br>Drive one persistent, logged-in Chrome over CDP through small repeatable verbs, and hand human-only steps (login, CAPTCHA, SSO, 2FA, sign-off) to a private phone-friendly KVM over your tailnet.<br><br>*Shown: agent shares "I'm not a robot" screen to the human, and tailnet plus Android split screen makes it easy to interact with the agent and browser both. Real recording, obviously sped up.* | [<img src="remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif" alt="A phone in split screen: the shared browser tab showing a reCAPTCHA image challenge above, the driving agent's terminal below" width="300">](remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif) |
-| **[tui-puppeteering-with-tmux](tui-puppeteering-with-tmux/SKILL.md)**<br><br>Isolated tmux sessions for automating and testing TUI and CLI applications, with scripts for input, output capture, and state assertions. Sessions live on a dedicated socket, so a run can never touch your own tmux.<br><br>*Shown: `fzf` driven inside an isolated session — the query `skill` was sent with `tui-send`, then `tui-assert` proved `SKILL.md` appeared. The `15/108` counter is the state the assertion checked.* | [<img src="tui-puppeteering-with-tmux/screenshots/fzf-driven-query.png" alt="fzf inside an isolated tmux session, filtered by the typed query skill, showing 15 of 108 matches with fuzzy-match highlighting" width="460">](tui-puppeteering-with-tmux/screenshots/fzf-driven-query.png) |
 | **[tui-capture-with-ghostty-web](tui-capture-with-ghostty-web/SKILL.md)**<br><br>Capture a tmux-driven TUI as paired plain-text and Ghostty Web PNG artifacts, for visual QA, documentation, and screenshot regression evidence. Every capture writes `screen.txt`, `screen.ansi`, `screen.png`, and a `metadata.json` carrying the grid, the pinned renderer version, and a PNG checksum.<br><br>*Shown: `bat` rendering this repo's own `sloc.py`, captured at 120×40 by `ghostty-web@0.4.0`. The [paired text](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.txt) is committed beside it.* | [<img src="tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png" alt="A Ghostty Web render of bat displaying syntax-highlighted Python source with line numbers and a file header" width="460">](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png) |
+
+### tui-puppeteering-with-tmux
+
+**[tui-puppeteering-with-tmux](tui-puppeteering-with-tmux/SKILL.md)** — isolated
+tmux sessions for automating and testing TUI and CLI applications, with scripts
+for input, output capture, and state assertions. Sessions live on a dedicated
+socket, so a run can never touch your own tmux.
+
+This one is not in the table above because its artifact is not an image. The
+skill's own output is text: `tui-capture` prints the terminal as characters. So
+here it is verbatim — the Nori CLI's start menu in a 78 × 14 session, after
+`tui-send` delivered a `j` and `tui-assert` confirmed the selection had moved:
+
+```text
+           nori
+
+             Continue to bash
+             Launch the wrapped session
+           ▏ Logout                                               ▕
+           ▏ Sign out of your account                             ▕
+             Quit
+             Exit nori
+
+                       ↑↓/jk move  enter select  q quit
+```
+
+The `▏ ▕` markers sit on **Logout**, not on **Continue to bash** where they
+started. That move is the evidence — a keystroke was sent and the interface
+responded. Committed as
+[`captures/nori-start-menu.txt`](tui-puppeteering-with-tmux/captures/nori-start-menu.txt).
 
 Each skill's code and instructions live under its own directory.
 

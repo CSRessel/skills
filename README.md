@@ -3,8 +3,7 @@
 Personal, reusable agent skills for planning, browser and terminal automation.
 
 Every capture below is real and unretouched — no mockups and no composites.
-Each is whatever that skill actually emits: a screenshot, a recording, or plain
-text. Click any image to view the original.
+Click any image to view the original.
 
 | Skill | Capture |
 | --- | --- |
@@ -12,37 +11,8 @@ text. Click any image to view the original.
 | **[presenting-html-plans](presenting-html-plans/SKILL.md)**<br><br>Present a finished plan as a source-controlled local HTML page with Mermaid diagrams, content nav, and print styles. HTML viewer is quick to read and understand, but the plan stays MDX so it is also quick for the agent to read and understand.<br><br>*Shown: [the plan for this gallery](plans/skill-gallery-captures/plan.mdx), rendered by the bundled scaffold.* | [<img src="presenting-html-plans/screenshots/plan-page.png" alt="A rendered plan page with a contents sidebar, summary callout, and a comparison table" width="460">](presenting-html-plans/screenshots/plan-page.png) |
 | **[making-isometric-system-maps](making-isometric-system-maps/README.md#kubernetes-gallery)**<br><br>Draft: interactive isometric system maps. Select a component to light up its relationships, or trace a flow step by step with automatic camera moves<br><br>*Shown: a Kubernetes Deployment and ClusterIP Service, mid flow-trace. [More captures](making-isometric-system-maps/README.md#kubernetes-gallery).* | [<img src="making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png" alt="An isometric Kubernetes system map mid flow-trace, with the camera zoomed to the active step and an explainer panel" width="460">](making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png) |
 | **[remote-browser-cdp-kvm](remote-browser-cdp-kvm/SKILL.md)**<br><br>Drive one persistent, logged-in Chrome over CDP through small repeatable verbs, and hand human-only steps (login, CAPTCHA, SSO, 2FA, sign-off) to a private phone-friendly KVM over your tailnet.<br><br>*Shown: agent shares "I'm not a robot" screen to the human, and tailnet plus Android split screen makes it easy to interact with the agent and browser both. Real recording, obviously sped up.* | [<img src="remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif" alt="A phone in split screen: the shared browser tab showing a reCAPTCHA image challenge above, the driving agent's terminal below" width="300">](remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif) |
+| **[tui-puppeteering-with-tmux](tui-puppeteering-with-tmux/SKILL.md)**<br><br>Isolated tmux sessions for automating and testing TUI and CLI applications, with scripts for input, output capture, and state assertions. Sessions live on a dedicated socket, so a run can never touch your own tmux.<br><br>*Shown: the Nori CLI, before and after. One session: `tui-start` launched it, `tui-assert` proved the banner rendered, then `/config` was typed with `tui-send` and the picker asserted before the second frame. The change between the two images is the input landing. Rendering by the companion [tui-capture-with-ghostty-web](tui-capture-with-ghostty-web/SKILL.md); the driving and the assertions are this skill.* | [<img src="tui-puppeteering-with-tmux/captures/nori-cli-launch.png" alt="The Nori CLI at launch in a 100 by 13 isolated tmux session, showing the version banner, system path, agent and options line" width="460">](tui-puppeteering-with-tmux/captures/nori-cli-launch.png)<br><br>[<img src="tui-puppeteering-with-tmux/captures/nori-cli-config.png" alt="The same session after typing slash config, showing the Session config picker with Mode selected" width="460">](tui-puppeteering-with-tmux/captures/nori-cli-config.png) |
 | **[tui-capture-with-ghostty-web](tui-capture-with-ghostty-web/SKILL.md)**<br><br>Capture a tmux-driven TUI as paired plain-text and Ghostty Web PNG artifacts, for visual QA, documentation, and screenshot regression evidence. Every capture writes `screen.txt`, `screen.ansi`, `screen.png`, and a `metadata.json` carrying the grid, the pinned renderer version, and a PNG checksum.<br><br>*Shown: `bat` rendering this repo's own `sloc.py`, captured at 120×40 by `ghostty-web@0.4.0`. The [paired text](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.txt) is committed beside it.* | [<img src="tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png" alt="A Ghostty Web render of bat displaying syntax-highlighted Python source with line numbers and a file header" width="460">](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png) |
-
-### tui-puppeteering-with-tmux
-
-**[tui-puppeteering-with-tmux](tui-puppeteering-with-tmux/SKILL.md)** — isolated
-tmux sessions for automating and testing TUI and CLI applications, with scripts
-for input, output capture, and state assertions. Sessions live on a dedicated
-socket, so a run can never touch your own tmux.
-
-This one is not in the table above because its artifact is not an image. The
-skill's own output is text: `tui-capture` prints the terminal as characters. So
-here it is verbatim — the Nori CLI at launch, in a 100 × 14 isolated session:
-
-```text
-  › Nori CLI v0.29.0-next.4
-
-  System       /private/tmp/nori-demo
-  Agent        Claude
-
-• Claude Code options: Mode=Auto, Model=Opus 5, Effort=High, Fast mode=Off (/config to change)
-
-                                                                                            [ Auto ]
-› $ for skill listing
-
-                                                                                              ⎇ main
-```
-
-`tui-start` launched it, `tmux-isolated` set the grid, and `tui-assert` proved
-the banner had actually rendered before anything was captured — the run fails
-rather than photographing a half-drawn screen. Committed as
-[`captures/nori-cli-launch.txt`](tui-puppeteering-with-tmux/captures/nori-cli-launch.txt).
 
 Each skill's code and instructions live under its own directory.
 

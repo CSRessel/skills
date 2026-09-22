@@ -1,3 +1,5 @@
+
+
   › Nori CLI v0.29.0-next.4
 
   System       /private/tmp/nori-demo
@@ -6,6 +8,6 @@
 • Claude Code options: Mode=Auto, Model=Opus 5, Effort=High, Fast mode=Off (/config to change)
 
                                                                                             [ Auto ]
-› $ for skill listing
+› ! for shell commands
 
                                                                                               ⎇ main

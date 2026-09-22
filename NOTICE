@@ -3,25 +3,10 @@ Skills repository notices
 
 Copyright (c) 2026 Clifford Ressel.
 
-The root MIT license applies to original work in this repository. Components
-identified below retain their own provenance and are not relicensed by the root
-license except where their upstream terms permit it.
-
-tui-puppeteering-with-tmux
---------------------------
-
-Imported from the Nori Skillsets package `tui-puppeteering-with-tmux` version
-2.1.0 (https://noriskillsets.dev). The installed source snapshot did not include
-a license file. It is retained in this private repository pending confirmation
-of redistribution terms. Do not publish or redistribute this component without
-that confirmation.
-
-Rust dependencies
------------------
-
-The NetHack harness depends on third-party Rust crates recorded in
-`nethack/scripts/nh/Cargo.lock`. Their source code is not vendored here; each
-crate remains subject to its own license.
+Every skill in this repository is original work, covered by the root MIT
+license. The notices below record only two things: a preceding concept that is
+credited, and third-party material that is not vendored here and remains under
+its own license.
 
 presenting-html-plans
 ---------------------
@@ -29,30 +14,28 @@ presenting-html-plans
 Adapted from `skills/presenting-html-plans` in
 https://github.com/CSRessel/nori-profile-clifford at commit
 70f6d3ed389f8005185c10fc4b64595642a73d5f. Its history replaced a snapshot of
-Builder.io's Agent Native `visual-plan` workflow; Builder.io remains credited
-for that preceding workflow and concept. The local scaffold in this repository
-has been independently hardened with content sanitization, a restrictive CSP,
-pinned browser dependencies, and constrained source selection.
+Builder.io's Agent Native `visual-plan` workflow, and Builder.io remains
+credited for that preceding workflow and concept. That workflow carried no
+license at the time it was referenced; it is now MIT-licensed at
+https://github.com/Builder-IO/skills. The local scaffold in this repository has
+been independently hardened with content sanitization, a restrictive CSP, pinned
+browser dependencies, and constrained source selection.
 
-remote-browser-cdp-kvm
-----------------------
+Third-party dependencies
+------------------------
 
-Adapted from `skills/remote-browser-cdp-kvm` in
-https://github.com/CSRessel/nori-profile-clifford at commit
-70f6d3ed389f8005185c10fc4b64595642a73d5f. This version adds locked
-dependencies, tests, authenticated KVM capabilities, startup verification,
-diagnostic logs, safer selectors and URLs, and an explicit opt-in for browser
-evaluation.
+None of the following is vendored in this repository; each remains subject to
+its own license.
 
-tui-capture-with-ghostty-web
----------------------------
-
-Original work in this repository. Its renderer depends on `coder/ghostty-web`
-0.4.0 and Playwright Core 1.60.0, pinned in the package lockfile. Their source
-code is not vendored here; each dependency remains subject to its own license.
-Ghostty Web supplies terminal parsing and canvas rendering only. Terminal state
-and keyboard input remain owned by the companion `tui-puppeteering-with-tmux`
-skill.
+- The NetHack harness depends on the Rust crates recorded in
+  `nethack/scripts/nh/Cargo.lock`.
+- `tui-capture-with-ghostty-web` depends on `coder/ghostty-web` 0.4.0 and
+  Playwright Core 1.60.0, pinned in its package lockfile. Ghostty Web supplies
+  terminal parsing and canvas rendering only; terminal state and keyboard input
+  remain owned by `tui-puppeteering-with-tmux`.
+- `remote-browser-cdp-kvm` depends on Playwright, pinned in its
+  `package-lock.json`, and drives an already-installed system Chrome rather than
+  downloading a browser.
 
 NetHack reference corpus
 ------------------------

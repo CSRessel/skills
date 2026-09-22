@@ -1,0 +1,24 @@
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│ ▌ ./remote-browser-cdp-kvm/screenshots/agent-hits-the-wall.png                                                       │
+│ ▌ ./making-isometric-system-maps/screenshots/kubernetes/mobile-selected.png                                          │
+│ ▌ ./making-isometric-system-maps/screenshots/kubernetes/mobile-flow.png                                              │
+│ ▌ ./plans/skill-gallery-captures/index.html                                                                          │
+│ ▌ ./tui-capture-with-ghostty-web/SKILL.md                                                                            │
+│ ▌ ./plans/skill-gallery-captures/plan.mdx                                                                            │
+│ ▌ ./making-isometric-system-maps/SKILL.md                                                                            │
+│ ▌ ./plans/skill-gallery-captures/app.mjs                                                                             │
+│ ▌ ./tui-puppeteering-with-tmux/SKILL.md                                                                              │
+│ ▌ ./remote-browser-cdp-kvm/SKILL.md                                                                                  │
+│ ▌ ./presenting-html-plans/SKILL.md                                                                                   │
+│ ▌ ./nethack-wiki-research/SKILL.md                                                                                   │
+│ ▌ ./nethack-strategy/SKILL.md                                                                                        │
+│ ▌ ./code-orientation/SKILL.md                                                                                        │
+│ ▌ ./nethack/SKILL.md                                                                                                 │
+│ file> skill  < 15/108 ────────────────────────────────────────────────────────────────────────────────────────────── │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

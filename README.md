@@ -23,26 +23,26 @@ socket, so a run can never touch your own tmux.
 
 This one is not in the table above because its artifact is not an image. The
 skill's own output is text: `tui-capture` prints the terminal as characters. So
-here it is verbatim — the Nori CLI's start menu in a 78 × 14 session, after
-`tui-send` delivered a `j` and `tui-assert` confirmed the selection had moved:
+here it is verbatim — the Nori CLI at launch, in a 100 × 14 isolated session:
 
 ```text
-           nori
+  › Nori CLI v0.29.0-next.4
 
-             Continue to bash
-             Launch the wrapped session
-           ▏ Logout                                               ▕
-           ▏ Sign out of your account                             ▕
-             Quit
-             Exit nori
+  System       /private/tmp/nori-demo
+  Agent        Claude
 
-                       ↑↓/jk move  enter select  q quit
+• Claude Code options: Mode=Auto, Model=Opus 5, Effort=High, Fast mode=Off (/config to change)
+
+                                                                                            [ Auto ]
+› $ for skill listing
+
+                                                                                              ⎇ main
 ```
 
-The `▏ ▕` markers sit on **Logout**, not on **Continue to bash** where they
-started. That move is the evidence — a keystroke was sent and the interface
-responded. Committed as
-[`captures/nori-start-menu.txt`](tui-puppeteering-with-tmux/captures/nori-start-menu.txt).
+`tui-start` launched it, `tmux-isolated` set the grid, and `tui-assert` proved
+the banner had actually rendered before anything was captured — the run fails
+rather than photographing a half-drawn screen. Committed as
+[`captures/nori-cli-launch.txt`](tui-puppeteering-with-tmux/captures/nori-cli-launch.txt).
 
 Each skill's code and instructions live under its own directory.
 

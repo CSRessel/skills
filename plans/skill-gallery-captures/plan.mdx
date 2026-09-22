@@ -72,7 +72,7 @@ flowchart LR
 | 2 | `presenting-html-plans` | This plan, rendered by the bundled scaffold | Done |
 | 3 | `making-isometric-system-maps` | Existing Kubernetes flow-trace capture, reused | Done |
 | 4 | `remote-browser-cdp-kvm` | Phone recording of a human solving a CAPTCHA over the KVM | Done |
-| 5 | `tui-puppeteering-with-tmux` | `fzf` driven by a sent query, proved with `tui-assert` | Done |
+| 5 | `tui-puppeteering-with-tmux` | Verbatim text of the Nori CLI start menu, after a sent keystroke | Done |
 | 6 | `tui-capture-with-ghostty-web` | `bat` rendering this repo's `sloc.py`, text + PNG paired | Done |
 | 7 | `nethack` | A live game at turn 31 through the `nh` harness | Done |
 | 8 | `README.md` | Assemble the gallery table and add the two missing skills | Done |
@@ -92,7 +92,7 @@ not illustrated.
 | `code-orientation/screenshots/redis-set-hot-path.png` | New capture |
 | `presenting-html-plans/screenshots/` | New capture |
 | `remote-browser-cdp-kvm/screenshots/` | New capture |
-| `tui-puppeteering-with-tmux/screenshots/` | New capture |
+| `tui-puppeteering-with-tmux/captures/` | New text capture (not an image) |
 | `tui-capture-with-ghostty-web/screenshots/` | New capture |
 | `nethack/screenshots/` | New capture |
 | `plans/skill-gallery-captures/` | This plan, rendered by `presenting-html-plans` |
@@ -107,7 +107,7 @@ not illustrated.
 
 ## Findings
 
-Three things worth keeping, all discovered by running the skills rather than
+Four things worth keeping, all discovered by running the skills rather than
 reading them:
 
 - **The Ghostty Web renderer is excellent at text and colour, and weak at heavy
@@ -115,6 +115,13 @@ reading them:
   to be rejected: its box borders nearly vanished and its braille CPU graphs came
   out as faint sparse dots, while the tmux text capture of the same screen was
   perfect. `bat` renders flawlessly. Choose capture subjects accordingly.
+- **An image is the wrong artifact for `tui-puppeteering-with-tmux`.** Its first
+  capture was an `fzf` session rendered to PNG — but that PNG was produced by
+  `capture-session`, which belongs to `tui-capture-with-ghostty-web`. Two rows
+  would have been illustrated by the same tool, one of them miscredited. The
+  puppeteering skill's own output is text, from `tui-capture`, so its row now
+  carries a verbatim text block instead. Attribute a capture to the tool that
+  actually produced it.
 - **`bcdp` hard-coded a 1440×900 tab**, which left a page unreadably small in a
   phone-sized KVM pane. Now configurable via `BCDP_VIEWPORT`, default unchanged.
 - **Personal data leaks into TUI captures by default.** `btop`'s process list

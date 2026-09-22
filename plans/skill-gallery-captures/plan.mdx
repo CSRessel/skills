@@ -21,8 +21,8 @@ tell what each skill produces without reading any of them.
 
 ## Capture standard
 
-Every capture is a real, unretouched screenshot of the skill running. No mockups,
-no composites, no retouching. This matches the standard already set by the
+Every capture is a real, unretouched screenshot or recording of the skill
+running. No mockups, no composites, no retouching. This matches the standard already set by the
 Kubernetes gallery in `making-isometric-system-maps/screenshots/kubernetes/README.md`.
 
 - Browser captures: **1600 × 1000 viewport, device pixel ratio 2**.
@@ -69,13 +69,13 @@ flowchart LR
 | # | Skill | Capture subject | Status |
 | --- | --- | --- | --- |
 | 1 | `code-orientation` | Redis 7.4.1 `SET foo bar` hot path in the local viewer | Done |
-| 2 | `presenting-html-plans` | This plan, rendered by the bundled scaffold | In progress |
-| 3 | `making-isometric-system-maps` | Existing Kubernetes flow-trace capture, reused | Pending |
-| 4 | `remote-browser-cdp-kvm` | A `bcdp` verb driving the shared Chrome, plus the KVM view | Pending |
-| 5 | `tui-puppeteering-with-tmux` | An isolated tmux session under assertion | Pending |
-| 6 | `tui-capture-with-ghostty-web` | A paired text + Ghostty Web PNG artifact | Pending |
-| 7 | `nethack` | A live game screen through the `nh` harness | Pending |
-| 8 | `README.md` | Assemble the gallery table and add the two missing skills | Pending |
+| 2 | `presenting-html-plans` | This plan, rendered by the bundled scaffold | Done |
+| 3 | `making-isometric-system-maps` | Existing Kubernetes flow-trace capture, reused | Done |
+| 4 | `remote-browser-cdp-kvm` | Phone recording of a human solving a CAPTCHA over the KVM | Done |
+| 5 | `tui-puppeteering-with-tmux` | `fzf` driven by a sent query, proved with `tui-assert` | Done |
+| 6 | `tui-capture-with-ghostty-web` | `bat` rendering this repo's `sloc.py`, text + PNG paired | Done |
+| 7 | `nethack` | A live game at turn 31 through the `nh` harness | Done |
+| 8 | `README.md` | Assemble the gallery table and add the two missing skills | Done |
 
 ### Out of scope
 
@@ -105,9 +105,26 @@ not illustrated.
 3. Each capture was produced by running that skill's own bundled tooling.
 4. External targets carry a pinned commit next to the image.
 
+## Findings
+
+Three things worth keeping, all discovered by running the skills rather than
+reading them:
+
+- **The Ghostty Web renderer is excellent at text and colour, and weak at heavy
+  block/braille glyphs.** `btop` was the first candidate for its capture and had
+  to be rejected: its box borders nearly vanished and its braille CPU graphs came
+  out as faint sparse dots, while the tmux text capture of the same screen was
+  perfect. `bat` renders flawlessly. Choose capture subjects accordingly.
+- **`bcdp` hard-coded a 1440×900 tab**, which left a page unreadably small in a
+  phone-sized KVM pane. Now configurable via `BCDP_VIEWPORT`, default unchanged.
+- **Personal data leaks into TUI captures by default.** `btop`'s process list
+  showed running applications, command lines and a username; NetHack read a
+  personal `~/.nethackrc`. Both were neutralised for the capture without editing
+  anything the user owns — `4` to hide btop's process box, and a throwaway
+  `NETHACKOPTIONS` file. The same applies to browser profiles: captures used a
+  temporary `BCDP_PROFILE`, never the durable logged-in one.
+
 ## Open questions
 
-- Whether `nethack` can be captured on this machine at all: the Rust harness in
-  `nethack/scripts/nh` has no build output here, so it needs `cargo build`
-  before a live game can be photographed. If that is unwelcome, `nethack`
-  becomes a link-only row like its two companions.
+None outstanding. The `nethack` harness built cleanly (`cargo build --release`,
+10s), so it did not need to fall back to a link-only row.

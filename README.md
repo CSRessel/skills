@@ -30,7 +30,7 @@ advisory skills have no visual output, so they are listed but not illustrated.
 
 | Skill | Capture |
 | --- | --- |
-| **[nethack](nethack/SKILL.md)**<br><br>Compact, observed NetHack control through the bundled Rust `nh` harness — movement, combat, prompts, inventory, and run-state reporting against a live game in an isolated tmux session. | _capture pending_ |
+| **[nethack](nethack/SKILL.md)**<br><br>Compact, observed NetHack control through the bundled Rust `nh` harness — movement, combat, prompts, inventory, and run-state reporting against a live game in an isolated tmux session. The harness captures before and after every key, classifies the event, and refuses input it cannot interpret rather than guessing.<br><br>*Shown: a real game at turn 31 — Claude the Stripling, a lawful human Valkyrie on Dlvl 1, two rooms and the connecting corridor explored, a lichen (`F`) east and an unidentified potion (`!`) southwest.* | [<img src="nethack/screenshots/dlvl1-valkyrie.png" alt="An 80 by 24 NetHack screen showing two explored rooms joined by a corridor, the hero, an up staircase, a lichen, and a potion" width="460">](nethack/screenshots/dlvl1-valkyrie.png) |
 | **[nethack-strategy](nethack-strategy/SKILL.md)**<br><br>Live strategy guidance: useful exploration, early retreat, timely item use, limited pet rescue, and clear reasons to leave a bad fight. | — |
 | **[nethack-wiki-research](nethack-wiki-research/SKILL.md)**<br><br>Bounded local-wiki research delegated to a sub-agent, so raw source material never enters the playing agent's context. | — |
 

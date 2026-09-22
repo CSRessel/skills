@@ -18,10 +18,9 @@ Each skill's code and instructions live under its own directory.
 
 ## License and provenance
 
-Original work is available under the [MIT License](LICENSE). Imported components
-and unresolved redistribution terms are documented in [NOTICE](NOTICE). This
-repository should remain private until every component marked there for review
-has been cleared or removed.
+Original work is available under the [MIT License](LICENSE). The one credited
+preceding concept, and the third-party dependencies that are not vendored here,
+are documented in [NOTICE](NOTICE).
 
 ## Extras!
 

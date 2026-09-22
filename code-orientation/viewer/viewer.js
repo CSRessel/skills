@@ -1,5 +1,5 @@
 /* Renders every diagram in /diagrams.json. All local, no external calls.
-   Minimal GitHub-style chrome, hand-drawn mermaid, light/dark toggle. */
+   Minimal chrome, hand-drawn mermaid, paper/carbon toggle. */
 
 const DEFAULT_LEGEND = [
   { symbol: '⬚', text: 'dashed box = folder / module' },
@@ -7,36 +7,53 @@ const DEFAULT_LEGEND = [
   { symbol: '⇢', text: 'dotted arrow = external service call' }
 ];
 
-// Light: tuned "base" palette (GitHub light). Dark: mermaid's built-in "dark"
-// theme, which handles cluster/actor colors correctly, plus a few overrides.
-const LIGHT_VARS = {
-  background: '#f6f8fa', primaryColor: '#ffffff', primaryTextColor: '#1f2328',
-  primaryBorderColor: '#8c959f', lineColor: '#6e7781', secondaryColor: '#f6f8fa',
-  tertiaryColor: '#ffffff', clusterBkg: '#ffffff', clusterBorder: '#d1d9e0',
-  actorBkg: '#ffffff', actorBorder: '#8c959f', actorTextColor: '#1f2328',
-  signalColor: '#57606a', signalTextColor: '#57606a', labelBoxBkgColor: '#ffffff',
-  noteBkgColor: '#fff8c5', noteBorderColor: '#d4a72c', noteTextColor: '#1f2328'
+// Diagram ink, mapped to the shared repo palette (see THEME.md). Both variants
+// use mermaid's "base" theme with a full variable set, so a diagram is drawn in
+// charcoal under paper and in green under carbon. The built-in "default" and
+// "dark" themes are deliberately not used: they impose their own hues.
+const PAPER_VARS = {
+  background: '#e7e0d0', mainBkg: '#f4efe3',
+  primaryColor: '#f4efe3', primaryTextColor: '#1f1c18', primaryBorderColor: '#6d6a64',
+  secondaryColor: '#e7e0d0', secondaryTextColor: '#1f1c18', secondaryBorderColor: '#b7ad99',
+  tertiaryColor: '#d9d1bf', tertiaryTextColor: '#1f1c18', tertiaryBorderColor: '#b7ad99',
+  nodeBorder: '#6d6a64', lineColor: '#6b6660', textColor: '#1f1c18', titleColor: '#1f1c18',
+  edgeLabelBackground: '#e7e0d0', clusterBkg: '#e7e0d0', clusterBorder: '#8b8371',
+  actorBkg: '#f4efe3', actorBorder: '#6d6a64', actorTextColor: '#1f1c18', actorLineColor: '#b7ad99',
+  signalColor: '#1f1c18', signalTextColor: '#1f1c18',
+  labelBoxBkgColor: '#d9d1bf', labelBoxBorderColor: '#8b8371', labelTextColor: '#1f1c18',
+  loopTextColor: '#5a564f', activationBkgColor: '#d9d1bf', activationBorderColor: '#6d6a64',
+  sequenceNumberColor: '#f4efe3',
+  noteBkgColor: '#d9d1bf', noteBorderColor: '#8b8371', noteTextColor: '#1f1c18'
 };
-const DARK_VARS = {
-  background: '#151b23', clusterBkg: '#0d1117', clusterBorder: '#2a313c',
-  mainBkg: '#1b2028', lineColor: '#8b949e', noteBkgColor: '#2d2a1a',
-  noteBorderColor: '#9e8a3f', noteTextColor: '#e6edf3'
+const CARBON_VARS = {
+  background: '#1c1c1c', mainBkg: '#1c1c1c',
+  primaryColor: '#1c1c1c', primaryTextColor: '#dde1e6', primaryBorderColor: '#3f9e59',
+  secondaryColor: '#262626', secondaryTextColor: '#dde1e6', secondaryBorderColor: '#393939',
+  tertiaryColor: '#262626', tertiaryTextColor: '#dde1e6', tertiaryBorderColor: '#393939',
+  nodeBorder: '#3f9e59', lineColor: '#42be65', textColor: '#dde1e6', titleColor: '#f2f4f8',
+  edgeLabelBackground: '#1c1c1c', clusterBkg: '#161616', clusterBorder: '#393939',
+  actorBkg: '#1c1c1c', actorBorder: '#3f9e59', actorTextColor: '#dde1e6', actorLineColor: '#393939',
+  signalColor: '#42be65', signalTextColor: '#dde1e6',
+  labelBoxBkgColor: '#262626', labelBoxBorderColor: '#3f9e59', labelTextColor: '#dde1e6',
+  loopTextColor: '#8a8f98', activationBkgColor: '#262626', activationBorderColor: '#3f9e59',
+  sequenceNumberColor: '#0e0e0e',
+  noteBkgColor: '#262626', noteBorderColor: '#3f9e59', noteTextColor: '#dde1e6'
 };
 
 const main = document.querySelector('#main');
 const cache = new Map();      // file -> source text
 let files = [];               // ordered file list
-let theme = 'light';
+let theme = 'paper';
 let zoom = 1;
 let seq = 0;
 
 function initMermaid() {
-  const dark = theme === 'dark';
+  const dark = theme === 'carbon';
   mermaid.initialize({
     startOnLoad: false, securityLevel: 'strict',
-    theme: dark ? 'dark' : 'base',
+    theme: 'base',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    themeVariables: { fontSize: '14px', ...(dark ? DARK_VARS : LIGHT_VARS) },
+    themeVariables: { fontSize: '14px', darkMode: dark, ...(dark ? CARBON_VARS : PAPER_VARS) },
     flowchart: { htmlLabels: false, useMaxWidth: true, curve: 'basis', nodeSpacing: 36, rankSpacing: 54, padding: 10 },
     sequence: { useMaxWidth: true, boxMargin: 10, actorMargin: 46, mirrorActors: false }
   });
@@ -97,13 +114,13 @@ function renderLegend(items) {
 function setTheme(next) {
   theme = next;
   document.documentElement.setAttribute('data-theme', theme);
-  document.querySelector('#theme').textContent = theme === 'light' ? 'Dark' : 'Light';
+  document.querySelector('#theme').textContent = theme === 'paper' ? 'Carbon' : 'Paper';
 }
 
 document.querySelector('#plus').onclick = () => { zoom = Math.min(4, zoom * 1.25); applyZoom(); };
 document.querySelector('#minus').onclick = () => { zoom = Math.max(0.25, zoom / 1.25); applyZoom(); };
 document.querySelector('#fit').onclick = () => { zoom = 1; applyZoom(); };
-document.querySelector('#theme').onclick = () => { setTheme(theme === 'light' ? 'dark' : 'light'); void renderAll(); };
+document.querySelector('#theme').onclick = () => { setTheme(theme === 'paper' ? 'carbon' : 'paper'); void renderAll(); };
 
 async function boot() {
   let manifest;
@@ -149,6 +166,7 @@ async function boot() {
   await renderAll();
 }
 
+// ?theme=carbon (or the older ?theme=dark) opens straight into the dark variant.
 const wanted = new URLSearchParams(location.search).get('theme');
-setTheme(wanted === 'dark' ? 'dark' : 'light');
+setTheme(wanted === 'carbon' || wanted === 'dark' ? 'carbon' : 'paper');
 boot();

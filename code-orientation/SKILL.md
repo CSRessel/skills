@@ -73,7 +73,7 @@ Keep it to folders, modules, and genuinely key files — not every file. State t
 
 Write two `.mmd` files into the run's output dir:
 
-a. `block.mmd` — a block diagram of the hot path, with big dashed subgraph boxes grouping nodes by folder/module. Group by real directories (for example `services/`, `pipeline/`, `api/`); put external providers in their own dashed box; use dotted edges to external services. Apply dashed styling to subgraphs with stroke only — do NOT set a `fill`, or the boxes will stay light in dark mode:
+a. `block.mmd` — a block diagram of the hot path, with big dashed subgraph boxes grouping nodes by folder/module. Group by real directories (for example `services/`, `pipeline/`, `api/`); put external providers in their own dashed box; use dotted edges to external services. Apply dashed styling to subgraphs with stroke only — do NOT set a `fill`, or the box will keep a light fill under the dark theme:
 ```
 classDef dash stroke-dasharray:5 4,stroke-width:1.5px;
 class GROUP_A,GROUP_B,GROUP_C dash
@@ -102,6 +102,8 @@ Start the bundled offline server, pointed at the output dir (it also serves the 
 python3 {{skills_dir}}/code-orientation/viewer/serve.py --dir /tmp/code-orientation/TARGET_SLUG --port 8765
 ```
 It prints `http://127.0.0.1:8765`. It is localhost-only by design (binds 127.0.0.1, rejects non-local Host headers) — do not expect a tailnet/LAN URL from it. Give the user the URL. Everything renders in-browser; nothing is uploaded.
+
+The viewer opens in the repository's shared `paper` theme — black on warm paper, diagrams drawn in charcoal — and the header toggle switches to `carbon`, white on black with the diagrams in green. Append `?theme=carbon` to open straight into the dark one, which is what a capture wants. Both variants and their Mermaid mappings are documented in `THEME.md`; author diagrams with no hard-coded colours so they follow whichever is active.
 
 Verify it responds before handing off:
 ```bash

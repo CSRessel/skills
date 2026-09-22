@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="paper">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,61 +7,73 @@
   <script src="/vendor/mermaid.min.js" defer></script>
   <script src="/viewer.js" defer></script>
   <style>
-    :root {
-      --bg: #ffffff; --canvas: #f6f8fa; --ink: #1f2328; --muted: #59636e;
-      --border: #d1d9e0; --hover: #eef1f4; --accent: #0969da;
+    /* Shared repo palette — see THEME.md. Two variants, one vocabulary: paper
+       is black on warm paper drawn in charcoal, carbon is white on black drawn
+       in green. Each variant is dichromatic; nothing introduces a third hue
+       except --danger, which reports failure rather than drawing anything. */
+    :root, :root[data-theme="paper"] {
+      color-scheme: light;
+      --canvas: #ece6d8; --panel: #e7e0d0; --raised: #d9d1bf; --rule: #b7ad99;
+      --ink: #1f1c18; --muted-ink: #5a564f; --faint: #a09c94;
+      --accent: #26231e; --accent-ink: #f4efe3;
+      --draw: #6d6a64; --draw-strong: #1f1c18; --edge: #6b6660;
+      --danger: #da1e28;
     }
-    :root[data-theme="dark"] {
-      --bg: #0d1117; --canvas: #151b23; --ink: #e6edf3; --muted: #9198a1;
-      --border: #2a313c; --hover: #212830; --accent: #4493f8;
+    :root[data-theme="carbon"] {
+      color-scheme: dark;
+      --canvas: #161616; --panel: #1c1c1c; --raised: #262626; --rule: #393939;
+      --ink: #dde1e6; --muted-ink: #8a8f98; --faint: #4a4a4a;
+      --accent: #42be65; --accent-ink: #0e0e0e;
+      --draw: #3f9e59; --draw-strong: #7bf2a4; --edge: #b9bec4;
+      --danger: #f47067;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; background: var(--bg); color: var(--ink);
+      margin: 0; background: var(--canvas); color: var(--ink);
       font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     header {
       position: sticky; top: 0; z-index: 10;
       display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-      padding: 14px 24px; background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 14px 24px; background: var(--canvas); border-bottom: 1px solid var(--rule);
     }
     header h1 { margin: 0; font-size: 16px; font-weight: 600; }
-    header .subtitle { margin: 1px 0 0; font-size: 13px; color: var(--muted); }
+    header .subtitle { margin: 1px 0 0; font-size: 13px; color: var(--muted-ink); }
     header .spacer { flex: 1; }
     .btns { display: inline-flex; align-items: center; gap: 6px; }
     button {
       font: inherit; font-size: 13px; color: var(--ink); cursor: pointer;
-      background: var(--canvas); border: 1px solid var(--border); border-radius: 6px;
+      background: var(--panel); border: 1px solid var(--rule); border-radius: 6px;
       padding: 5px 10px; line-height: 1.4;
     }
-    button:hover { background: var(--hover); }
-    .zoom { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    button:hover { background: var(--raised); border-color: var(--ink); }
+    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .zoom { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
     .zoom button { border: 0; border-radius: 0; }
-    .zoom button + button { border-left: 1px solid var(--border); }
-    .zoom .pct { font-size: 12px; color: var(--muted); min-width: 46px; text-align: center; padding: 0 4px; }
+    .zoom button + button { border-left: 1px solid var(--rule); }
+    .zoom .pct { font-size: 12px; color: var(--muted-ink); min-width: 46px; text-align: center; padding: 0 4px; }
     .legend { display: flex; flex-wrap: wrap; gap: 18px; max-width: 1120px;
-      margin: 18px auto 0; padding: 0 24px; font-size: 13px; color: var(--muted); }
+      margin: 18px auto 0; padding: 0 24px; font-size: 13px; color: var(--muted-ink); }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .legend .g { color: var(--ink); font-size: 15px; }
+    .legend .g { color: var(--accent); font-size: 15px; }
     main { max-width: 1120px; margin: 8px auto 0; padding: 0 24px; }
-    section { padding: 26px 0; border-bottom: 1px solid var(--border); }
+    section { padding: 26px 0; border-bottom: 1px solid var(--rule); }
     section:last-child { border-bottom: 0; }
     section h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
-    section h2 .n { color: var(--muted); font-weight: 500; margin-right: 6px; }
-    section .note { margin: 0 0 16px; font-size: 13.5px; color: var(--muted); max-width: 76ch; }
+    section h2 .n { color: var(--muted-ink); font-weight: 500; margin-right: 6px; }
+    section .note { margin: 0 0 16px; font-size: 13.5px; color: var(--muted-ink); max-width: 76ch; }
     .diagram {
-      overflow: auto; background: var(--canvas);
-      border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+      overflow: auto; background: var(--panel);
+      border: 1px solid var(--rule); border-radius: 12px; padding: 18px;
     }
     .diagram svg { height: auto; display: block; margin: 0 auto; }
-    .loading { color: var(--muted); font-size: 13px; }
-    .err { color: #cf222e; background: var(--canvas); border: 1px solid var(--border);
+    .loading { color: var(--muted-ink); font-size: 13px; }
+    .err { color: var(--danger); background: var(--panel); border: 1px solid var(--danger);
       border-radius: 8px; font-family: ui-monospace, monospace; font-size: 12.5px;
       white-space: pre-wrap; padding: 12px; }
-    :root[data-theme="dark"] .err { color: #ff7b72; }
     footer { max-width: 1120px; margin: 0 auto; padding: 20px 24px 40px;
-      font-size: 12.5px; color: var(--muted); }
+      font-size: 12.5px; color: var(--muted-ink); }
   </style>
 </head>
 <body>
@@ -72,7 +84,7 @@
     </div>
     <span class="spacer"></span>
     <div class="btns">
-      <button id="theme" aria-label="Toggle theme">Dark</button>
+      <button id="theme" aria-label="Toggle theme">Carbon</button>
       <span class="zoom" role="group" aria-label="Zoom">
         <button id="minus" aria-label="Zoom out">−</button>
         <span class="pct" id="zoom">100%</span>

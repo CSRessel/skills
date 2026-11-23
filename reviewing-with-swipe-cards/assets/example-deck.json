@@ -1,0 +1,14 @@
+{
+  "title": "Example review",
+  "subtitle": "Swipe right to agree, left to disagree",
+  "agreeLabel": "Agree",
+  "disagreeLabel": "Disagree",
+  "items": [
+    {
+      "id": "short-stable-id",
+      "title": "Short question, under about 10 words?",
+      "description": "The full context the reviewer needs to decide. Supports `code` and **bold**. Links become clickable.",
+      "recommendation": "Accept. One sentence on what you would do and why."
+    }
+  ]
+}

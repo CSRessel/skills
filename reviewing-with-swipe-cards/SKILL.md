@@ -23,7 +23,7 @@ Start from `$TOOL/example-deck.json`. Each item has:
 
 - `id`: short, stable, unique. Answers are keyed by it, so do not rename it after serving.
 - `title`: the short question, ideally under 10 words.
-- `description`: the full context the person needs to decide. Inline `code`, `**bold**` and URLs render.
+- `description`: the full context the person needs to decide. Inline `code`, `**bold**` and URLs render. A blank line starts a new paragraph, and lines starting with `- ` become bullets. Put each option on its own line as `(a) ...`, `(b) ...`; options render as a spaced lettered list. `recommendation` follows the same rules.
 - `recommendation`: your default, starting with the verdict ("Accept.", "Merge.", "Drop it.").
 - `eyebrow` (optional): replaces the "Question N of M" label, for example a PR number.
 

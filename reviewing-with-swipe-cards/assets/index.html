@@ -64,7 +64,10 @@
   .card.d3 { z-index: -1; transform: translateY(30px) scale(.88); }
   .card.d1, .card.d2, .card.d3 { transition: transform .28s cubic-bezier(.2,.8,.2,1); }
   .card.top { z-index: 2; transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s; }
-  .controls { flex: none; }
+  .card.fan { pointer-events: none; transform-origin: 50% 170%; transition: none; }
+  .card.fan.blank > * { visibility: hidden; }
+  .stack.fanning > .card:not(.fan) { visibility: hidden; }
+  .controls { flex: none; position: relative; z-index: 20; }
   .eyebrow { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--comment); margin: 0 0 10px; }
   .card h2 { font-size: 22px; line-height: 1.3; font-weight: 600; color: var(--fg); margin: 0 0 14px; letter-spacing: -.015em; }
   .desc { margin: 0 0 20px; color: var(--text); }
@@ -207,6 +210,7 @@ function cardHtml(it, i, cls) {
 }
 
 function render() {
+  stopFan();
   progress();
   const items = state();
   const main = $('#main');
@@ -265,6 +269,7 @@ function renderDone() {
 }
 
 function commit(decision) {
+  stopFan();
   const items = state();
   if (index >= items.length) return;
   const it = items[index];
@@ -309,6 +314,7 @@ function bindDrag(card) {
   };
   card.addEventListener('pointerdown', (e) => {
     if (e.button !== 0 || e.target.closest('a')) return;
+    stopFan();
     start = { x: e.clientX, y: e.clientY, t: performance.now() }; horizontal = null; dx = 0; card.setPointerCapture?.(e.pointerId);
   });
   card.addEventListener('pointermove', (e) => {
@@ -336,6 +342,52 @@ function bindDrag(card) {
   card.addEventListener('pointercancel', end);
 }
 
+// Easter egg: `F` or a triple-click fans the deck out like a card flourish, then squares it up again.
+// Uses copies of the next cards so the real top card and its handlers are never touched.
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let fanning = null;
+function stopFan() {
+  if (!fanning) return;
+  fanning.cards.forEach((c) => c.remove());
+  fanning.stack.classList.remove('fanning');
+  fanning = null;
+}
+function fan() {
+  const stack = $('.stack');
+  if (!stack || fanning || reducedMotion.matches) return;
+  const items = state();
+  const n = 7, mid = (n - 1) / 2, spread = 10, dur = 1150;
+  // Front card in the middle; the rest alternate outwards, each one deeper in the deck.
+  const order = Array.from({ length: n }, (_, k) => k === 0 ? mid : mid + (k % 2 ? -1 : 1) * Math.ceil(k / 2));
+  const cards = order.map((pos, k) => {
+    const it = items[index + k];
+    const tmp = document.createElement('div');
+    tmp.innerHTML = it ? cardHtml(it, index + k, 'fan') : '<article class="card fan blank" aria-hidden="true"></article>';
+    const el = tmp.firstElementChild;
+    el.classList.add('fan'); el.removeAttribute('tabindex'); el.removeAttribute('aria-live'); el.setAttribute('aria-hidden', 'true');
+    el.style.zIndex = String(10 + n - k);
+    const rest = `translateY(${Math.min(k, 3) * 10}px) scale(${1 - Math.min(k, 3) * 0.04})`;
+    const a = (pos - mid) * spread;
+    const lift = -Math.abs(pos - mid) * 6 - 18;
+    const out = `translateY(${lift}px) rotate(${a}deg) scale(${k === 0 ? 1.03 : 0.97})`;
+    el.animate([
+      { transform: rest, easing: 'cubic-bezier(.34,1.5,.64,1)' },
+      { transform: out, offset: 0.38, easing: 'ease-in-out' },
+      { transform: `translateY(${lift - 6}px) rotate(${a * 1.06}deg) scale(${k === 0 ? 1.03 : 0.97})`, offset: 0.62, easing: 'cubic-bezier(.55,0,.75,.2)' },
+      { transform: `translateY(${Math.min(k, 3) * 10 + 6}px) scale(${1 - Math.min(k, 3) * 0.04}, ${0.97 - Math.min(k, 3) * 0.04})`, offset: 0.9, easing: 'ease-out' },
+      { transform: rest },
+    ], { duration: dur, delay: Math.abs(pos - mid) * 28 });
+    return el;
+  });
+  stack.append(...cards);
+  stack.classList.add('fanning');
+  const me = fanning = { stack, cards };
+  setTimeout(() => { if (fanning === me) stopFan(); }, dur + mid * 28 + 40);
+}
+document.addEventListener('click', (e) => {
+  if (e.detail === 3 && e.target instanceof Element && e.target.closest('.stack')) fan();
+});
+
 const editable = (t) => t instanceof Element && t.closest('textarea, input, select, [contenteditable="true"]');
 document.addEventListener('keydown', (e) => {
   if (e.defaultPrevented || e.repeat || e.altKey || e.isComposing || e.keyCode === 229) return;
@@ -347,6 +399,7 @@ document.addEventListener('keydown', (e) => {
   if (chord) { if (!e.shiftKey && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); } return; }
   if (e.key.toLowerCase() === 'u') { e.preventDefault(); return undo(); }
   if (e.shiftKey) return;
+  if (e.key.toLowerCase() === 'f') { e.preventDefault(); return fan(); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); return commit('disagree'); }
   if (e.key === 'ArrowRight') { e.preventDefault(); return commit('agree'); }
   if (e.key === 'Enter' && !(e.target instanceof Element && e.target.closest('button, a[href]'))) {

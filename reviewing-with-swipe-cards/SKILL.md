@@ -74,3 +74,4 @@ Edit `deck.json` and send a fresh timestamped link. The server re-reads the deck
 
 - Cards have a fixed height and the controls are pinned to the bottom of the screen, so taps land in the same place on mobile. Do not reintroduce layouts where the controls move with the card height.
 - The page follows the system light or dark setting.
+- Easter egg: `F` or a triple-click on the deck fans the cards out like a card flourish for about a second. It never plays on its own, never blocks answering, and is skipped under reduced motion. Do not list it in the how-to unless the person asks for fun things.

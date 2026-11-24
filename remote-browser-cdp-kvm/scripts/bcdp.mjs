@@ -11,6 +11,7 @@
 //   BCDP_PROFILE   Chrome user-data-dir      (default ~/.cache/remote-browser-cdp-kvm)
 //   BCDP_PORT      CDP debug port            (default 9333)
 //   BCDP_HEADED    "1"/"0" force headed/less (default: headed iff $DISPLAY set)
+//   BCDP_VIEWPORT  tab size as WxH            (default 1440x900)
 //   DISPLAY        X display for headed mode  (e.g. :1)
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
@@ -30,6 +31,13 @@ const ensureProfile = () => {
   mkdirSync(PROFILE, { recursive: true, mode: 0o700 });
   chmodSync(PROFILE, 0o700);
 };
+const VIEWPORT = (() => {
+  const raw = process.env.BCDP_VIEWPORT;
+  if (!raw) return { width: 1440, height: 900 };
+  const m = /^(\d+)x(\d+)$/.exec(raw.trim());
+  if (!m) die(`BCDP_VIEWPORT must look like 600x800, got ${raw}`);
+  return { width: Number(m[1]), height: Number(m[2]) };
+})();
 
 // ---- tiny flag parser: `--k v`, `--k=v`, `--flag`, positionals ----
 function parse(argv) {
@@ -124,7 +132,7 @@ switch (verb) {
     ensureProfile();
     const headed = process.env.BCDP_HEADED != null ? process.env.BCDP_HEADED === '1' : !!process.env.DISPLAY;
     const ctx = await chromium.launchPersistentContext(PROFILE, {
-      headless: !headed, channel: 'chrome', viewport: { width: 1440, height: 900 },
+      headless: !headed, channel: 'chrome', viewport: VIEWPORT,
       args: [`--remote-debugging-port=${PORT}`, '--remote-debugging-address=127.0.0.1', '--no-first-run', '--no-default-browser-check'],
     });
     writeFileSync(join(PROFILE, 'daemon.pid'), String(process.pid));

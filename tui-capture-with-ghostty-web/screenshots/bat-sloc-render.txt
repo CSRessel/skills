@@ -1,0 +1,40 @@
+─────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     │ File: code-orientation/sloc.py
+     │ Size: 12.8 KB
+─────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ #!/usr/bin/env python3
+   2 │ """Portable SLOC counter for code orientation. Stdlib only.
+   3 │
+   4 │ Two modes:
+   5 │   * Path mode (default): count source lines under one or more paths, grouped by
+   6 │     folder/module, with the biggest files ranked.
+   7 │   * Diff mode (--diff RANGE): rank changed files by net/added lines for a git
+   8 │     range (e.g. `origin/main...HEAD`), for PR review.
+   9 │
+  10 │ "SLOC" here = non-blank lines minus obvious whole-line comments. It is an
+  11 │ approximation (no full per-language parsing) but is stable and language-aware
+  12 │ enough to compare folders and spot large files. Tests, docs, lockfiles, vendored
+  13 │ and generated code are excluded by default.
+  14 │
+  15 │ Examples:
+  16 │   sloc.py .
+  17 │   sloc.py src/ --depth 2 --top 15
+  18 │   sloc.py --diff origin/main...HEAD
+  19 │   sloc.py . --json
+  20 │ """
+  21 │ from __future__ import annotations
+  22 │
+  23 │ import argparse
+  24 │ import json
+  25 │ import os
+  26 │ import subprocess
+  27 │ import sys
+  28 │ from dataclasses import dataclass, field
+  29 │ from pathlib import Path
+  30 │
+  31 │ # extension -> (language, line-comment prefixes, has C-style block comments)
+  32 │ LANGS: dict[str, tuple[str, tuple[str, ...], bool]] = {
+  33 │     ".py": ("Python", ("#",), False),
+  34 │     ".pyi": ("Python", ("#",), False),
+  35 │     ".rs": ("Rust", ("//",), True),
+:

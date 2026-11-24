@@ -2,29 +2,35 @@
 
 Personal, reusable agent skills for planning, browser and terminal automation.
 
-| Skill | Purpose |
+Captures below for the quick concept.
+
+| Skill | Capture |
 | --- | --- |
-| `presenting-html-plans` | Render completed plans as secure local HTML with Mermaid |
-| [making-isometric-system-maps](making-isometric-system-maps/README.md#kubernetes-gallery) | Draft: interactive isometric system maps, with a browser-verified Kubernetes example and optional authoring guides |
-| `remote-browser-cdp-kvm` | Drive persistent Chrome and hand human-only steps to a private KVM |
-| `tui-puppeteering-with-tmux` | Isolated tmux sessions for TUI automation and testing |
-| `tui-capture-with-ghostty-web` | Capture tmux-driven TUIs as paired text and Ghostty Web PNG artifacts |
+| **[code-orientation](code-orientation/SKILL.md)**<br><br>Turn "I don't know this code yet" into numbers, a map, and a picture of the hot path.<br>Main fiew is: SLOC breakdown, annotated file tree, and diagrams served locally. Point it at a repo, a subfolder, a dependency, or a PR range.<br><br>*Shown: `redis` 7.4.1 at [`74b289a`](https://github.com/redis/redis/tree/74b289a0e12f9f65a6daeec6a66cadc76792f644), 175,383 SLOC across 547 files, tracing one `SET foo bar`.* | [<img src="code-orientation/screenshots/redis-set-hot-path.png" alt="The code-orientation viewer in dark mode, showing a block diagram and a sequence diagram of the Redis SET hot path" width="460">](code-orientation/screenshots/redis-set-hot-path.png) |
+| **[presenting-html-plans](presenting-html-plans/SKILL.md)**<br><br>Present a finished plan as a source-controlled local HTML page with Mermaid diagrams, content nav, and print styles. HTML viewer is quick to read and understand, but the plan stays MDX so it is also quick for the agent to read and understand.<br><br>*Shown: [the plan for this gallery](plans/skill-gallery-captures/plan.mdx), rendered by the bundled scaffold.* | [<img src="presenting-html-plans/screenshots/plan-page.png" alt="A rendered plan page with a contents sidebar, summary callout, and a comparison table" width="460">](presenting-html-plans/screenshots/plan-page.png) |
+| **[making-isometric-system-maps](making-isometric-system-maps/README.md#kubernetes-gallery)**<br><br>Draft: interactive isometric system maps. Select a component to light up its relationships, or trace a flow step by step with automatic camera moves<br><br>*Shown: a Kubernetes Deployment and ClusterIP Service, mid flow-trace. [More captures](making-isometric-system-maps/README.md#kubernetes-gallery).* | [<img src="making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png" alt="An isometric Kubernetes system map mid flow-trace, with the camera zoomed to the active step and an explainer panel" width="460">](making-isometric-system-maps/screenshots/kubernetes/desktop-flow.png) |
+| **[remote-browser-cdp-kvm](remote-browser-cdp-kvm/SKILL.md)**<br><br>Drive one persistent, logged-in Chrome over CDP through small repeatable verbs, and hand human-only steps (login, CAPTCHA, SSO, 2FA, sign-off) to a private phone-friendly KVM over your tailnet.<br><br>*Shown: agent shares "I'm not a robot" screen to the human, and tailnet plus Android split screen makes it easy to interact with the agent and browser both. Real recording, obviously sped up.* | [<img src="remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif" alt="A phone in split screen: the shared browser tab showing a reCAPTCHA image challenge above, the driving agent's terminal below" width="300">](remote-browser-cdp-kvm/screenshots/kvm-captcha-handoff.gif) |
+| **[tui-puppeteering-with-tmux](tui-puppeteering-with-tmux/SKILL.md)**<br><br>Isolated tmux sessions for automating and testing TUI and CLI applications. `tui-start` brings a program up on a dedicated socket, `tui-send` delivers keystrokes, `tui-capture` dumps the screen as text, and `tui-assert` refuses to continue until the expected state is actually on screen (the wait for action needed to drive the interactions). Nothing it does can reach your own tmux.<br><br>*Shown: Nori CLI at launch, and then same CLI with its session config picker open. Started and driven by this another agent.* | [<img src="tui-puppeteering-with-tmux/captures/nori-cli-launch.png" alt="The Nori CLI at launch, showing the version banner, workspace, agent, and Claude Code options line" width="460">](tui-puppeteering-with-tmux/captures/nori-cli-launch.png)<br><br>[<img src="tui-puppeteering-with-tmux/captures/nori-cli-config.png" alt="The Nori CLI session config picker, listing Mode, Model and Effort with Model selected" width="460">](tui-puppeteering-with-tmux/captures/nori-cli-config.png) |
+| **[tui-capture-with-ghostty-web](tui-capture-with-ghostty-web/SKILL.md)**<br><br>Capture a tmux-driven TUI as paired plain-text and Ghostty Web PNG artifacts, for visual QA, documentation, and screenshot regression evidence. Every capture writes `screen.txt`, `screen.ansi`, `screen.png`, and a `metadata.json` carrying the grid, the pinned renderer version, and a PNG checksum.<br><br>*Shown: `bat` rendering this repo's own `sloc.py`, captured at 120×40 by `ghostty-web@0.4.0`. The [paired text](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.txt) is committed beside it.* | [<img src="tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png" alt="A Ghostty Web render of bat displaying syntax-highlighted Python source with line numbers and a file header" width="460">](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png) |
 
 Each skill's code and instructions live under its own directory.
 
 ## License and provenance
 
-Original work is available under the [MIT License](LICENSE). Imported components
-and unresolved redistribution terms are documented in [NOTICE](NOTICE). This
-repository should remain private until every component marked there for review
-has been cleared or removed.
+Original work is available under the [MIT License](LICENSE). The one credited
+preceding concept, and the third-party dependencies that are not vendored here,
+are documented in [NOTICE](NOTICE).
 
 ## Extras!
 
-| Skill | Purpose |
+The NetHack harness, plus two advisory skills that ride alongside it. The two
+advisory skills have no visual output, so they are listed but not illustrated.
+
+| Skill | Capture |
 | --- | --- |
-| `nethack` | Compact, observed NetHack control through the bundled Rust harness |
-| `nethack-wiki-research` | Bounded local-wiki research delegated to a sub-agent |
+| **[nethack](nethack/SKILL.md)**<br><br>Compact, observed NetHack control through the bundled Rust `nh` harness. Movement, combat, prompts, inventory, and run-state reporting against a live game in an isolated tmux session. The harness captures before and after every key, classifies the event, and refuses input it cannot interpret rather than guessing.<br><br>*Shown: a real game at turn 31, Claude the Stripling, a lawful human Valkyrie on Dlvl 1, two rooms and the connecting corridor explored, a lichen (`F`) east and an unidentified potion (`!`) southwest.* | [<img src="nethack/screenshots/dlvl1-valkyrie.png" alt="An 80 by 24 NetHack screen showing two explored rooms joined by a corridor, the hero, an up staircase, a lichen, and a potion" width="460">](nethack/screenshots/dlvl1-valkyrie.png) |
+| **[nethack-strategy](nethack-strategy/SKILL.md)**<br><br>Live strategy guidance: useful exploration, early retreat, timely item use, limited pet rescue, and clear reasons to leave a bad fight. | — |
+| **[nethack-wiki-research](nethack-wiki-research/SKILL.md)**<br><br>Bounded local-wiki research delegated to a sub-agent, so raw source material never enters the playing agent's context. | — |
 
 Large local NetHackWiki and official-source archives are runtime data and
 intentionally are not tracked.

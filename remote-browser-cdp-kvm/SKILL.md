@@ -56,7 +56,9 @@ Requires Node 22+ and a system Chrome/Chromium (`google-chrome`). Config is via
 env vars (all optional): `BCDP_PROFILE` (login profile dir, default
 `~/.cache/remote-browser-cdp-kvm`), `BCDP_PORT` (CDP port, default `9333`),
 `BCDP_KVM_PORT` (default `6080`), `BCDP_HEADED` (`1`/`0`; default headed iff
-`$DISPLAY` is set, while headless still streams fine over the KVM).
+`$DISPLAY` is set, while headless still streams fine over the KVM), and
+`BCDP_VIEWPORT` (tab size as `WxH`, default `1440x900` — narrow it, e.g.
+`480x860`, when the page is going to be viewed over the KVM on a phone).
 
 # The verbs
 

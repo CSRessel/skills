@@ -15,9 +15,9 @@ CRITICAL. Add the following steps to your task list:
 
 # Presenting Plans as HTML
 
-This skill owns presentation, not planning. Preserve the plan's decisions,
-scope, ordering, and level of detail. Do not add approval gates, planning
-methodology, hosted services, comments, canvases, or prototypes.
+Change only the presentation. Preserve the plan's decisions, scope, ordering,
+and level of detail. Never add approval gates, planning methodology, hosted
+services, comments, canvases, or prototypes.
 
 ## Quick scaffold
 
@@ -26,10 +26,9 @@ mkdir -p plans/SLUG
 cp -R "{{skills_dir}}/presenting-html-plans/assets/scaffold/." plans/SLUG/
 ```
 
-Replace `plans/SLUG/plan.mdx` with the completed plan. Keep the file within
-the Markdown-compatible subset of MDX: Markdown, fenced code, fenced Mermaid,
-tables, images, and simple HTML. The viewer sanitizes rendered HTML and does not
-compile JSX components.
+Replace `plans/SLUG/plan.mdx` with the completed plan. Use only Markdown,
+fenced code, fenced Mermaid, tables, images, and simple HTML. The viewer
+sanitizes HTML and never compiles JSX.
 
 Serve the directory with any static server, for example:
 
@@ -37,24 +36,23 @@ Serve the directory with any static server, for example:
 python3 -m http.server 4173 --directory plans/SLUG
 ```
 
-Open `http://localhost:4173/`. Use `?src=other-plan.mdx` to preview another
-top-level `.md` or `.mdx` file in the same directory. Nested and remote source
-paths are rejected.
+Open `http://localhost:4173/`. To preview another top-level `.md` or `.mdx`
+file in the same directory, add `?src=other-plan.mdx`. The viewer rejects nested
+and remote paths.
 
 ## Presentation rules
 
-- Make the document standalone: remove references that require chat history.
-- Preserve the source plan. Reorganize only when scanning materially improves.
+- Remove references that need chat history.
+- Reorganize only when it makes the plan clearly easier to scan.
 - Lead with the outcome. For an abstract product plan, place one concrete
   screenshot or example near the top when one already exists.
-- Use headings, short paragraphs, tables, checklists, code, and blockquotes to
-  create hierarchy. Prefer a file-map table over an exhaustive prose list.
+- Use a file-map table instead of a long prose list of files.
 - Put each diagram beside the claim it explains. Do not repeat the same
   information in both prose and a diagram.
 - Keep product screenshots and architecture diagrams separate. Never draw file
   paths, contracts, or implementation annotations inside product UI.
-- Keep unresolved questions in one final `Open Questions` section. Do not invent
-  questions merely to fill the template.
+- Put unresolved questions in one final `Open Questions` section. Never invent
+  questions to fill it.
 
 ## Mermaid
 
@@ -69,39 +67,33 @@ flowchart TB
 ```
 ````
 
-Choose the diagram form from the relationship:
+Pick the diagram type by relationship:
 
 - `flowchart` for architecture, ownership, dependencies, or data flow.
 - `sequenceDiagram` for ordered interactions between actors.
 - `stateDiagram-v2` for lifecycle and transition rules.
 - `erDiagram` for persistent entities and relationships.
 
-Prefer grouped regions, layers, before/after views, and top-to-bottom layouts.
-Use a linear chain only when the relationship is genuinely sequential. Keep
-labels short, use real domain terms, and omit diagrams that are less clear than
-a small table or paragraph.
+Default to grouped regions, layers, before/after views, and top-to-bottom
+layouts. Use a linear chain only for a truly sequential relationship. Keep
+labels short and use real domain terms. If a small table or paragraph is
+clearer, skip the diagram.
 
 ## Theme
 
-The scaffold ships the repository's shared palette, documented in `THEME.md`:
-`paper` is black on warm paper with diagrams drawn in charcoal, `carbon` is
-white on black with diagrams in green. The page follows the reader's OS
-setting; `?theme=paper` or `?theme=carbon` pins one, which is what a capture or
-a shared link wants. Print is neither variant — it falls back to black on
-white.
+The scaffold uses the shared `paper` (light) and `carbon` (dark) palettes from
+`THEME.md`. The page follows the reader's OS setting. For a capture or a shared
+link, pin one with `?theme=paper` or `?theme=carbon`. Print uses black on white.
 
-Mermaid is initialised from the same palette rather than from its built-in
-`default` and `dark` themes, so a diagram is drawn in the active variant's ink.
-Do not hard-code colours in a diagram or add a fourth hue to the stylesheet;
-each variant is deliberately dichromatic.
+Never hard-code colours in a diagram. Never add a hue to the stylesheet.
 
 ## Handoff check
 
-Open the rendered page before sharing it. Check the table of contents, Mermaid
-rendering, code overflow, table width, contrast, narrow-screen layout, and print
-preview. Fix clipped content, excessive whitespace, and unreadable diagrams.
+Open the rendered page before you share it. Check the table of contents,
+Mermaid rendering, code overflow, table width, contrast, narrow-screen layout,
+and print preview. Fix clipped content, excess whitespace, and unreadable
+diagrams.
 
-The scaffold is local and source-control friendly. It fetches pinned versions
-of DOMPurify, `marked`, and Mermaid from jsDelivr at preview time. Vendor those
-libraries separately when offline operation is required; do not relax the CSP
-or remove sanitization to make untrusted content render.
+The scaffold fetches pinned DOMPurify, `marked`, and Mermaid from jsDelivr at
+preview time. If the page must work offline, vendor those libraries. Never relax
+the CSP or remove sanitization to make content render.

@@ -6,8 +6,8 @@ description: Use when automating or testing TUI/CLI applications - provides isol
 # TUI Puppeteering
 
 <required>
-**CRITICAL**: Use ONLY the bundled scripts in `{{skills_dir}}/tui-puppeteering-with-tmux/` to interact with tmux.
-Direct tmux commands risk destroying user sessions. The bundled scripts enforce isolation automatically.
+**CRITICAL**: Interact with tmux ONLY through the bundled scripts in `{{skills_dir}}/tui-puppeteering-with-tmux/`.
+The scripts use an isolated socket. Direct tmux commands can destroy my sessions.
 </required>
 
 ## Workflow
@@ -21,13 +21,9 @@ Add to update tasks before ANY interaction:
 4. Cleanup with `tui-stop`
 </required>
 
-## Test Plan (Mandatory)
+## Test Plan
 
-Before running any commands, output a plan block:
-
-<bad-example>
-"Let me try pressing enter then quiting"
-</bad-example>
+Before you run any command, write a one-line plan with each input and its expected screen:
 
 <good-example>
 **Plan:** Start `./my-app`, expect "Welcome". Press Enter, expect "Menu". Press 'q' to exit.
@@ -35,7 +31,7 @@ Before running any commands, output a plan block:
 
 ## Scripts
 
-All scripts use hardcoded socket `nori-agent-sock` for isolation.
+Every script uses the socket `nori-agent-sock`.
 
 ### tui-start
 
@@ -43,7 +39,7 @@ All scripts use hardcoded socket `nori-agent-sock` for isolation.
 {{skills_dir}}/tui-puppeteering-with-tmux/tui-start <session-name> "<command>"
 ```
 
-Creates isolated session with 120x40 geometry, runs command, disables status bar.
+Starts a 120x40 session with no status bar and runs the command.
 
 ### tui-assert
 
@@ -55,11 +51,7 @@ Creates isolated session with 120x40 geometry, runs command, disables status bar
 {{skills_dir}}/tui-puppeteering-with-tmux/tui-assert <session> -E "<pattern>" [timeout]
 ```
 
-Default timeout: 5s. On failure, writes `<session>_failure.log`.
-
-<bad-example>
-`sleep 2`  # Never blindly sleep
-</bad-example>
+Default timeout is 5s. On failure it writes `<session>_failure.log`. Wait with `tui-assert`, never with a blind `sleep`:
 
 <good-example>
 `tui-assert "mytest" "Ready>" 10`
@@ -77,26 +69,16 @@ Default timeout: 5s. On failure, writes `<session>_failure.log`.
 {{skills_dir}}/tui-puppeteering-with-tmux/tui-send <session> --keys "C-c"
 ```
 
-Use `--keys` for: Enter, Escape, Tab, Space, BSpace, Up, Down, Left, Right, C-a to C-z, F1-F12.
+Use `--keys` for Enter, Escape, Tab, Space, BSpace, Up, Down, Left, Right, C-a to C-z, and F1-F12.
 
-<warning>
-**Escape key timing**: Sending `Escape` immediately followed by another key may be interpreted as Alt+key.
+After `Escape`, wait 0.2s before the next key. Otherwise the TUI can read the pair as Alt+key:
 ```bash
-# BAD: May become Alt+j
-$SCRIPTS/tui-send "$SESSION" --keys "Escape"
-$SCRIPTS/tui-send "$SESSION" --keys "j"
-
-# GOOD: Add delay after Escape
 $SCRIPTS/tui-send "$SESSION" --keys "Escape"
 sleep 0.2
 $SCRIPTS/tui-send "$SESSION" --keys "j"
 ```
-</warning>
 
-NOTE: sometimes you may need to send Enter twice for a TUI to accept the
-submission, often with Nori CLI and Codex CLI.
-If you are waiting on prompt submission, or the target TUI is stuck, or doesn't
-seem working after you pressed enter, you *MUST* try sending Enter twice!
+If a prompt does not submit after Enter, send Enter a second time. Nori CLI and Codex CLI often need two.
 
 ### tui-capture
 
@@ -104,9 +86,7 @@ seem working after you pressed enter, you *MUST* try sending Enter twice!
 {{skills_dir}}/tui-puppeteering-with-tmux/tui-capture <session>
 ```
 
-Returns current screen content. Use for debugging mid-flow.
-
-**Optional flags** (rarely needed):
+Prints the visible screen. Use it to debug mid-flow. Default to no flags. Add a flag only for its case:
 
 | Flag | Use Case |
 |------|----------|
@@ -114,24 +94,17 @@ Returns current screen content. Use for debugging mid-flow.
 | `-S N` | Include N lines of scrollback history |
 | `-a` | Capture inactive buffer instead of active |
 
-<warning>
-These flags are rarely needed. The default captures what the user sees.
-- `-e`: Only if explicitly testing colors
-- `-S`: Only if output scrolled off screen
-- `-a`: Only if app uses altscreen AND you need the hidden buffer
-</warning>
-
 ### tui-stop
 
 ```bash
 {{skills_dir}}/tui-puppeteering-with-tmux/tui-stop <session>
 ```
 
-Kills session and cleans up. **Always call when done, even on failure.**
+Kills the session and cleans up. **Always call it when done, even on failure.**
 
 ### tmux-isolated
 
-For any direct tmux commands (cleanup, advanced usage):
+For any other tmux command, use the isolated wrapper:
 
 ```bash
 {{skills_dir}}/tui-puppeteering-with-tmux/tmux-isolated <tmux-args>
@@ -160,26 +133,11 @@ $SCRIPTS/tui-assert "$SESSION" "Response:" 10
 $SCRIPTS/tui-stop "$SESSION"
 ```
 
-## Debugging Failures
-
-On assertion failure, check the auto-generated log:
-
-```bash
-cat <session-name>_failure.log
-```
-
-For manual inspection mid-test:
-
-```bash
-$SCRIPTS/tui-capture "$SESSION"
-```
+If an assertion fails, read `<session-name>_failure.log`.
 
 ## Safety
 
-<warning>
-**NEVER** use `tmux kill-server` without the isolated socket—it destroys ALL user sessions.
-Only use `tui-stop` or `tmux-isolated kill-session -t <session>`.
-</warning>
+**NEVER** run `tmux kill-server` without the isolated socket. It destroys ALL my sessions. To end a session, use `tui-stop` or `tmux-isolated kill-session -t <session>`.
 
 ## Verification
 

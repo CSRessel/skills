@@ -1,25 +1,25 @@
 # Build an architecture together
 
-Treat the map as a design conversation, not a claim about existing code. Start
-from what I have already told you. Establish the system's purpose, users, key
-requests, and constraints before selecting components.
+The map is a proposal, not a claim about existing code. Build on what I have
+already said. Settle purpose, users, key requests, and constraints before
+picking components.
 
-Ask one question at a time, recommend an answer with its tradeoff, and resolve
-dependent decisions first. Investigate questions existing code can answer. For a
-greenfield project, make assumptions explicit instead of inventing source paths.
+Ask one question at a time, with a recommended answer and its tradeoff. Settle
+dependent decisions first. Read existing code instead of asking what it can
+tell you. For greenfield work, state assumptions; never invent source paths.
 
-Sketch the smallest useful arrangement: responsibilities, state ownership,
-boundaries, and the main relationships. Where a consequential choice remains,
-show a small number of alternatives and ask me to choose before elaborating it.
+Sketch the smallest useful design: responsibilities, state ownership,
+boundaries, main relationships. For an open, consequential choice, show a few
+alternatives and wait for my pick.
 
-If no map exists, copy `assets/starter/` into a working map directory once there
-is enough agreement to sketch. Adapt its data; leave `files` empty for proposed
-components without source. Use the project name as the title and label the view
-as proposed in its subtitle. Keep existing and proposed parts distinguishable.
+Once we agree enough to sketch, copy `assets/starter/` if no map exists. Leave
+`files` empty for proposed components. Title it with the project name, mark it
+"proposed" in the subtitle, and keep existing and proposed parts visibly
+different.
 
-Walk a representative request or event through the design, then examine relevant
-failure, retry, and recovery behavior. Revise the same map as decisions settle;
-put unresolved questions in the affected component's explanation.
+Walk one request or event through the design, then its failure, retry, and
+recovery paths. Update the same map as decisions settle. Put open questions in
+the affected component's explanation.
 
-Finish with the agreed map, key tradeoffs, and remaining decisions. Do not turn
-agreement on a diagram into permission to implement the system.
+Finish with the map, key tradeoffs, and open decisions. Never implement the
+system unless I ask.

@@ -1,31 +1,29 @@
 # Customize the visuals
 
-Start with the requested change. If it is vague, ask what should be easier to
-understand or what visual reference I prefer. Preserve the mapped facts.
+Make the change I asked for. If it is vague, ask what should be easier to
+understand. Never change the mapped facts.
 
-## Spatial judgment
+## Layout
 
-Make proximity mean something: cluster closely related parts, separate real
-boundaries, and leave room for connections. Regions are not automatically
-machines or processes; say what they group. For a full-stack request path,
-actors/clients → edge/API → services → processing → storage is a useful reading
-direction, not a reason to turn shared state or feedback loops into a pipeline.
+Put related parts close together and leave room for connections. A region is a
+group, not necessarily a machine or process; label what it groups. Request paths
+read actors → API → services → processing → storage, but do not force shared
+state or feedback loops into a pipeline.
 
-Use boxes by default, dashed floor regions for groups, a user bust for an actor,
-cylinders for stores, and stacks for queues, streams, or stacked units. Introduce
-other conventions only when requested. Keep sparse maps close enough to read;
-use tighter clusters as the count grows. Avoid routes that appear to pass through
-an unrelated component.
+Default shapes: box for components, dashed floor region for groups, user bust
+for actors, cylinder for stores, stack for queues and streams. Use others only
+if I ask. Keep sparse maps compact and tighten clusters as they grow. Never
+route a line through an unrelated component.
 
-## Make the smallest edit
+## Smallest edit
 
-- Change coordinates, dimensions, shapes, and regions in the copied `data.js`.
-- Choose `paper`, `carbon`, or `cyanotype` with `theme`. A saved browser choice
-  overrides this default. Start monochromatic; add colors only when requested.
-- Use `style.css` for appearance and `map.js` for rendering or interaction changes.
-  Check the existing schema before adding data fields; unsupported fields do nothing.
+- Layout and shapes: the copied `data.js`.
+- Theme: `theme` = `paper`, `carbon`, or `cyanotype`. A saved browser choice
+  overrides it. Stay monochrome unless I ask for color.
+- Appearance: `style.css`. Rendering and interaction: `map.js`. Check the
+  schema before adding a data field; unknown fields do nothing.
 
-Keep floor lines in perspective, shaded faces opaque over hidden connections,
-and selection distinct. Preserve pan/pinch, deselection, flow focus, and readable
-nameplates. Inspect the affected desktop/mobile states when browser tools exist;
-do not add a control panel or theme system for a small adjustment.
+Keep floor lines in perspective, shaded faces opaque, and selection distinct.
+Keep pan, pinch, deselection, flow focus, and readable nameplates working.
+Check desktop and mobile if browser tools exist. Never add a control panel or
+theme system for a small change.

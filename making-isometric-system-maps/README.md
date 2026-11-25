@@ -50,8 +50,8 @@ No package installation or build is needed.
 
 ## Optional guides
 
-The core workflow stays short. Load only the guide that matches the task, reusing
-existing answers and map files rather than restarting the creation workflow.
+The core workflow stays short. Load only the guide that matches the task. Reuse
+existing answers and map files instead of restarting the creation workflow.
 
 - [Customize the visuals](references/customize-visuals.md): spatial judgment, layout, styling, and controls.
 - [Explain big changes](references/explain-changes.md): source-grounded comparisons with stable framing.

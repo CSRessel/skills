@@ -1,24 +1,23 @@
 # Explain big changes
 
-Establish what is changing and for whom: a PR, two revisions, a working-tree diff,
-or a proposed design. Ask for missing comparison endpoints rather than inventing
-them. Read the relevant source on both sides, not only the diff; delegate
-independent subsystem research when useful.
+Pin down the comparison and its audience: a PR, two revisions, a working-tree
+diff, or a proposal. If an endpoint is missing, ask; never invent one. Read the
+source on both sides, not just the diff.
 
-Identify the architectural change: moved responsibility, new boundary, changed
-state ownership, dependency, execution path, or failure behavior. Omit unrelated
-implementation churn.
+Name the architectural change: moved responsibility, new boundary, changed state
+ownership, dependency, execution path, or failure behavior. Skip unrelated
+churn.
 
-Reuse an existing map when available. For before/after views, keep unchanged
-components in the same positions with stable identifiers and comparable framing.
-Make additions, removals, and rerouted relationships explicit in labels or a small
-legend; do not rely on color alone. Distinguish deployed behavior from a proposal
-and any temporary migration state. Do not invent a deployment sequence from a diff.
+Reuse an existing map. In before/after views, keep unchanged components in the
+same place with the same IDs and framing. Mark additions, removals, and
+rerouted links with labels or a legend, not color alone. Separate deployed
+behavior, proposals, and migration states. Never infer a deployment sequence
+from a diff.
 
-Walk through one affected path and its consequences, including important feedback
-or failure paths. A trace is an explanation order, not evidence of synchronous
-execution. Include useful source paths and the compared revisions.
+Walk one affected path, including key feedback or failure paths. Trace order is
+explanation order, not proof of synchronous execution. Cite source paths and
+the compared revisions.
 
-Deliver the map with a short account of what changed and why it matters. Creating
-the explanation does not authorize implementing the underlying change. Read the
-[screenshot guide](capture-screenshots.md) only if images are also requested.
+Deliver the map with a short summary of what changed and why it matters. Never
+implement the change unless I ask. Read the
+[screenshot guide](capture-screenshots.md) only if I want images.

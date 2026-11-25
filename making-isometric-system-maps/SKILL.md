@@ -17,7 +17,7 @@ For a new map, add these steps to your task list:
 </required>
 
 For an extension, read only the matching guide below. Reuse existing answers
-and map files; do not restart the creation workflow.
+and map files. Do not restart the creation workflow.
 
 ## 1. Announce
 

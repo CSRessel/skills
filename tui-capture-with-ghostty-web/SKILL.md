@@ -11,36 +11,29 @@ description: Use when capturing reviewable PNG and plain-text artifacts from a T
 4. Reach the target state with `tui-send`, then prove it with `tui-assert` before capturing.
 5. Run `scripts/capture-session` to save `screen.txt`, `screen.ansi`, `screen.png`, and `metadata.json` together.
 6. Inspect the PNG visually and compare it with `screen.txt`; correct clipped, shifted, stale, or incorrect captures.
-7. Stop every session created for the task with `tui-stop`. Do not stop user-owned or pre-existing sessions.
+7. Stop every session you created with `tui-stop`. Never stop sessions you did not create.
 </required>
 
 ## Boundary
 
-Treat tmux as the sole source of terminal state and keyboard input. Ghostty Web is only the pinned reference renderer for the ANSI screen returned by `tui-capture -e`. It does not launch a shell, send input, own a PTY, or claim pixel parity with a native Ghostty window.
+tmux owns all terminal state and keyboard input. Ghostty Web only renders the ANSI screen from `tui-capture -e`. It sends no input, owns no PTY, and does not match a native Ghostty window pixel for pixel.
 
-This skill intentionally uses:
+The renderer pins `coder/ghostty-web` 0.4.0 and Playwright Core 1.60.0, drives an installed Chrome or Chromium headlessly, and uses a fixed Nori dark palette at device scale factor 1.
 
-- `coder/ghostty-web` 0.4.0 for Ghostty's WASM VT parser and canvas renderer.
-- Playwright Core 1.60.0 to drive an installed Chrome or Chromium in headless mode.
-- A fixed Nori dark palette, device scale factor 1, and explicit terminal grid.
-
-Set `GHOSTTY_WEB_CHROME` only when Chrome is installed outside the script's known macOS/Linux locations.
-The renderer installs the pinned Bun dependencies from `bun.lock` on first use
-when `node_modules` is absent. `capture-session` prefers a sibling
-`tui-puppeteering-with-tmux` package; set `TUI_PUPPETEERING_DIR` only when that
-companion skill lives elsewhere.
+- On first use, the renderer installs its pinned Bun dependencies from `bun.lock`.
+- If Chrome is outside the script's known macOS and Linux locations, set `GHOSTTY_WEB_CHROME`.
+- `capture-session` looks for a sibling `tui-puppeteering-with-tmux`. If that skill lives elsewhere, set `TUI_PUPPETEERING_DIR`.
 
 ## Capture workflow
 
-Start one isolated session. `tui-start` begins at its safe default 120×40; the
-capture wrapper resizes through `tmux-isolated` when another grid is requested:
+Start one isolated session. `tui-start` opens at 120×40. If you pass another grid, the capture wrapper resizes the session:
 
 ```bash
 TUI={{skills_dir}}/tui-puppeteering-with-tmux
 $TUI/tui-start capture-example 'env -u NO_COLOR COLORTERM=truecolor your-command'
 ```
 
-Drive one semantic action at a time and assert the destination:
+Send one action at a time. Assert the result of each:
 
 ```bash
 $TUI/tui-send capture-example /
@@ -56,10 +49,7 @@ Capture all artifacts in one operation:
   --cols 120 --rows 40 --expect 'Search' --require-color
 ```
 
-The artifact directory must be absent or empty. The wrapper renders into a
-temporary sibling directory and publishes the complete four-file capture only
-after every assertion and quality gate succeeds, so failed recaptures do not
-mix old and new artifacts.
+Pass an artifact directory that is absent or empty. The wrapper writes the four files only after every assertion and quality gate passes. A failed capture leaves no files.
 
 The wrapper writes:
 
@@ -68,7 +58,7 @@ The wrapper writes:
 - `screen.png`: the Ghostty Web reference rendering.
 - `metadata.json`: grid, pixel dimensions, file size, renderer version, and SHA-256.
 
-Use `scripts/render-ansi.ts` directly only when re-rendering an existing ANSI artifact:
+To re-render an existing ANSI file, run `scripts/render-ansi.ts` directly:
 
 ```bash
 bun {{skills_dir}}/tui-capture-with-ghostty-web/scripts/render-ansi.ts \
@@ -89,14 +79,14 @@ Reject and recapture when any of these are true:
 - `screen.txt` contains secrets, credentials, or unrelated private content;
 - the image is technically valid but does not clearly demonstrate the named feature.
 
-For inventories with several captures, give each worker a separate session and artifact directory. Provide the worker the template in `references/capture-brief.md`; review every returned PNG and text artifact before accepting it.
+For an inventory of several captures, give each worker its own session and artifact directory. Hand each worker the template in `references/capture-brief.md`. Review every returned PNG and text file before you accept it.
 
 ## Maintenance
 
-Run the renderer tests after changing the harness, theme, dependency pins, geometry, bootstrap behavior, or CLI contract:
+If you change the harness, theme, dependency pins, geometry, bootstrap, or CLI contract, run the renderer tests:
 
 ```bash
 cd {{skills_dir}}/tui-capture-with-ghostty-web && bun test
 ```
 
-Keep Ghostty Web pinned. Updating either renderer dependency changes the visual reference and requires explicit approval plus regenerated baseline artifacts.
+Keep both renderer dependencies pinned. If you update either, REQUIRE my approval and regenerate the baseline artifacts. An update changes the visual reference.

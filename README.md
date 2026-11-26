@@ -15,8 +15,9 @@ Captures below for the quick concept.
 | **[tui-capture-with-ghostty-web](tui-capture-with-ghostty-web/SKILL.md)**<br><br>Capture a tmux-driven TUI as paired plain-text and Ghostty Web PNG artifacts, for visual QA, documentation, and screenshot regression evidence. Every capture writes `screen.txt`, `screen.ansi`, `screen.png`, and a `metadata.json` carrying the grid, the pinned renderer version, and a PNG checksum.<br><br>*Shown: `bat` rendering this repo's own `sloc.py`, captured at 120×40 by `ghostty-web@0.4.0`. The [paired text](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.txt) is committed beside it.* | [<img src="tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png" alt="A Ghostty Web render of bat displaying syntax-highlighted Python source with line numbers and a file header" width="460">](tui-capture-with-ghostty-web/screenshots/bat-sloc-render.png) |
 
 Each skill's code and instructions live under its own directory. Every HTML
-surface above shares one palette in two variants — black on warm paper drawn in
-charcoal, and white on black drawn in green — documented in [THEME](THEME.md).
+surface above shares one set of theme tokens. The default is a light and dark
+pair that follows the OS setting; warm `paper` and green `carbon` remain as
+overrides. See [THEME](THEME.md).
 
 ## License and provenance
 

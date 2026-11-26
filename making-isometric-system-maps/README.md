@@ -33,11 +33,11 @@ Click any screenshot to view the original.
 
 | Moment | Desktop | Mobile |
 | --- | --- | --- |
-| **Overview**<br>The entire map. | [<img src="screenshots/kubernetes/desktop-overview.png" alt="Desktop overview of the Kubernetes system map in the paper theme" width="640">](screenshots/kubernetes/desktop-overview.png) | [<img src="screenshots/kubernetes/mobile-overview.png" alt="Mobile overview of the Kubernetes system map, including the stacked explainer" width="180">](screenshots/kubernetes/mobile-overview.png) |
+| **Overview**<br>The entire map. | [<img src="screenshots/kubernetes/desktop-overview.png" alt="Desktop overview of the Kubernetes system map in the Carbon Light theme" width="640">](screenshots/kubernetes/desktop-overview.png) | [<img src="screenshots/kubernetes/mobile-overview.png" alt="Mobile overview of the Kubernetes system map, including the stacked explainer" width="180">](screenshots/kubernetes/mobile-overview.png) |
 | **Selection**<br>kube-apiserver and all its incident relationships. | [<img src="screenshots/kubernetes/desktop-selected.png" alt="Desktop map with kube-apiserver selected and its incident relationships highlighted" width="640">](screenshots/kubernetes/desktop-selected.png) | [<img src="screenshots/kubernetes/mobile-selected.png" alt="Mobile map with kube-apiserver selected and its explanation below" width="180">](screenshots/kubernetes/mobile-selected.png) |
 | **Flow trace**<br>External CNI plugin → node dataplane B, with automatic zoom and an explainer. | [<img src="screenshots/kubernetes/desktop-flow.png" alt="Desktop Kubernetes flow trace at step 12 of 24: external CNI plugin configures node dataplane B, with automatic zoom and an explainer" width="640">](screenshots/kubernetes/desktop-flow.png) | [<img src="screenshots/kubernetes/mobile-flow.png" alt="Mobile Kubernetes flow trace at step 12 of 24: external CNI plugin configures node dataplane B, with automatic zoom and the explainer below" width="180">](screenshots/kubernetes/mobile-flow.png) |
 
-Real, unretouched browser captures in the paper theme. Desktop uses a
+Real, unretouched browser captures in the Carbon Light theme. Desktop uses a
 1600 × 1000 viewport; mobile uses 430 × 932 touch emulation. Both use device
 pixel ratio 2. Mobile captures include the full page so the stacked explainer
 remains visible.

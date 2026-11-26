@@ -1,0 +1,21 @@
+{
+  "title": "Redis · SET foo bar",
+  "subtitle": "whole-target mode · redis 7.4.1 @ 74b289a · 175,383 SLOC across 547 files",
+  "legend": [
+    {"symbol": "⬚", "text": "dashed box = source file / module"},
+    {"symbol": "→", "text": "solid arrow = main data flow"},
+    {"symbol": "⇢", "text": "dotted arrow = leaves the process"}
+  ],
+  "diagrams": [
+    {
+      "title": "The hot path, end to end",
+      "file": "block.mmd",
+      "note": "One command, from the kernel marking the socket readable to the +OK going back out. Redis is single-threaded by default (io-threads 1), so every box here runs on the same thread — the reply is not written during the command, but later, in beforeSleep."
+    },
+    {
+      "title": "One SET, step by step",
+      "file": "sequence.mmd",
+      "note": "The same path as a timeline. Note steps 18–20: the AOF flush and the socket write both happen back in the event loop, after the command has already returned."
+    }
+  ]
+}

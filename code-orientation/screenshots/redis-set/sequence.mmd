@@ -1,0 +1,41 @@
+sequenceDiagram
+  autonumber
+  box transparent client
+    participant CLI as redis-cli
+  end
+  box transparent src/ae.c · src/socket.c
+    participant EL as event loop
+  end
+  box transparent src/networking.c
+    participant NET as networking
+  end
+  box transparent src/server.c
+    participant SRV as dispatch
+  end
+  box transparent src/t_string.c · src/db.c · src/kvstore.c · src/dict.c
+    participant KS as keyspace
+  end
+  box transparent src/aof.c · src/replication.c
+    participant DUR as durability
+  end
+
+  CLI->>EL: SET foo bar (RESP multibulk)
+  EL->>EL: aeApiPoll marks the client fd readable
+  EL->>NET: readQueryFromClient → c->querybuf
+  NET->>NET: processInputBuffer → processMultibulkBuffer
+  NET->>SRV: processCommandAndResetClient → processCommand
+  SRV->>SRV: lookupCommand("set")
+  SRV->>KS: call() → setCommand → setGenericCommand
+  KS->>KS: lookupKeyWrite → expireIfNeeded
+  KS->>KS: setKey → dbAdd → kvstoreDictAddRaw → dictAddRaw
+  KS->>KS: signalModifiedKey → touchWatchedKey
+  KS->>KS: notifyKeyspaceEvent("set")
+  KS->>NET: addReply(shared.ok) → clients_pending_write
+  KS-->>SRV: return to call()
+  SRV->>SRV: alsoPropagate(SET) → server.also_propagate
+  SRV->>DUR: afterCommand → propagatePendingCommands → feedAppendOnlyFile
+  SRV->>DUR: replicationFeedSlaves → repl backlog + replicas
+  SRV-->>EL: return — the loop iteration ends in beforeSleep
+  EL->>DUR: flushAppendOnlyFile → write(appendonly.aof)
+  EL->>NET: handleClientsWithPendingWrites → writeToClient
+  NET-->>CLI: +OK

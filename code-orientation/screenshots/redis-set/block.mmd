@@ -1,0 +1,53 @@
+flowchart LR
+  subgraph AE["src/ae.c · loop head"]
+    MAIN["aeMain<br/>aeProcessEvents"] --> POLL["aeApiPoll<br/>kqueue / epoll"]
+  end
+  subgraph NET["src/networking.c · read + parse"]
+    RQ["readQueryFromClient<br/>→ c->querybuf"] --> PIB["processInputBuffer<br/>processMultibulkBuffer"]
+  end
+  subgraph SRV["src/server.c · dispatch"]
+    PC["processCommand<br/>lookupCommand"] --> CALL["call()"]
+    PROP["alsoPropagate<br/>propagatePendingCommands"]
+  end
+  subgraph STR["src/t_string.c"]
+    SET["setCommand<br/>setGenericCommand"]
+  end
+  subgraph DB["src/db.c → src/kvstore.c → src/dict.c"]
+    LKW["lookupKeyWrite<br/>expireIfNeeded"] --> SK["setKey<br/>dbAdd / dbSetValue"] --> KV["kvstoreDictAddRaw<br/>slot → dict"] --> DICT[("dictAddRaw<br/>hash table")]
+  end
+  subgraph BUF["in-memory buffers"]
+    REPLY["addReply<br/>networking.c"]
+    AOFBUF["server.aof_buf<br/>aof.c"]
+    BACKLOG["repl backlog<br/>replication.c"]
+  end
+  subgraph BS["src/ae.c · end of the same loop iteration"]
+    BSL["beforeSleep"]
+  end
+  subgraph FL["flush"]
+    HC["handleClientsWithPendingWrites<br/>writeToClient · networking.c"]
+    FAOF["flushAppendOnlyFile<br/>aof.c"]
+  end
+  subgraph EXT["external"]
+    SOCK["client socket<br/>+OK"]
+    AOFF[("appendonly.aof")]
+    REPS["replicas"]
+  end
+
+  POLL --> RQ
+  PIB --> PC
+  CALL --> SET
+  SET --> LKW
+  SET --> REPLY
+  CALL --> PROP
+  PROP --> AOFBUF
+  PROP --> BACKLOG
+  REPLY -->|clients_pending_write| BSL
+  AOFBUF --> BSL
+  BSL --> HC
+  BSL --> FAOF
+  HC -.-> SOCK
+  FAOF -.-> AOFF
+  BACKLOG -.-> REPS
+
+  classDef dash stroke-dasharray:5 4,stroke-width:1.5px;
+  class AE,NET,SRV,STR,DB,BUF,BS,FL,EXT dash

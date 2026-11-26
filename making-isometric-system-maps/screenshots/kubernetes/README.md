@@ -48,7 +48,7 @@ healthy backend.
 2. Copy [example.css](example.css) beside `style.css`. In the copied `index.html`,
    add `<link rel="stylesheet" href="example.css">` immediately after the
    `style.css` link. Serve that directory over HTTP; no install or build is needed.
-3. Choose **Drafting Paper**. Capture the initial fitted overview, select
+3. Choose **Carbon Light**. Capture the initial fitted overview, select
    **kube-apiserver**, then clear the selection and advance **Trace flow** to its
    midpoint, **12/24**: external CNI plugin → node dataplane B
    (`program-network-b`). Wait for the camera transition before capturing.

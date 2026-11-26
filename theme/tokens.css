@@ -1,0 +1,55 @@
+/* Default: light and dark follow the OS setting; data-theme pins one. */
+:root {
+  color-scheme: light dark;
+  --canvas: light-dark(#f2f4f8, #161616);
+  --panel: light-dark(#ffffff, #1c1c1c);
+  --raised: light-dark(#e8ebf0, #262626);
+  --rule: light-dark(#dde1e6, #393939);
+  --ink: light-dark(#393939, #dde1e6);
+  --muted-ink: light-dark(#525252, #8a8f98);
+  --faint: light-dark(#8a8f98, #525252);
+  --accent: light-dark(#198038, #42be65);
+  --accent-ink: light-dark(#ffffff, #161616);
+  --draw: light-dark(#697077, #697077);
+  --draw-strong: light-dark(#198038, #6fdc8c);
+  --edge: light-dark(#4d5358, #a2a9b0);
+  --danger: light-dark(#da1e28, #f47067);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* Override: black on warm paper, drawn in charcoal. */
+:root[data-theme="paper"] {
+  color-scheme: light;
+  --canvas: #ece6d8;
+  --panel: #e7e0d0;
+  --raised: #d9d1bf;
+  --rule: #b7ad99;
+  --ink: #1f1c18;
+  --muted-ink: #5a564f;
+  --faint: #a09c94;
+  --accent: #26231e;
+  --accent-ink: #f4efe3;
+  --draw: #6d6a64;
+  --draw-strong: #1f1c18;
+  --edge: #6b6660;
+  --danger: #da1e28;
+}
+
+/* Override: white on black, drawn in green. */
+:root[data-theme="carbon"] {
+  color-scheme: dark;
+  --canvas: #161616;
+  --panel: #1c1c1c;
+  --raised: #262626;
+  --rule: #393939;
+  --ink: #dde1e6;
+  --muted-ink: #8a8f98;
+  --faint: #4a4a4a;
+  --accent: #42be65;
+  --accent-ink: #0e0e0e;
+  --draw: #3f9e59;
+  --draw-strong: #7bf2a4;
+  --edge: #b9bec4;
+  --danger: #f47067;
+}

@@ -1,64 +1,75 @@
 # Theme
 
-Every HTML surface in this repository — the isometric system map, the code
-orientation viewer, and the rendered HTML plan — uses one palette in two
-variants, with one set of token names.
+Every HTML surface in this repository uses one set of token names: the code
+orientation viewer, the rendered HTML plan, the isometric system map, and the
+swipe-card review deck.
 
-Each variant is **dichromatic**: one background, one foreground, and one
-spectrum that the whole drawing is stated in. Nothing introduces a third hue.
-`--accent` is the brightest step of that same spectrum, never a contrasting
-colour.
+## Themes
 
-- **`paper`** — black on warm paper, drawn in charcoal. Light. No coloured
-  accent at all: emphasis is a matter of how strongly the charcoal is stated.
-  Links therefore carry an underline, because colour alone cannot mark them.
-- **`carbon`** — white on black, drawn in green. Dark. Descended from IBM
-  Carbon, so it matches the terminal palette that
-  `tui-capture-with-ghostty-web` renders with.
+- **`light` / `dark`** (the default): the swipe-card review palette, built on
+  IBM Carbon's cool greys. White or near-black sheets on a grey canvas, grey
+  ink, and green only where something is active or emphasised. The page
+  follows the OS setting until a reader pins a theme.
+- **`paper`** (override): black on warm paper, drawn in charcoal. No coloured
+  accent; emphasis comes from how strongly the charcoal is stated, so links
+  carry an underline.
+- **`carbon`** (override): white on black, drawn in green. It matches the
+  terminal palette that `tui-capture-with-ghostty-web` renders with.
+
+Pin a theme with `data-theme="light|dark|paper|carbon"` on `<html>`. The viewer
+and plan accept `?theme=`, and the map has a theme picker.
 
 ## Tokens
 
-| Token | Role | `paper` | `carbon` |
-| --- | --- | --- | --- |
-| `--canvas` | the page, the drawing surface, the sheet | `#ece6d8` | `#161616` |
-| `--panel` | flanking chrome: nav, toolbars, diagram frames | `#e7e0d0` | `#1c1c1c` |
-| `--raised` | insets inside a panel: code, table heads, hover | `#d9d1bf` | `#262626` |
-| `--rule` | hairlines, borders, dividers | `#b7ad99` | `#393939` |
-| `--ink` | body text, headings | `#1f1c18` | `#dde1e6` |
-| `--muted-ink` | labels, secondary text, captions | `#5a564f` | `#8a8f98` |
-| `--faint` | de-emphasised strokes | `#a09c94` | `#4a4a4a` |
-| `--accent` | active state, links, the one pointer | `#26231e` | `#42be65` |
-| `--accent-ink` | text on a solid `--accent` fill | `#f4efe3` | `#0e0e0e` |
-| `--draw` | ordinary drawing stroke | `#6d6a64` | `#3f9e59` |
-| `--draw-strong` | the emphasised stroke | `#1f1c18` | `#7bf2a4` |
-| `--edge` | connector between drawn units | `#6b6660` | `#b9bec4` |
-| `--danger` | errors and refusals — the one functional exception | `#da1e28` | `#f47067` |
+[`theme/tokens.css`](theme/tokens.css) is the source of truth. The default
+pair uses CSS `light-dark()`, so one block serves both modes.
 
-`making-isometric-system-maps` additionally defines `--grid-line`,
-`--zone-line`, `--plate` and `--plate-ink` for the drafting grid and the
-nameplates, and ships a third `cyanotype` variant. Those are specific to the
-isometric drawing and are not part of the shared set.
+| Token | Role | `light` | `dark` | `paper` | `carbon` |
+| --- | --- | --- | --- | --- | --- |
+| `--canvas` | the page, the drawing surface | `#f2f4f8` | `#161616` | `#ece6d8` | `#161616` |
+| `--panel` | sheets and flanking chrome | `#ffffff` | `#1c1c1c` | `#e7e0d0` | `#1c1c1c` |
+| `--raised` | insets: code, table heads, hover | `#e8ebf0` | `#262626` | `#d9d1bf` | `#262626` |
+| `--rule` | hairlines, borders, dividers | `#dde1e6` | `#393939` | `#b7ad99` | `#393939` |
+| `--ink` | body text, headings | `#393939` | `#dde1e6` | `#1f1c18` | `#dde1e6` |
+| `--muted-ink` | labels, captions | `#525252` | `#8a8f98` | `#5a564f` | `#8a8f98` |
+| `--faint` | de-emphasised text and strokes | `#8a8f98` | `#525252` | `#a09c94` | `#4a4a4a` |
+| `--accent` | active state, links, the one pointer | `#198038` | `#42be65` | `#26231e` | `#42be65` |
+| `--accent-ink` | text on a solid `--accent` fill | `#ffffff` | `#161616` | `#f4efe3` | `#0e0e0e` |
+| `--draw` | ordinary drawing stroke | `#697077` | `#697077` | `#6d6a64` | `#3f9e59` |
+| `--draw-strong` | the emphasised stroke | `#198038` | `#6fdc8c` | `#1f1c18` | `#7bf2a4` |
+| `--edge` | connector between drawn units | `#4d5358` | `#a2a9b0` | `#6b6660` | `#b9bec4` |
+| `--danger` | errors and refusals | `#da1e28` | `#f47067` | `#da1e28` | `#f47067` |
 
-## Print
+`light` uses `#198038` for `--accent` because it is text-safe on white. The
+deck's brighter `#24a148` button fill is a deck-only token.
 
-Print is neither variant. Charcoal on warm paper wastes ink and carbon is
-unprintable, so the plan scaffold falls back to black on white for
-`@media print`. Those greys are print-only and are not part of either variant.
+Surface-only tokens sit beside the shared block, never inside it:
+
+- **The map:** `--grid-line`, `--zone-line`, `--plate`, `--plate-ink`, and a
+  fifth `cyanotype` theme.
+- **The deck:** its fills, tints, and shadow.
 
 ## Mermaid
 
-Diagram rendering is theme-mapped, not left to Mermaid's built-in `default`
-and `dark` themes. Both viewers initialise Mermaid with `theme: 'base'` and a
-full variable set, so a diagram is drawn in charcoal under `paper` and in
-green under `carbon`. The two sets live beside each other in:
+Mermaid needs literal colours, so [`theme/mermaid.js`](theme/mermaid.js) holds
+one variable set per theme. It also holds `mermaidThemeVariables()`, which
+resolves the page's theme. Never use Mermaid's built-in `default` or `dark`
+themes; they impose their own hues.
 
-- `code-orientation/viewer/viewer.js`
-- `presenting-html-plans/assets/scaffold/app.mjs`
+## Print
 
-## Why the values are duplicated
+Print follows no theme. The plan scaffold prints black on white.
 
-Each of these asset directories is copied out and served standalone — a plan
-scaffold lands in `plans/<name>/`, a system map lands in the project being
-mapped. A shared stylesheet would not survive the copy. The values are
-therefore repeated in each surface, and this file is the reference they are
-checked against.
+## Changing a token
+
+Each asset directory is copied out and served on its own, so a shared
+stylesheet would not survive the copy. Each surface inlines the tokens between
+`theme:tokens` (or `theme:mermaid`) markers instead. Never edit those regions
+by hand:
+
+1. Edit `theme/tokens.css` or `theme/mermaid.js`.
+2. Run `node theme/sync.mjs` to rewrite every surface.
+3. Run `node theme/sync.mjs --check`. It fails when any surface has drifted.
+
+To theme a new surface, add the markers to it and list it in `SURFACES` in
+`theme/sync.mjs`.

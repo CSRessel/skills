@@ -5,7 +5,7 @@ const SHAPES = new Set([
   'box', 'slab', 'cylinder', 'stack', 'repeat', 'shards', 'user',
 ]);
 const EDGE_KINDS = new Set(['data', 'control', 'store']);
-export const THEMES = ['paper', 'carbon', 'cyanotype'];
+export const THEMES = ['light', 'dark', 'paper', 'carbon', 'cyanotype'];
 
 export const project = (x, y, z = 0) => [
   (x - y) * TILE_X,

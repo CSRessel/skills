@@ -112,6 +112,12 @@ test('rejects a dangling relationship before the map renders', () => {
   }
 });
 
+test('accepts every shipped theme and no theme at all', () => {
+  for (const theme of [undefined, 'light', 'dark', 'paper', 'carbon', 'cyanotype']) {
+    assert.doesNotThrow(() => validate({ ...validMap(), theme }));
+  }
+});
+
 test('rejects malformed map data at startup', () => {
   const cases = [
     [map => map.nodes.push({ ...map.nodes[0] }), /duplicate node id "a"/],

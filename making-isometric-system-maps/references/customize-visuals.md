@@ -18,8 +18,9 @@ route a line through an unrelated component.
 ## Smallest edit
 
 - Layout and shapes: the copied `data.js`.
-- Theme: `theme` = `paper`, `carbon`, or `cyanotype`. A saved browser choice
-  overrides it. Stay monochrome unless I ask for color.
+- Theme: omit `theme` to follow the OS light or dark setting, or set `light`,
+  `dark`, `paper`, `carbon`, or `cyanotype`. A saved browser choice overrides
+  it. Stay monochrome unless I ask for color.
 - Appearance: `style.css`. Rendering and interaction: `map.js`. Check the
   schema before adding a data field; unknown fields do nothing.
 

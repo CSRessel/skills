@@ -3,12 +3,31 @@
   --serif: 'Newsreader', Georgia, serif;
 }
 
-/* Every theme is dichromatic: one background, one foreground, and one spectrum
-   the whole drawing is stated in. Nothing introduces a third hue — --accent is
-   the brightest step of that same spectrum, never a contrasting colour. */
+/* Shared repo palette — see THEME.md. Light and dark follow the OS setting
+   unless a theme is pinned. */
+/* theme:tokens start — copied from theme/tokens.css by theme/sync.mjs */
+/* Default: light and dark follow the OS setting; data-theme pins one. */
+:root {
+  color-scheme: light dark;
+  --canvas: light-dark(#f2f4f8, #161616);
+  --panel: light-dark(#ffffff, #1c1c1c);
+  --raised: light-dark(#e8ebf0, #262626);
+  --rule: light-dark(#dde1e6, #393939);
+  --ink: light-dark(#393939, #dde1e6);
+  --muted-ink: light-dark(#525252, #8a8f98);
+  --faint: light-dark(#8a8f98, #525252);
+  --accent: light-dark(#198038, #42be65);
+  --accent-ink: light-dark(#ffffff, #161616);
+  --draw: light-dark(#697077, #697077);
+  --draw-strong: light-dark(#198038, #6fdc8c);
+  --edge: light-dark(#4d5358, #a2a9b0);
+  --danger: light-dark(#da1e28, #f47067);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 
-/* Black on warm paper, drawn in charcoal. */
-[data-theme='paper'] {
+/* Override: black on warm paper, drawn in charcoal. */
+:root[data-theme="paper"] {
   color-scheme: light;
   --canvas: #ece6d8;
   --panel: #e7e0d0;
@@ -19,17 +38,14 @@
   --faint: #a09c94;
   --accent: #26231e;
   --accent-ink: #f4efe3;
-  --grid-line: #ded7c8;
-  --zone-line: #8b8371;
   --draw: #6d6a64;
   --draw-strong: #1f1c18;
-  --plate: #2b2822;
-  --plate-ink: #f7f2e7;
   --edge: #6b6660;
+  --danger: #da1e28;
 }
 
-/* White on black, drawn in green. */
-[data-theme='carbon'] {
+/* Override: white on black, drawn in green. */
+:root[data-theme="carbon"] {
   color-scheme: dark;
   --canvas: #161616;
   --panel: #1c1c1c;
@@ -40,17 +56,36 @@
   --faint: #4a4a4a;
   --accent: #42be65;
   --accent-ink: #0e0e0e;
-  --grid-line: #242424;
-  --zone-line: #6f6f6f;
   --draw: #3f9e59;
   --draw-strong: #7bf2a4;
+  --edge: #b9bec4;
+  --danger: #f47067;
+}
+/* theme:tokens end */
+
+/* Drawing tokens only this map uses. */
+:root {
+  --grid-line: light-dark(#e3e7ec, #222222);
+  --zone-line: light-dark(#8a8f98, #697077);
+  --plate: light-dark(#393939, #393939);
+  --plate-ink: light-dark(#ffffff, #f2f4f8);
+}
+:root[data-theme='paper'] {
+  --grid-line: #ded7c8;
+  --zone-line: #8b8371;
+  --plate: #2b2822;
+  --plate-ink: #f7f2e7;
+}
+:root[data-theme='carbon'] {
+  --grid-line: #242424;
+  --zone-line: #6f6f6f;
   --plate: #0e0e0e;
   --plate-ink: #f2f4f8;
-  --edge: #b9bec4;
 }
 
 /* Grey on blue, drawn in silver. */
-[data-theme='cyanotype'] {
+/* Override only this map ships. */
+:root[data-theme='cyanotype'] {
   color-scheme: dark;
   --canvas: #0d3049;
   --panel: #113a54;

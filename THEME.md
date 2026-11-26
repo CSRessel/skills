@@ -6,14 +6,15 @@ swipe-card review deck.
 
 ## Themes
 
-- **`light` / `dark`** (the default): the swipe-card review palette, built on
+- **`light` / `dark`** (the default, shown as Carbon Light / Carbon Dark): the swipe-card review palette, built on
   IBM Carbon's cool greys. White or near-black sheets on a grey canvas, grey
   ink, and green only where something is active or emphasised. The page
   follows the OS setting until a reader pins a theme.
 - **`paper`** (override): black on warm paper, drawn in charcoal. No coloured
   accent; emphasis comes from how strongly the charcoal is stated, so links
   carry an underline.
-- **`carbon`** (override): white on black, drawn in green. It matches the
+- **`carbon`** (override, shown as Green Terminal): white on black, drawn in
+  green. It matches the
   terminal palette that `tui-capture-with-ghostty-web` renders with.
 
 Pin a theme with `data-theme="light|dark|paper|carbon"` on `<html>`. The viewer

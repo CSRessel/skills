@@ -41,14 +41,19 @@ let moved = false;
 let flight = 0;
 
 const themeSelect = $('#theme');
+// An empty value follows the OS setting. Only a reader's own pick is saved.
+const THEME_KEY = 'system-map-theme-v2';
 const applyTheme = value => {
-  document.documentElement.dataset.theme = themeSelect.value = value;
-  localStorage.setItem('system-map-theme', value);
+  themeSelect.value = value;
+  if (value) document.documentElement.dataset.theme = value;
+  else delete document.documentElement.dataset.theme;
 };
-// A reader's saved choice wins; failing that, the theme the map asked for.
-const savedTheme = localStorage.getItem('system-map-theme');
-applyTheme(THEMES.includes(savedTheme) ? savedTheme : map.theme ?? THEMES[0]);
-themeSelect.addEventListener('change', () => applyTheme(themeSelect.value));
+const savedTheme = localStorage.getItem(THEME_KEY);
+applyTheme(savedTheme === '' || THEMES.includes(savedTheme) ? savedTheme : map.theme ?? '');
+themeSelect.addEventListener('change', () => {
+  applyTheme(themeSelect.value);
+  localStorage.setItem(THEME_KEY, themeSelect.value);
+});
 
 function prism(parent, node, bottom = 0, top = node.h) {
   const low = plan(node, bottom);

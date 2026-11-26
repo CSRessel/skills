@@ -91,7 +91,7 @@ function initMermaid() {
     theme: 'base',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     themeVariables: { fontSize: '14px', ...mermaidThemeVariables() },
-    flowchart: { htmlLabels: false, useMaxWidth: true, curve: 'basis', nodeSpacing: 36, rankSpacing: 54, padding: 10 },
+    flowchart: { htmlLabels: false, useMaxWidth: true, curve: 'step', nodeSpacing: 36, rankSpacing: 54, padding: 10 },
     sequence: { useMaxWidth: true, boxMargin: 10, actorMargin: 46, mirrorActors: false }
   });
 }

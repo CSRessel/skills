@@ -105,7 +105,7 @@ python3 {{skills_dir}}/code-orientation/viewer/serve.py --dir /tmp/code-orientat
 ```
 It binds 127.0.0.1 and rejects non-local Host headers. Never offer a LAN or tailnet URL for it.
 
-The viewer opens in the light `paper` theme. Append `?theme=carbon` to open the dark theme, for example for a capture. `THEME.md` documents both.
+The viewer follows the OS light or dark setting. For a capture, pin a theme with `?theme=light`, `dark`, `paper`, or `carbon`. `THEME.md` documents them.
 
 Verify it responds before you hand off:
 ```bash

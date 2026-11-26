@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="paper">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,26 +7,64 @@
   <script src="/vendor/mermaid.min.js" defer></script>
   <script src="/viewer.js" defer></script>
   <style>
-    /* Shared repo palette — see THEME.md. Two variants, one vocabulary: paper
-       is black on warm paper drawn in charcoal, carbon is white on black drawn
-       in green. Each variant is dichromatic; nothing introduces a third hue
-       except --danger, which reports failure rather than drawing anything. */
-    :root, :root[data-theme="paper"] {
+    /* Shared repo palette — see THEME.md. */
+    /* theme:tokens start — copied from theme/tokens.css by theme/sync.mjs */
+    /* Default: light and dark follow the OS setting; data-theme pins one. */
+    :root {
+      color-scheme: light dark;
+      --canvas: light-dark(#f2f4f8, #161616);
+      --panel: light-dark(#ffffff, #1c1c1c);
+      --raised: light-dark(#e8ebf0, #262626);
+      --rule: light-dark(#dde1e6, #393939);
+      --ink: light-dark(#393939, #dde1e6);
+      --muted-ink: light-dark(#525252, #8a8f98);
+      --faint: light-dark(#8a8f98, #525252);
+      --accent: light-dark(#198038, #42be65);
+      --accent-ink: light-dark(#ffffff, #161616);
+      --draw: light-dark(#697077, #697077);
+      --draw-strong: light-dark(#198038, #6fdc8c);
+      --edge: light-dark(#4d5358, #a2a9b0);
+      --danger: light-dark(#da1e28, #f47067);
+    }
+    :root[data-theme="light"] { color-scheme: light; }
+    :root[data-theme="dark"] { color-scheme: dark; }
+
+    /* Override: black on warm paper, drawn in charcoal. */
+    :root[data-theme="paper"] {
       color-scheme: light;
-      --canvas: #ece6d8; --panel: #e7e0d0; --raised: #d9d1bf; --rule: #b7ad99;
-      --ink: #1f1c18; --muted-ink: #5a564f; --faint: #a09c94;
-      --accent: #26231e; --accent-ink: #f4efe3;
-      --draw: #6d6a64; --draw-strong: #1f1c18; --edge: #6b6660;
+      --canvas: #ece6d8;
+      --panel: #e7e0d0;
+      --raised: #d9d1bf;
+      --rule: #b7ad99;
+      --ink: #1f1c18;
+      --muted-ink: #5a564f;
+      --faint: #a09c94;
+      --accent: #26231e;
+      --accent-ink: #f4efe3;
+      --draw: #6d6a64;
+      --draw-strong: #1f1c18;
+      --edge: #6b6660;
       --danger: #da1e28;
     }
+
+    /* Override: white on black, drawn in green. */
     :root[data-theme="carbon"] {
       color-scheme: dark;
-      --canvas: #161616; --panel: #1c1c1c; --raised: #262626; --rule: #393939;
-      --ink: #dde1e6; --muted-ink: #8a8f98; --faint: #4a4a4a;
-      --accent: #42be65; --accent-ink: #0e0e0e;
-      --draw: #3f9e59; --draw-strong: #7bf2a4; --edge: #b9bec4;
+      --canvas: #161616;
+      --panel: #1c1c1c;
+      --raised: #262626;
+      --rule: #393939;
+      --ink: #dde1e6;
+      --muted-ink: #8a8f98;
+      --faint: #4a4a4a;
+      --accent: #42be65;
+      --accent-ink: #0e0e0e;
+      --draw: #3f9e59;
+      --draw-strong: #7bf2a4;
+      --edge: #b9bec4;
       --danger: #f47067;
     }
+    /* theme:tokens end */
     * { box-sizing: border-box; }
     body {
       margin: 0; background: var(--canvas); color: var(--ink);
@@ -47,8 +85,13 @@
       background: var(--panel); border: 1px solid var(--rule); border-radius: 6px;
       padding: 5px 10px; line-height: 1.4;
     }
-    button:hover { background: var(--raised); border-color: var(--ink); }
-    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    select {
+      font: inherit; font-size: 13px; color: var(--ink); cursor: pointer;
+      background: var(--panel); border: 1px solid var(--rule); border-radius: 6px;
+      padding: 5px 8px; line-height: 1.4;
+    }
+    button:hover, select:hover { background: var(--raised); border-color: var(--ink); }
+    button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
     .zoom { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
     .zoom button { border: 0; border-radius: 0; }
     .zoom button + button { border-left: 1px solid var(--rule); }
@@ -84,7 +127,13 @@
     </div>
     <span class="spacer"></span>
     <div class="btns">
-      <button id="theme" aria-label="Toggle theme">Carbon</button>
+      <select id="theme" aria-label="Theme">
+        <option value="">Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="paper">Paper</option>
+        <option value="carbon">Carbon</option>
+      </select>
       <span class="zoom" role="group" aria-label="Zoom">
         <button id="minus" aria-label="Zoom out">−</button>
         <span class="pct" id="zoom">100%</span>

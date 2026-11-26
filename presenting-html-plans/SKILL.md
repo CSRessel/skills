@@ -81,9 +81,9 @@ clearer, skip the diagram.
 
 ## Theme
 
-The scaffold uses the shared `paper` (light) and `carbon` (dark) palettes from
-`THEME.md`. The page follows the reader's OS setting. For a capture or a shared
-link, pin one with `?theme=paper` or `?theme=carbon`. Print uses black on white.
+The scaffold uses the shared themes from `THEME.md`. The page follows the
+reader's OS light or dark setting. For a capture or a shared link, pin one with
+`?theme=light`, `dark`, `paper`, or `carbon`. Print uses black on white.
 
 Never hard-code colours in a diagram. Never add a hue to the stylesheet.
 

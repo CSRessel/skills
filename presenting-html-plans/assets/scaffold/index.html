@@ -11,12 +11,30 @@
     <link rel="icon" href="data:," />
     <title>Plan</title>
     <style>
-      /* Shared repo palette — see THEME.md. Two variants, one vocabulary:
-         paper is black on warm paper drawn in charcoal, carbon is white on
-         black drawn in green. Each variant is dichromatic; nothing introduces
-         a third hue except --danger, which reports failure. The page follows
-         the OS setting, and ?theme= overrides it. */
-      :root,
+      /* Shared repo palette — see THEME.md. Light and dark follow the OS
+         setting; ?theme= pins any theme. */
+      /* theme:tokens start — copied from theme/tokens.css by theme/sync.mjs */
+      /* Default: light and dark follow the OS setting; data-theme pins one. */
+      :root {
+        color-scheme: light dark;
+        --canvas: light-dark(#f2f4f8, #161616);
+        --panel: light-dark(#ffffff, #1c1c1c);
+        --raised: light-dark(#e8ebf0, #262626);
+        --rule: light-dark(#dde1e6, #393939);
+        --ink: light-dark(#393939, #dde1e6);
+        --muted-ink: light-dark(#525252, #8a8f98);
+        --faint: light-dark(#8a8f98, #525252);
+        --accent: light-dark(#198038, #42be65);
+        --accent-ink: light-dark(#ffffff, #161616);
+        --draw: light-dark(#697077, #697077);
+        --draw-strong: light-dark(#198038, #6fdc8c);
+        --edge: light-dark(#4d5358, #a2a9b0);
+        --danger: light-dark(#da1e28, #f47067);
+      }
+      :root[data-theme="light"] { color-scheme: light; }
+      :root[data-theme="dark"] { color-scheme: dark; }
+
+      /* Override: black on warm paper, drawn in charcoal. */
       :root[data-theme="paper"] {
         color-scheme: light;
         --canvas: #ece6d8;
@@ -28,12 +46,13 @@
         --faint: #a09c94;
         --accent: #26231e;
         --accent-ink: #f4efe3;
+        --draw: #6d6a64;
+        --draw-strong: #1f1c18;
+        --edge: #6b6660;
         --danger: #da1e28;
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
       }
 
+      /* Override: white on black, drawn in green. */
       :root[data-theme="carbon"] {
         color-scheme: dark;
         --canvas: #161616;
@@ -45,23 +64,17 @@
         --faint: #4a4a4a;
         --accent: #42be65;
         --accent-ink: #0e0e0e;
+        --draw: #3f9e59;
+        --draw-strong: #7bf2a4;
+        --edge: #b9bec4;
         --danger: #f47067;
       }
+      /* theme:tokens end */
 
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme]) {
-          color-scheme: dark;
-          --canvas: #161616;
-          --panel: #1c1c1c;
-          --raised: #262626;
-          --rule: #393939;
-          --ink: #dde1e6;
-          --muted-ink: #8a8f98;
-          --faint: #4a4a4a;
-          --accent: #42be65;
-          --accent-ink: #0e0e0e;
-          --danger: #f47067;
-        }
+      :root {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
       }
 
       * {
@@ -350,12 +363,11 @@
         }
       }
 
-      /* Print is the one place that is neither variant: real paper is white,
-         and charcoal on warm paper wastes ink. */
+      /* Print is the one place that follows no theme: real paper is white,
+         and a tinted canvas wastes ink. */
       @media print {
         :root,
-        :root[data-theme="paper"],
-        :root[data-theme="carbon"] {
+        :root[data-theme] {
           color-scheme: light;
           --canvas: #fff;
           --panel: #fff;
@@ -394,7 +406,7 @@
         }
 
         /* Mermaid bakes the active variant into the SVG when it renders, so a
-           carbon diagram would otherwise print as a solid black block. Repaint
+           dark diagram would otherwise print as a solid black block. Repaint
            it: an !important author rule beats Mermaid's own inline styles and
            its injected stylesheet. */
         .mermaid,

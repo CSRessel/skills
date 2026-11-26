@@ -5,29 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Card review</title>
 <style>
+  /* Shared repo palette — see THEME.md. */
+  /* theme:tokens start — copied from theme/tokens.css by theme/sync.mjs */
+  /* Default: light and dark follow the OS setting; data-theme pins one. */
   :root {
-    --canvas: #f2f4f8; --sheet: #ffffff; --nested: #f2f4f8; --hairline: #dde1e6; --strong: #c1c7cd;
-    --muted: #8a8f98; --comment: #525252; --text: #393939; --fg: #161616;
-    --green: #24a148; --green-ink: #198038; --green-tint: rgba(36,161,72,.09);
-    --red: #da1e28; --red-ink: #da1e28; --red-tint: rgba(218,30,40,.08);
+    color-scheme: light dark;
+    --canvas: light-dark(#f2f4f8, #161616);
+    --panel: light-dark(#ffffff, #1c1c1c);
+    --raised: light-dark(#e8ebf0, #262626);
+    --rule: light-dark(#dde1e6, #393939);
+    --ink: light-dark(#393939, #dde1e6);
+    --muted-ink: light-dark(#525252, #8a8f98);
+    --faint: light-dark(#8a8f98, #525252);
+    --accent: light-dark(#198038, #42be65);
+    --accent-ink: light-dark(#ffffff, #161616);
+    --draw: light-dark(#697077, #697077);
+    --draw-strong: light-dark(#198038, #6fdc8c);
+    --edge: light-dark(#4d5358, #a2a9b0);
+    --danger: light-dark(#da1e28, #f47067);
+  }
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"] { color-scheme: dark; }
+
+  /* Override: black on warm paper, drawn in charcoal. */
+  :root[data-theme="paper"] {
+    color-scheme: light;
+    --canvas: #ece6d8;
+    --panel: #e7e0d0;
+    --raised: #d9d1bf;
+    --rule: #b7ad99;
+    --ink: #1f1c18;
+    --muted-ink: #5a564f;
+    --faint: #a09c94;
+    --accent: #26231e;
+    --accent-ink: #f4efe3;
+    --draw: #6d6a64;
+    --draw-strong: #1f1c18;
+    --edge: #6b6660;
+    --danger: #da1e28;
+  }
+
+  /* Override: white on black, drawn in green. */
+  :root[data-theme="carbon"] {
+    color-scheme: dark;
+    --canvas: #161616;
+    --panel: #1c1c1c;
+    --raised: #262626;
+    --rule: #393939;
+    --ink: #dde1e6;
+    --muted-ink: #8a8f98;
+    --faint: #4a4a4a;
+    --accent: #42be65;
+    --accent-ink: #0e0e0e;
+    --draw: #3f9e59;
+    --draw-strong: #7bf2a4;
+    --edge: #b9bec4;
+    --danger: #f47067;
+  }
+  /* theme:tokens end */
+
+  /* Tokens only the card deck uses. */
+  :root {
+    --nested: light-dark(#f2f4f8, #262626); --hairline: light-dark(#dde1e6, #262626);
+    --strong: light-dark(#c1c7cd, #393939); --fg: light-dark(#161616, #f2f4f8);
+    --green: light-dark(#24a148, #42be65); --green-ink: light-dark(#198038, #6fdc8c);
+    --green-tint: light-dark(rgba(36,161,72,.09), rgba(66,190,101,.12));
+    --danger-ink: light-dark(#da1e28, #ff9cac);
+    --danger-tint: light-dark(rgba(218,30,40,.08), rgba(244,112,103,.12));
     --shadow: 0 1px 2px rgba(22,22,22,.06), 0 12px 32px rgba(22,22,22,.08);
-    --on-green: #ffffff;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --canvas: #161616; --sheet: #1c1c1c; --nested: #262626; --hairline: #262626; --strong: #393939;
-      --muted: #525252; --comment: #8a8f98; --text: #dde1e6; --fg: #f2f4f8;
-      --green: #42be65; --green-ink: #6fdc8c; --green-tint: rgba(66,190,101,.12);
-      --red: #f47067; --red-ink: #ff9cac; --red-tint: rgba(244,112,103,.12);
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.35);
-      --on-green: #161616;
-    }
+    :root:not([data-theme="light"]) { --shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.35); }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
   html { height: 100dvh; }
   body {
-    background: var(--canvas); color: var(--text);
+    background: var(--canvas); color: var(--ink);
     font: 15px/1.55 ui-sans-serif, -apple-system, "Inter", "IBM Plex Sans", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; align-items: center;
     height: 100dvh; overflow: hidden;
@@ -35,18 +89,18 @@
   }
   header { width: 100%; max-width: 560px; margin-bottom: 18px; flex: none; }
   h1 { font-size: 17px; font-weight: 600; color: var(--fg); margin: 0 0 2px; letter-spacing: -.01em; }
-  .sub { color: var(--comment); font-size: 13px; margin: 0; }
+  .sub { color: var(--muted-ink); font-size: 13px; margin: 0; }
   .progress { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
   .bar { flex: 1; height: 4px; background: var(--hairline); border-radius: 99px; overflow: hidden; }
   .bar > i { display: block; height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .3s ease; }
-  .count { font-size: 12px; color: var(--comment); font-variant-numeric: tabular-nums; min-width: 44px; text-align: right; }
+  .count { font-size: 12px; color: var(--muted-ink); font-variant-numeric: tabular-nums; min-width: 44px; text-align: right; }
 
   main { width: 100%; max-width: 560px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
   /* The stack takes all space left above the controls, so every card has the same height
      and the controls never move. Room at the bottom shows the edges of the next cards. */
   .stack { position: relative; flex: 1 1 auto; min-height: 240px; max-height: 540px; margin-bottom: 30px; }
   .card {
-    position: absolute; inset: 0; background: var(--sheet); border: 1px solid var(--hairline);
+    position: absolute; inset: 0; background: var(--panel); border: 1px solid var(--hairline);
     border-radius: 16px; box-shadow: var(--shadow); padding: 26px 26px 0;
     display: flex; flex-direction: column; overflow: hidden;
     touch-action: pan-y; user-select: none; cursor: grab; will-change: transform;
@@ -57,8 +111,8 @@
   .card.dragging { cursor: grabbing; transition: none !important; }
   .card.behind { pointer-events: none; border-color: var(--strong); box-shadow: 0 2px 4px rgba(0,0,0,.12); }
   .card.behind > * { visibility: hidden; }
-  .card.d2 { background: color-mix(in srgb, var(--sheet) 88%, var(--canvas)); }
-  .card.d3 { background: color-mix(in srgb, var(--sheet) 76%, var(--canvas)); }
+  .card.d2 { background: color-mix(in srgb, var(--panel) 88%, var(--canvas)); }
+  .card.d3 { background: color-mix(in srgb, var(--panel) 76%, var(--canvas)); }
   .card.d1 { z-index: 1; transform: translateY(10px) scale(.96); }
   .card.d2 { z-index: 0; transform: translateY(20px) scale(.92); }
   .card.d3 { z-index: -1; transform: translateY(30px) scale(.88); }
@@ -68,9 +122,9 @@
   .card.fan.blank > * { visibility: hidden; }
   .stack.fanning > .card:not(.fan) { visibility: hidden; }
   .controls { flex: none; position: relative; z-index: 20; }
-  .eyebrow { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--comment); margin: 0 0 10px; }
+  .eyebrow { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-ink); margin: 0 0 10px; }
   .card h2 { font-size: 22px; line-height: 1.3; font-weight: 600; color: var(--fg); margin: 0 0 14px; letter-spacing: -.015em; }
-  .desc { margin: 0 0 20px; color: var(--text); }
+  .desc { margin: 0 0 20px; color: var(--ink); }
   .desc p, .rec .body p { margin: 0 0 10px; }
   .desc p:last-child, .rec .body p:last-child { margin-bottom: 0; }
   .desc ol, .desc ul, .rec .body ol, .rec .body ul { margin: 0 0 10px; padding-left: 26px; }
@@ -78,46 +132,46 @@
   .desc li, .rec .body li { margin: 0 0 8px; }
   .desc ol.opts li .ol { font-weight: 600; margin-right: 6px; }
   .rec { border-radius: 10px; background: var(--nested); border: 1px solid var(--hairline); padding: 12px 14px; }
-  .rec .label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--comment); margin-bottom: 4px; }
+  .rec .label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-ink); margin-bottom: 4px; }
   .rec p { margin: 0; color: var(--fg); }
   code { font: 0.9em ui-monospace, "IBM Plex Mono", SFMono-Regular, Menlo, monospace; background: var(--nested); border: 1px solid var(--hairline); padding: 0 4px; border-radius: 4px; }
-  .rec code { background: var(--sheet); }
-  .prev { margin-top: 12px; font-size: 12px; color: var(--comment); }
+  .rec code { background: var(--panel); }
+  .prev { margin-top: 12px; font-size: 12px; color: var(--muted-ink); }
 
   .stamp {
     position: absolute; top: 18px; padding: 4px 10px; border-radius: 6px; border: 2px solid; font-weight: 700;
     font-size: 13px; letter-spacing: .1em; text-transform: uppercase; opacity: 0; pointer-events: none;
   }
   .stamp.agree { left: 18px; color: var(--green-ink); border-color: var(--green); background: var(--green-tint); transform: rotate(-8deg); }
-  .stamp.disagree { right: 18px; color: var(--red-ink); border-color: var(--red); background: var(--red-tint); transform: rotate(8deg); }
+  .stamp.disagree { right: 18px; color: var(--danger-ink); border-color: var(--danger); background: var(--danger-tint); transform: rotate(8deg); }
 
   .note { margin-top: 0; }
   .note textarea {
-    width: 100%; min-height: 44px; max-height: 120px; resize: none; display: block; background: var(--sheet); color: var(--fg);
+    width: 100%; min-height: 44px; max-height: 120px; resize: none; display: block; background: var(--panel); color: var(--fg);
     border: 1px solid var(--hairline); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; outline: none;
   }
-  .note textarea::placeholder { color: var(--muted); }
+  .note textarea::placeholder { color: var(--faint); }
   .note textarea:focus { border-color: var(--strong); }
 
   .actions { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; margin-top: 14px; }
   button {
     font: inherit; font-size: 14px; font-weight: 500; border-radius: 10px; padding: 11px 14px; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--hairline);
-    background: var(--sheet); color: var(--fg); transition: background .15s, border-color .15s, transform .08s;
+    background: var(--panel); color: var(--fg); transition: background .15s, border-color .15s, transform .08s;
   }
   button:active { transform: scale(.98); }
   button:disabled { opacity: .45; cursor: default; }
-  button.disagree:hover { border-color: var(--red); background: var(--red-tint); }
-  button.ghost { color: var(--comment); }
+  button.disagree:hover { border-color: var(--danger); background: var(--danger-tint); }
+  button.ghost { color: var(--muted-ink); }
   button.ghost:hover { background: var(--nested); }
-  button.agree { background: var(--green); border-color: var(--green); color: var(--on-green); }
+  button.agree { background: var(--green); border-color: var(--green); color: var(--accent-ink); }
   button.agree:hover { filter: brightness(1.06); }
   kbd {
     font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; min-width: 20px; padding: 1px 5px; border-radius: 4px;
-    border: 1px solid var(--strong); color: var(--comment); background: var(--canvas); line-height: 16px; text-align: center;
+    border: 1px solid var(--strong); color: var(--muted-ink); background: var(--canvas); line-height: 16px; text-align: center;
   }
   button.agree kbd { border-color: currentColor; color: inherit; background: transparent; opacity: .8; }
-  .hints { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: 14px; font-size: 12px; color: var(--comment); }
+  .hints { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: 14px; font-size: 12px; color: var(--muted-ink); }
   .hints span { display: inline-flex; align-items: center; gap: 6px; }
   @media (hover: none) { .hints, button kbd { display: none; } }
 
@@ -128,18 +182,18 @@
     .card { padding: 20px 20px 0; }
     .card h2 { font-size: 20px; }
   }
-  .done { overflow-y: auto; background: var(--sheet); border: 1px solid var(--hairline); border-radius: 16px; box-shadow: var(--shadow); padding: 24px; }
+  .done { overflow-y: auto; background: var(--panel); border: 1px solid var(--hairline); border-radius: 16px; box-shadow: var(--shadow); padding: 24px; }
   .done h2 { margin: 0 0 4px; font-size: 20px; color: var(--fg); }
   .done .sub { margin-bottom: 16px; }
   .row { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 12px 0; border-top: 1px solid var(--hairline); cursor: pointer; }
   .row:hover .rt { text-decoration: underline; text-decoration-color: var(--strong); }
   .chip { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; align-self: start; margin-top: 2px; }
   .chip.agree { color: var(--green-ink); background: var(--green-tint); }
-  .chip.disagree { color: var(--red-ink); background: var(--red-tint); }
-  .chip.skip { color: var(--comment); background: var(--nested); }
+  .chip.disagree { color: var(--danger-ink); background: var(--danger-tint); }
+  .chip.skip { color: var(--muted-ink); background: var(--nested); }
   .rt { color: var(--fg); }
-  .rn { grid-column: 2; font-size: 13px; color: var(--comment); white-space: pre-wrap; }
-  .saved { font-size: 12px; color: var(--comment); margin-top: 14px; }
+  .rn { grid-column: 2; font-size: 13px; color: var(--muted-ink); white-space: pre-wrap; }
+  .saved { font-size: 12px; color: var(--muted-ink); margin-top: 14px; }
   .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--fg); color: var(--canvas); font-size: 13px; padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .toast.show { opacity: .92; }
 </style>
